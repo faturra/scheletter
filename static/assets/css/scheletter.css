@@ -1,0 +1,9 @@
+
+
+/* Background-image */
+.index-bg {
+    background-image: url('https://learn.g2.com/hubfs/iStock-1027280150.jpg'); 
+    background-repeat: no-repeat; 
+    background-attachment: fixed; 
+    background-position: top;
+}
