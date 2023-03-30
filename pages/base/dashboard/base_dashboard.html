@@ -1,4 +1,4 @@
-<nav class="navbar bg-body-tertiary fixed-top shadow">
+<nav class="navbar bg-white fixed-top shadow">
     <div class="container-fluid">
       <a class="navbar-brand" href="{% url 'dashboard' %}"><span class="fw-semibold">Scheletter</span>&nbsp;Administration</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
@@ -6,7 +6,7 @@
       </button>
       <div class="offcanvas offcanvas-start" tabindex="-2" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
         <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="offcanvasNavbarLabel"><span class="fw-semibold">Scheletter</span>&nbsp;Administration</h5>
+          <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
           <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
@@ -15,15 +15,15 @@
               <a class="nav-link active" aria-current="page" href="{% url 'dashboard' %}">Dashboard</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="#">Integrations</a>
+              <a class="nav-link" aria-current="page" href="{% url 'setup_integration' %}">Integrations</a>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Students
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Active</a></li>
-                  <li><a class="dropdown-item" href="#">Non-Active</a></li>
+                  <li><a class="dropdown-item" href="{% url 'students' %}">Active</a></li>
+                  <li><a class="dropdown-item" href="{% url 'students' %}">Non-Active</a></li>
                 </ul>
             </li>
             <li class="nav-item dropdown">
@@ -31,8 +31,8 @@
                 GTK
               </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Active</a></li>
-                <li><a class="dropdown-item" href="#">Non-Active</a></li>
+                <li><a class="dropdown-item" href="{% url 'gtk' %}">Active</a></li>
+                <li><a class="dropdown-item" href="{% url 'gtk' %}">Non-Active</a></li>
               </ul>
             </li>
             <li class="nav-item dropdown">
@@ -40,7 +40,7 @@
                   Graduation
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Existing</a></li>
+                  <li><a class="dropdown-item" href="{% url 'graduation' %}">Existing</a></li>
                   <li><a class="dropdown-item" href="#">Archive</a></li>
                 </ul>
             </li>

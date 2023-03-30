@@ -6,4 +6,18 @@
     background-repeat: no-repeat; 
     background-attachment: fixed; 
     background-position: top;
+
+}
+.index-bg-01 {
+    background-image: url('https://spontaneousorder.in/wp-content/uploads/2020/08/education-illustrations-10.png'); 
+    background-repeat: no-repeat; 
+    background-attachment: fixed; 
+    background-position: top;
+}
+
+.bg-sch-01 {
+    background-image: url('https://i.pinimg.com/originals/ae/5a/e1/ae5ae16a1f8bdad663c96a699d91e646.jpg'); 
+    background-repeat: no-repeat; 
+    background-attachment: fixed; 
+    background-position: right;
 }
