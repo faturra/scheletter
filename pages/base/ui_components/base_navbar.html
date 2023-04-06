@@ -1,0 +1,58 @@
+<nav class="navbar bg-white fixed-top shadow-sm">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'dashboard' %}"><span class="fw-semibold">Scheletter</span>&nbsp;Administration</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="offcanvas offcanvas-start" tabindex="-2" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'dashboard' %}"><span><i class="bi bi-grid">&nbsp;</i></span>Dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="{% url 'setup_integration' %}"><span><i class="bi bi-shuffle">&nbsp;</i></span>Integrations</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <span><i class="bi bi-database">&nbsp;</i></span>Data
+                </a>
+                <ul class="dropdown-menu border-0">
+                  <li><a class="dropdown-item" href="{% url 'students' %}"><span><i class="bi bi-emoji-smile">&nbsp;</i></span>Students</a></li>
+                  <li><a class="dropdown-item" href="{% url 'gtk' %}"><span><i class="bi bi-people">&nbsp;</i></span>GTK</a></li>
+                  <li><a class="dropdown-item" href="{% url 'graduation' %}"><span><i class="bi bi-mortarboard">&nbsp;</i></span>Graduation</a></li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <span><i class="bi bi-person-check">&nbsp;</i></span>Accounts
+                </a>
+                <ul class="dropdown-menu border-0">
+                  <li><a class="dropdown-item" href="#"><span><i class="bi bi-person">&nbsp;</i></span>Employee</a></li>
+                  <li><a class="dropdown-item" href="#"><span><i class="bi bi-mortarboard">&nbsp;</i></span>Graduation</a></li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <span><i class="bi bi-list-task">&nbsp;</i></span>Administration
+                </a>
+                <ul class="dropdown-menu border-0">
+                  <li><a class="dropdown-item" href="{% url 'letter' %}"><span><i class="bi bi-card-text">&nbsp;</i></span>Letter</a></li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="{% url 'trash' %}"><span><i class="bi bi-trash3">&nbsp;</i></span>Trash</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-danger" aria-current="page" href="#"><span><i class="bi bi-power">&nbsp;</i></span>Sign out</a>
+          </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+</nav>
+<div class="mb-5"></div>

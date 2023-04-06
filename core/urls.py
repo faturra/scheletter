@@ -9,4 +9,5 @@ urlpatterns = [
     path('data/core/students', students, name='students'),
     path('data/core/gtk', gtk, name='gtk'),
     path('data/core/graduation', graduation, name='graduation'),
+    path('trash', trash, name='trash'),
 ]

@@ -15,3 +15,6 @@ def gtk(request):
 
 def graduation(request):
     return render(request, 'graduation/graduation.html')
+
+def trash(request):
+    return render(request, 'trash/trash.html')

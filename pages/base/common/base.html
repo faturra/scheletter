@@ -23,11 +23,15 @@
 <body class="container {% if request.path == index %}index-bg{% else %}bg-white{% endif %}">
   {% if request.path == index %}
   {% else %}
-  {% include 'base/dashboard/base_dashboard.html' %}
+  {% include 'base/ui_components/base_navbar.html' %}
   {% endif %}
   {% block content %}
   {% endblock %}
   <section class="pt-5 mb-5"></section>
+    {% if request.path == index %}
+    {% else %}
+    {% include 'base/ui_components/base_footer.html' %}
+    {% endif %}
   <!-- Option 1: Bootstrap Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
