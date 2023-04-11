@@ -10,8 +10,8 @@ def dashboard(request):
 def students(request):
     return render(request, 'students/students.html')
 
-def gtk(request):
-    return render(request, 'gtk/gtk.html')
+def employees(request):
+    return render(request, 'employees/employees.html')
 
 def graduation(request):
     return render(request, 'graduation/graduation.html')

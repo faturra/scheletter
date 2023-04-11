@@ -7,7 +7,7 @@ urlpatterns = [
     path('', index, name='index'),
     path('welcome', dashboard, name='dashboard'),
     path('data/core/students', students, name='students'),
-    path('data/core/gtk', gtk, name='gtk'),
+    path('data/core/employees', employees, name='employees'),
     path('data/core/graduation', graduation, name='graduation'),
     path('trash', trash, name='trash'),
 ]
