@@ -8,16 +8,16 @@ def dashboard(request):
     return render(request, 'dashboard/dashboard.html')
 
 def students(request):
-    return render(request, 'data/students/students.html')
+    return render(request, 'reference_data/students/students.html')
 
 def employees(request):
-    return render(request, 'data/employees/employees.html')
+    return render(request, 'reference_data/employees/employees.html')
 
 def graduation(request):
-    return render(request, 'data/graduation/graduation.html')
+    return render(request, 'reference_data/graduation/graduation.html')
 
 def accounts(request):
-    return render(request, 'accounts/empployees/accounts.html')
+    return render(request, 'accounts/employees/accounts.html')
 
 def sign_request(request):
     return render(request, 'administration/sign_request/sign_request.html')
