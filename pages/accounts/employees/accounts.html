@@ -11,5 +11,57 @@
             <p class="lead">List of accounts</p>
         </div>
     </section>
+    <section>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-3">
+            <button class="btn btn-primary me-md-2" type="button" data-bs-toggle="modal" data-bs-target="#create-account"><i class="bi bi-person-plus"></i>&nbsp;Create account</button>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover text-truncate">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email address</th>
+                        <th scope="col">Group</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Last Sign</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Mark</td>
+                        <td>mail@smpn162jakarta.sch.id</td>
+                        <td>Operator Sekolah</td>
+                        <td><span class="badge bg-success">Active</span></td>
+                        <td>2021-09-01 08:00:00</td>
+                        <td>
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                <button type="button" class="btn btn-light">Reset password</button>
+                                <button type="button" class="btn btn-light">Suspend</button>
+                                <button type="button" class="btn btn-light">Delete account</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Bolden</td>
+                        <td>bolden@smpn162jakarta.sch.id</td>
+                        <td>Kepala Sekolah</td>
+                        <td><span class="badge bg-success">Active</span></td>
+                        <td>2021-09-01 08:00:00</td>
+                        <td>
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                <button type="button" class="btn btn-light">Reset password</button>
+                                <button type="button" class="btn btn-light">Suspend</button>
+                                <button type="button" class="btn btn-light">Delete account</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
 </div>
 {% endblock %}

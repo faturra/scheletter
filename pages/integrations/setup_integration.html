@@ -11,74 +11,72 @@
             <p class="lead">Dapodik data integration settings&nbsp;<span class="text-warning">Complete your setup</span></p>
         </div>
     </section>
-    <section class="mb-5 text-left">
-      <div class="row">
-        <div class="col-lg-4">
-          <h2><span class="bi bi-check-circle-fill text-success"></span></h2>
-          <h2 class="fw-normal">Dapodik</h2>
-          <p class="text-success">Ready</p>
+    <section class="mb-5 text-center">
+      <div class="accordion" id="accordionPanelsStayOpenExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button bg-light text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne"><i class="bi bi-ui-checks"></i>&nbsp;System Check</button>
+          </h2>
+          <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+            <div class="accordion-body">
+              <div class="row mt-3">
+                <div class="col-lg-4">
+                  <h2><span class="bi bi-check-circle-fill text-success"></span></h2>
+                  <h2 class="fw-normal">Dapodik</h2>
+                  <p class="text-success">Ready</p>
+                </div>
+                <div class="col-lg-4">
+                  <h2><span class="bi bi-check-circle-fill text-success"></span></h2>
+                  <h2 class="fw-normal">Setup Integration</h2>
+                  <p class="text-success">Ready</p>
+                </div>
+                <div class="col-lg-4">
+                  <h2><span class="bi bi-record-circle-fill text-warning"></span></h2>
+                  <h2 class="fw-normal">Integration</h2>
+                  <p class="text-warning">Complete your setup</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="col-lg-4">
-          <h2><span class="bi bi-check-circle-fill text-success"></span></h2>
-          <h2 class="fw-normal">Setup Integration</h2>
-          <p class="text-success">Ready</p>
-        </div>
-        <div class="col-lg-4">
-          <h2><span class="bi bi-record-circle-fill text-warning"></span></h2>
-          <h2 class="fw-normal">Integration</h2>
-          <p class="text-warning">Complete your setup</p>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed bg-light text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo"><i class="bi bi-gear-wide-connected"></i>&nbsp;Setup Integration</button>
+          </h2>
+          <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
+            <div class="accordion-body">
+              <div class="mb-3 mt-3">
+                <h4 class="fw-normal">Setup Integration</h4>
+              </div>
+                <form class="mb-3">
+                    <div class="row g-2">
+                      <div class="col-md mb-2">
+                        <div class="form-floating">
+                          <input type="text" class="form-control" id="floatingInputGrid" placeholder="01234327" required>
+                          <label for="floatingInputGrid">NPSN</label>
+                          <div id="passwordHelpBlock" class="form-text">
+                            Enter the school national number
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md">
+                          <div class="form-floating">
+                            <input type="password" class="form-control" id="floatingInputGrid" placeholder="AaBb1234" required>
+                            <label for="floatingInputGrid">Token</label>
+                            <div class="form-text">
+                              Enter the token from Dapodik web service
+                            </div>
+                          </div>
+                      </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary mt-4"><span class="bi bi-shuffle"></span>&nbsp;Connect</button>
+                </form>
+            </section>
+            </div>
+          </div>
         </div>
       </div>
     </section>
     <section class="mb-5">
-      <div class="mb-3">
-        <h4 class="fw-normal">Setup Integration</h4>
-      </div>
-      <div class="mb-3">
-        <h5 class="fw-light text-muted"><span class="bi "></span>&nbsp;Complete the form</h5>
-      </div>
-        <form>
-            <div class="row g-2">
-            <div class="col-md">
-              <div class="form-floating">
-                <input type="text" class="form-control" id="floatingInputGrid" placeholder="01234327">
-                <label for="floatingInputGrid">NPSN</label>
-              </div>
-            </div>
-            <div class="col-md">
-                <div class="form-floating">
-                  <input type="password" class="form-control" id="floatingInputGrid" placeholder="AaBb1234">
-                  <label for="floatingInputGrid">Token</label>
-                </div>
-              </div>
-          </div>
-          <button type="submit" class="btn btn-primary mt-4">Connect</button>
-        </form>
-        <!-- <form>
-            <div class="row mb-3">
-              <label for="inputEmail3" class="col-sm-2 col-form-label">NPSN</label>
-              <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputEmail3">
-              </div>
-            </div>
-            <div class="row mb-3">
-              <label for="inputPassword3" class="col-sm-2 col-form-label">Token</label>
-              <div class="col-sm-10">
-                <input type="password" class="form-control" id="inputPassword3">
-              </div>
-            </div>
-            <div class="row mb-3">
-              <div class="col-sm-10 offset-sm-2">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="gridCheck1">
-                  <label class="form-check-label" for="gridCheck1">
-                    Example checkbox
-                  </label>
-                </div>
-              </div>
-            </div>
-            <button type="submit" class="btn btn-primary">Connect</button>
-          </form> -->
-    </section>
 </div>
 {% endblock %}
