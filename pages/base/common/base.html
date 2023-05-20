@@ -29,6 +29,9 @@
     {% block content %}
     {% endblock %}
   </div>
+  <section>
+    {% include 'administration/sign_request/modal/sign_request_check.html' %}
+  </section>
   <section class="pt-5 mb-5"></section>
     {% if request.path == index %}
     {% else %}
