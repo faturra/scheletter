@@ -39,24 +39,27 @@
                             </tr>
                         </thead>
                         <tbody>
+                        {% if students %}
+                            {% for item in students %}
                             <tr>
-                                <th scope="row">1</th>
-                                <td>Otto</td>
-                                <td>Jakarta</td>
-                                <td>Operator Sekolah</td>
-                                <td>Wali Murid</td>
-                                <td>Menyerahkan berkas</td>
-                                <td>08:00</td>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td>{{ item.nama }}</td>
+                                <td>{{ item.jenis_kelamin }}</td>
+                                <td>{{ item.rombel }}</td>
+                                <td>{{ item.nisn }}</td>
+                                <td>{{ item.nis }}</td>
+                                <td>{{ item.nik }}</td>
                             </tr>
+                            {% endfor %}
+                            {% else %}
                             <tr>
-                                <th scope="row">2</th>
-                                <td>Thornton</td>
-                                <td>Jakarta</td>
-                                <td>Operator Sekolah</td>
-                                <td>Wali Murid</td>
-                                <td>Menyerahkan berkas</td>
-                                <td>08:00</td>
+                                <td colspan="7">
+                                    <div class="text-center animate__animated animate__headShake">
+                                        <small class="text-muted fw-semibold">No data available</small>
+                                    </div>
+                                </td>
                             </tr>
+                        {% endif %}
                        </tbody>
                     </table>
                 </div>
@@ -78,24 +81,27 @@
                             </tr>
                         </thead>
                         <tbody>
+                        {% if students %}
+                            {% for item in students %}
                             <tr>
-                                <th scope="row">1</th>
-                                <td>Otto</td>
-                                <td>Jakarta</td>
-                                <td>Operator Sekolah</td>
-                                <td>Wali Murid</td>
-                                <td>Menyerahkan berkas</td>
-                                <td>08:00</td>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td>{{ item.nama }}</td>
+                                <td>{{ item.jenis_kelamin }}</td>
+                                <td>{{ item.rombel }}</td>
+                                <td>{{ item.nisn }}</td>
+                                <td>{{ item.nis }}</td>
+                                <td>{{ item.nik }}</td>
                             </tr>
+                            {% endfor %}
+                            {% else %}
                             <tr>
-                                <th scope="row">2</th>
-                                <td>Thornton</td>
-                                <td>Jakarta</td>
-                                <td>Operator Sekolah</td>
-                                <td>Wali Murid</td>
-                                <td>Menyerahkan berkas</td>
-                                <td>08:00</td>
+                                <td colspan="7">
+                                    <div class="text-center animate__animated animate__headShake">
+                                        <small class="text-muted fw-semibold">No data available</small>
+                                    </div>
+                                </td>
                             </tr>
+                        {% endif %}
                        </tbody>
                     </table>
                 </div>
@@ -117,24 +123,27 @@
                             </tr>
                         </thead>
                         <tbody>
+                        {% if students %}
+                            {% for item in students %}
                             <tr>
-                                <th scope="row">1</th>
-                                <td>Otto</td>
-                                <td>Jakarta</td>
-                                <td>Operator Sekolah</td>
-                                <td>Wali Murid</td>
-                                <td>Menyerahkan berkas</td>
-                                <td>08:00</td>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td>{{ item.nama }}</td>
+                                <td>{{ item.jenis_kelamin }}</td>
+                                <td>{{ item.rombel }}</td>
+                                <td>{{ item.nisn }}</td>
+                                <td>{{ item.nis }}</td>
+                                <td>{{ item.nik }}</td>
                             </tr>
+                            {% endfor %}
+                            {% else %}
                             <tr>
-                                <th scope="row">2</th>
-                                <td>Thornton</td>
-                                <td>Jakarta</td>
-                                <td>Operator Sekolah</td>
-                                <td>Wali Murid</td>
-                                <td>Menyerahkan berkas</td>
-                                <td>08:00</td>
+                                <td colspan="7">
+                                    <div class="text-center animate__animated animate__headShake">
+                                        <small class="text-muted fw-semibold">No data available</small>
+                                    </div>
+                                </td>
                             </tr>
+                        {% endif %}
                        </tbody>
                     </table>
                 </div>

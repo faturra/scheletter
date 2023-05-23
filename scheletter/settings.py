@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-tlrc(n8&mt$_e@=_lrk*!m#08-aulc8_ix#4&&x#$wk&)nv088
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['10.10.6.7','localhost']
+ALLOWED_HOSTS = ['10.10.6.7','172.20.10.2','localhost']
 
 LOGOUT_REDIRECT_URL = 'index'
 LOGIN_REDIRECT_URL = 'dashboard'
