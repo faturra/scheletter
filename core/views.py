@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from integrations.dapodik_api import dapodik_reference
 
 # Create your views here.
 def index(request):
@@ -11,7 +12,8 @@ def students(request):
     return render(request, 'reference_data/students/students.html')
 
 def employees(request):
-    return render(request, 'reference_data/employees/employees.html')
+    context = {'employees': dapodik_reference}
+    return render(request, 'reference_data/employees/employees.html', context)
 
 def graduation(request):
     return render(request, 'reference_data/graduation/graduation.html')
