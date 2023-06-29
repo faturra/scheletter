@@ -10,7 +10,7 @@ url = 'http://10.10.162.62:5774/WebService/getGtk?npsn=20100766'
 
 # Bearer token
 
-token = '31rQ0440xSYB2vs'
+token = 'uUjBKfQIgB6E64I'
 
 
 
@@ -40,8 +40,8 @@ if response.status_code == 200:
 	dapodik_reference = data.get('rows', [])
 
 	# Mencetak data
-	print('Dapodik API Connected [OK].')
+	print('Dapodik API Connection [OK].')
 else:
 	# Menampilkan pesan jika request gagal
     
-	print('Gagal mengambil data dari API.')
+	print('Dapodik API Connection Failed [ERROR].')

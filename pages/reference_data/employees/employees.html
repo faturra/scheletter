@@ -28,17 +28,14 @@
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">Nama</th>
-                    <th scope="col">L/P</th>
-                    <th scope="col">Rombel</th>
-                    <th scope="col">NISN</th>
-                    <th scope="col">NIS</th>
-                    <th scope="col">NIK</th>
-                    <th scope="col">No. KK</th>
+                    <th scope="col">Jenis Kelamin</th>
                     <th scope="col">Tempat Lahir</th>
                     <th scope="col">Tanggal Lahir</th>
-                    <th scope="col">Tanggal Masuk</th>
-                    <th scope="col">Asal Sekolah</th>
-                    <th scope="col">No. Ijazah</th>
+                    <th scope="col">Pendidikan Terakhir</th>
+                    <th scope="col">Jenis GTK</th>
+                    <th scope="col">NIP</th>
+                    <th scope="col">Pangkat</th>
+                    <th scope="col">Status Kepegawaian</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -48,16 +45,13 @@
                         <th scope="row">{{ forloop.counter }}</th>
                         <td>{{ item.nama }}</td>
                         <td>{{ item.jenis_kelamin }}</td>
-                        <td>{{ item.rombel }}</td>
-                        <td>{{ item.nisn }}</td>
-                        <td>{{ item.nis }}</td>
-                        <td>{{ item.nik }}</td>
-                        <td>{{ item.no_kk }}</td>
                         <td>{{ item.tempat_lahir }}</td>
                         <td>{{ item.tanggal_lahir }}</td>
-                        <td>{{ item.tanggal_masuk }}</td>
-                        <td>{{ item.asal_sekolah }}</td>
-                        <td>{{ item.no_ijazah }}</td>
+                        <td>{{ item.pendidikan_terakhir }}</td>
+                        <td>{{ item.jenis_ptk_id_str }}</td>
+                        <td>{{ item.nip|default_if_none:'-' }}</td>
+                        <td>{{ item.pangkat_golongan_terakhir }}</td>
+                        <td>{{ item.status_kepegawaian_id_str }}</td>
                       </tr>
                     {% endfor %}
                     {% else %}
@@ -81,17 +75,14 @@
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">Nama</th>
-                    <th scope="col">L/P</th>
-                    <th scope="col">Rombel</th>
-                    <th scope="col">NISN</th>
-                    <th scope="col">NIS</th>
-                    <th scope="col">NIK</th>
-                    <th scope="col">No. KK</th>
+                    <th scope="col">NIP</th>
+                    <th scope="col">Pangkat</th>
+                    <th scope="col">Sts. Kepegawaian</th>
+                    <th scope="col">Jenis GTK</th>
+                    <th scope="col">Jenis Kelamin</th>
                     <th scope="col">Tempat Lahir</th>
                     <th scope="col">Tanggal Lahir</th>
-                    <th scope="col">Tanggal Masuk</th>
-                    <th scope="col">Asal Sekolah</th>
-                    <th scope="col">No. Ijazah</th>
+                    <th scope="col">Alamat</th>
                   </tr>
                 </thead>
                 <tbody>

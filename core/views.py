@@ -6,7 +6,9 @@ def index(request):
     return render(request, 'index/index.html')
 
 def dashboard(request):
-    return render(request, 'dashboard/dashboard.html')
+    count_emp = len(dapodik_reference)
+    context = {'employees': dapodik_reference, 'count_emp': count_emp}
+    return render(request, 'dashboard/dashboard.html', context)
 
 def students(request):
     return render(request, 'reference_data/students/students.html')
