@@ -1,20 +1,23 @@
 from django.shortcuts import render
-from integrations.dapodik_api import dapodik_reference
+from integrations.data import dapodik_school, dapodik_users, dapodik_employees, dapodik_students
 
 # Create your views here.
 def index(request):
     return render(request, 'index/index.html')
 
 def dashboard(request):
-    count_emp = len(dapodik_reference)
-    context = {'employees': dapodik_reference, 'count_emp': count_emp}
+    school_info = dapodik_school
+    count_emp = len(dapodik_employees)
+    count_std = len(dapodik_students)
+    context = {'school_info': school_info, 'count_emp': count_emp, 'count_std': count_std}
     return render(request, 'dashboard/dashboard.html', context)
 
 def students(request):
-    return render(request, 'reference_data/students/students.html')
+    context = {'students': dapodik_students}
+    return render(request, 'reference_data/students/students.html', context)
 
 def employees(request):
-    context = {'employees': dapodik_reference}
+    context = {'employees': dapodik_employees}
     return render(request, 'reference_data/employees/employees.html', context)
 
 def graduation(request):

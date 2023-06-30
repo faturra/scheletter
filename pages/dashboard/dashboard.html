@@ -13,7 +13,7 @@
                   <h1 class=""><span class="bi bi-buildings"></span>&nbsp;Welcome</h1>
                 </div>
                 <div>
-                    <p class="lead">You're working in&nbsp;<span class="text-primary">SMP Negeri 162 Jakarta</span></p>
+                    <p class="lead">You're working in&nbsp;<span class="text-primary">{{ school_info.nama|default_if_none:'Please check integration settings' }}</span></p>
                 </div>
               </div>
             </div>
@@ -35,7 +35,7 @@
           <div class="card bg-danger shadow-sm">
             <div class="card-body">
               <h5 class="card-title text-white">Students</h5>
-              <p class="card-text display-5 text-white"><i class="bi bi bi-emoji-smile">&nbsp;</i>561</p>
+              <p class="card-text display-5 text-white"><i class="bi bi bi-emoji-smile">&nbsp;</i>{{count_std|default_if_none:'0' }}</p>
             </div>
           </div>
         </div>
@@ -43,7 +43,7 @@
           <div class="card bg-primary shadow-sm">
             <div class="card-body">
               <h5 class="card-title text-white">Employees</h5>
-              <p class="card-text display-5 text-white"><i class="bi bi-people">&nbsp;</i>{{count_emp}}</p>
+              <p class="card-text display-5 text-white"><i class="bi bi-people">&nbsp;</i>{{count_emp|default_if_none:'0' }}</p>
             </div>
           </div>
         </div>
