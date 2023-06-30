@@ -1,6 +1,7 @@
-base_url = 'http://10.10.162.62:5774/WebService/'
+server_address = 'dapodik.smpn162jakarta.sch.id'
 npsn = '20100766'
-api_token = 'uUjBKfQIgB6E64I'
+api_token = 'ktuhMNbHJVY76ug'
+base_url = 'http://' + server_address + ':1162/WebService/'
 
 headers = {
 	'Authorization': f'Bearer {api_token}'

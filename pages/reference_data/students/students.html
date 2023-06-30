@@ -16,9 +16,6 @@
         <li class="nav-item" role="student-active">
           <button class="nav-link active" id="student-active" data-bs-toggle="tab" data-bs-target="#student-active-pane" type="button" role="tab" aria-controls="student-active-pane" aria-selected="true">Students</button>
         </li>
-        <!-- <li class="nav-item" role="student-non-active">
-          <button class="nav-link" id="student-non-active" data-bs-toggle="tab" data-bs-target="#student-non-active-pane"-pane" type="button" role="tab" aria-controls="student-non-active"-pane" aria-selected="true">Not-Active</button>
-        </li> -->
       </ul>
       <div class="tab-content" id="students">
         <div class="tab-pane fade show active" id="student-active-pane" role="tabpanel" aria-labelledby="student-active" tabindex="0">
@@ -28,10 +25,10 @@
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">Nama</th>
+                    <th scope="col">NIS</th>
+                    <th scope="col">NISN</th>
                     <th scope="col">L/P</th>
                     <th scope="col">Rombel</th>
-                    <th scope="col">NISN</th>
-                    <th scope="col">NIS</th>
                     <th scope="col">NIK</th>
                     <th scope="col">Tempat Lahir</th>
                     <th scope="col">Tanggal Lahir</th>
@@ -46,10 +43,10 @@
                       <tr>
                         <th scope="row">{{ forloop.counter }}</th>
                         <td>{{ item.nama }}</td>
+                        <td>{{ item.nipd }}</td>
+                        <td>{{ item.nisn }}</td>
                         <td>{{ item.jenis_kelamin }}</td>
                         <td>{{ item.nama_rombel }}</td>
-                        <td>{{ item.nisn }}</td>
-                        <td>{{ item.nipd }}</td>
                         <td>{{ item.nik }}</td>
                         <td>{{ item.tempat_lahir }}</td>
                         <td>{{ item.tanggal_lahir }}</td>
