@@ -1,5 +1,5 @@
 import requests
-from .config import headers
+from .headers import headers
 from .api_endpoint import getSekolah, getPengguna, getGtk, getPesertaDidik
 
 # Data School
