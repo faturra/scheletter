@@ -48,30 +48,38 @@
               <div class="mb-3 mt-3">
                 <h4 class="fw-normal">Setup Integration</h4>
               </div>
-                <form class="mb-3">
+              {% if messages %}
+              <ul class="messages">
+                  {% for message in messages %}
+                      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                  {% endfor %}
+              </ul>
+              {% endif %}
+                <form class="mb-3" method="POST" action="{% url 'setup_integration' %}">
+                  {% csrf_token %}
                     <div class="row g-2">
                       <div class="col-md mb-2">
                         <div class="form-floating">
-                          <input type="text" class="form-control" id="floatingInputGrid" placeholder="01234327" required>
-                          <label for="floatingInputGrid">Server Address</label>
-                          <div id="passwordHelpBlock" class="form-text">
+                          <input type="text" class="form-control" id="server_address" placeholder="01234327" required>
+                          <label for="server_address">Server Address</label>
+                          <div id="server_address" class="form-text">
                             Enter the Dapodik server address hostname or IP address
                           </div>
                         </div>
                       </div>
                       <div class="col-md mb-2">
                         <div class="form-floating">
-                          <input type="text" class="form-control" id="floatingInputGrid" placeholder="01234327" required>
+                          <input type="text" class="form-control" id="npsn" placeholder="01234327" required>
                           <label for="floatingInputGrid">NPSN</label>
-                          <div id="passwordHelpBlock" class="form-text">
+                          <div id="npsn" class="form-text">
                             Enter the school national number
                           </div>
                         </div>
                       </div>
                       <div class="col-md">
                           <div class="form-floating">
-                            <input type="password" class="form-control" id="floatingInputGrid" placeholder="AaBb1234" required>
-                            <label for="floatingInputGrid">Token</label>
+                            <input type="password" class="form-control" id="token" placeholder="AaBb1234" required>
+                            <label for="token">Token</label>
                             <div class="form-text">
                               Enter the token from Dapodik web service
                             </div>

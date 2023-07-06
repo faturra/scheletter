@@ -50,7 +50,11 @@
                 <a class="nav-link" aria-current="page" href="{% url 'trash' %}"><span><i class="bi bi-trash3">&nbsp;</i></span>Trash</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link text-danger" aria-current="page" href="#"><span><i class="bi bi-power">&nbsp;</i></span>Sign out</a>
+              {% if user.is_authenticated %}
+              <a class="nav-link text-danger" aria-current="page" href="{% url 'logout' %}"><span><i class="bi bi-power">&nbsp;</i></span>Sign out</a>
+              {% else %}
+              <a class="nav-link text-dark" aria-current="page" href="{% url 'index' %}"><span><i class="bi bi-fingerprint">&nbsp;</i></span>Sign in</a>
+              {% endif %}
           </li>
           </ul>
           <hr>

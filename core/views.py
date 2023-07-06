@@ -1,10 +1,26 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import AuthenticationForm
 from integrations.data import dapodik_school, dapodik_users, dapodik_employees, dapodik_students
+from .forms import CrispyLoginForm
 
 # Create your views here.
 def index(request):
-    return render(request, 'index/index.html')
+    if request.method == 'POST':
+        form = CrispyLoginForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('dashboard')
+    else:
+        form = CrispyLoginForm()
+    
+    context = {'form': form}
+    return render(request, 'index/index.html', context)
 
+@login_required
 def dashboard(request):
     school_info = dapodik_school
     count_emp = len(dapodik_employees)

@@ -5,6 +5,8 @@ from core.views import *
 
 urlpatterns = [
     path('', index, name='index'),
+    # path('', auth_views.LoginView.as_view(template_name='index/index.html'), name='index'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('welcome', dashboard, name='dashboard'),
     path('data-reference/students', students, name='students'),
     path('data-reference/employees', employees, name='employees'),
