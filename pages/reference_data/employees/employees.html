@@ -17,53 +17,51 @@
           <button class="nav-link active" id="gtk-active" data-bs-toggle="tab" data-bs-target="#gtk-active-pane" type="button" role="tab" aria-controls="gtk-active-pane" aria-selected="true">Employees</button>
         </li>
       </ul>
-      <div class="tab-content" id="gtks">
+      <div class="tab-content mt-3" id="gtks">
         <div class="tab-pane fade show active" id="gtk-active-pane" role="tabpanel" aria-labelledby="gtk-active" tabindex="0">
-          <div class="table-responsive">
-            <table class="table table-striped table-hover text-truncate" style="width:100%">
-                <thead class="">
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Nama</th>
-                    <th scope="col">L/P</th>
-                    <th scope="col">Tempat Lahir</th>
-                    <th scope="col">Tanggal Lahir</th>
-                    <th scope="col">Pendidikan Terakhir</th>
-                    <th scope="col">Jenis GTK</th>
-                    <th scope="col">NIP</th>
-                    <th scope="col">Pangkat</th>
-                    <th scope="col">Status Kepegawaian</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% if employees %}
-                    {% for item in employees %}
-                      <tr>
-                        <th scope="row">{{ forloop.counter }}</th>
-                        <td>{{ item.nama }}</td>
-                        <td>{{ item.jenis_kelamin }}</td>
-                        <td>{{ item.tempat_lahir }}</td>
-                        <td>{{ item.tanggal_lahir }}</td>
-                        <td>{{ item.pendidikan_terakhir }}</td>
-                        <td>{{ item.jenis_ptk_id_str }}</td>
-                        <td>{{ item.nip|default_if_none:'-' }}</td>
-                        <td>{{ item.pangkat_golongan_terakhir }}</td>
-                        <td>{{ item.status_kepegawaian_id_str }}</td>
-                      </tr>
-                    {% endfor %}
-                    {% else %}
+          {% if employees %}
+          <table id="tb_students" class="table table-striped table-hover text-truncate" style="width:100%">
+              <thead class="">
+                <tr>
+                  <th scope="col"><i class="bi bi-check-circle"></i></th>
+                  <th scope="col">Nama</th>
+                  <th scope="col">L/P</th>
+                  <th scope="col">Tempat Lahir</th>
+                  <th scope="col">Tanggal Lahir</th>
+                  <th scope="col">Pendidikan Terakhir</th>
+                  <th scope="col">Jenis GTK</th>
+                  <th scope="col">NIP</th>
+                  <th scope="col">Pangkat</th>
+                  <th scope="col">Status Kepegawaian</th>
+                </tr>
+              </thead>
+              <tbody>
+                  {% for item in employees %}
                     <tr>
-                      <td colspan="13">
-                        <div class="text-center animate__animated animate__headShake">
-                          <small class="text-muted fw-semibold"><i class="bi bi-x-circle-fill"></i>&nbsp;No data available</small><br>
-                          <small class="text-muted">Make sure you have done the <a href="{% url 'setup_integration' %}" class="alert-link">integration settings</a> correctly.</small>
-                        </div>
-                      </td>
+                      <th scope="row"><i class="bi bi-check2-circle text-primary"></i></th>
+                      <td>{{ item.nama }}</td>
+                      <td>{{ item.jenis_kelamin }}</td>
+                      <td>{{ item.tempat_lahir }}</td>
+                      <td>{{ item.tanggal_lahir }}</td>
+                      <td>{{ item.pendidikan_terakhir }}</td>
+                      <td>{{ item.jenis_ptk_id_str }}</td>
+                      <td>{{ item.nip|default_if_none:'-' }}</td>
+                      <td>{{ item.pangkat_golongan_terakhir }}</td>
+                      <td>{{ item.status_kepegawaian_id_str }}</td>
                     </tr>
-                  {% endif %}
-                </tbody>
-            </table>
-          </div>
+                  {% endfor %}
+                  {% else %}
+                  <tr>
+                    <td colspan="13">
+                      <div class="text-center animate__animated animate__headShake">
+                        <small class="text-muted fw-semibold"><i class="bi bi-x-circle-fill"></i>&nbsp;No data available</small><br>
+                        <small class="text-muted">Make sure you have done the <a href="{% url 'setup_integration' %}" class="alert-link">integration settings</a> correctly.</small>
+                      </div>
+                    </td>
+                  </tr>
+                {% endif %}
+              </tbody>
+          </table>
         </div>
       </div>
     </section>
