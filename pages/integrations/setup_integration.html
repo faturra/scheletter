@@ -26,14 +26,14 @@
                   <p class="text-success">Ready</p>
                 </div>
                 <div class="col-lg-4">
-                  <h2><span class="bi bi-check-circle-fill text-success"></span></h2>
+                  <h2><span class="bi bi-record-circle-fill text-warning"></span></h2>
                   <h2 class="fw-normal">Setup Integration</h2>
-                  <p class="text-success">Ready</p>
+                  <p class="text-warning">Complete your setup</p>
                 </div>
                 <div class="col-lg-4">
-                  <h2><span class="bi bi-record-circle-fill text-warning"></span></h2>
+                  <h2><span class="bi bi-x-circle-fill text-danger"></span></h2>
                   <h2 class="fw-normal">Integration</h2>
-                  <p class="text-warning">Complete your setup</p>
+                  <p class="text-danger">Disconnected</p>
                 </div>
               </div>
             </div>
@@ -41,26 +41,31 @@
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed bg-light text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo"><i class="bi bi-gear-wide-connected"></i>&nbsp;Setup Integration</button>
+            <button class="accordion-button bg-light text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
+              <i class="bi bi-gear-wide-connected"></i>&nbsp;Setup Integration&nbsp;
+              {% if messages %}
+                {% for message in messages %}
+                  <div class="animate__animated animate__fadeIn fw-light {% if message.tags %}text-{{ message.tags }}{% endif %}">{{ message }}</div>
+                {% endfor %}
+              {% endif %}
+            </button>
           </h2>
-          <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
+          <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show">
             <div class="accordion-body">
+              <!-- {% if messages %}
+                {% for message in messages %}
+                  <div class="animate__animated animate__fadeInDown {% if message.tags %}text-{{ message.tags }}{% endif %}"><i class="bi bi-check-circle-fill"></i> {{ message }}</div>
+                {% endfor %}
+              {% endif %} -->
               <div class="mb-3 mt-3">
                 <h4 class="fw-normal">Setup Integration</h4>
               </div>
-              {% if messages %}
-              <ul class="messages">
-                  {% for message in messages %}
-                      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                  {% endfor %}
-              </ul>
-              {% endif %}
                 <form class="mb-3" method="POST" action="{% url 'setup_integration' %}">
                   {% csrf_token %}
                     <div class="row g-2">
                       <div class="col-md mb-2">
                         <div class="form-floating">
-                          <input type="text" class="form-control" id="server_address" placeholder="01234327" required>
+                          <input type="text" class="form-control text-muted" id="server_address" name="server_address" value="{{request.user.integrations.server_address}}" placeholder="01234327" required>
                           <label for="server_address">Server Address</label>
                           <div id="server_address" class="form-text">
                             Enter the Dapodik server address hostname or IP address
@@ -69,7 +74,7 @@
                       </div>
                       <div class="col-md mb-2">
                         <div class="form-floating">
-                          <input type="text" class="form-control" id="npsn" placeholder="01234327" required>
+                          <input type="text" class="form-control text-muted" id="npsn" name="npsn"  value="{{request.user.integrations.npsn}}" placeholder="01234327" required>
                           <label for="floatingInputGrid">NPSN</label>
                           <div id="npsn" class="form-text">
                             Enter the school national number
@@ -78,7 +83,7 @@
                       </div>
                       <div class="col-md">
                           <div class="form-floating">
-                            <input type="password" class="form-control" id="token" placeholder="AaBb1234" required>
+                            <input type="password" class="form-control text-muted" id="token" name="token" value="{{request.user.integrations.token}}" placeholder="AaBb1234" required>
                             <label for="token">Token</label>
                             <div class="form-text">
                               Enter the token from Dapodik web service

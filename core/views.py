@@ -28,10 +28,12 @@ def dashboard(request):
     context = {'school_info': school_info, 'count_emp': count_emp, 'count_std': count_std}
     return render(request, 'dashboard/dashboard.html', context)
 
+@login_required
 def students(request):
     context = {'students': dapodik_students}
     return render(request, 'reference_data/students/students.html', context)
 
+@login_required
 def employees(request):
     context = {'employees': dapodik_employees}
     return render(request, 'reference_data/employees/employees.html', context)
@@ -39,20 +41,26 @@ def employees(request):
 def graduation(request):
     return render(request, 'reference_data/graduation/graduation.html')
 
+@login_required
 def accounts(request):
     return render(request, 'accounts/employees/accounts.html')
 
+@login_required
 def sign_request(request):
     return render(request, 'administration/sign_request/sign_request.html')
 
+@login_required
 def request_queue(request):
     return render(request, 'administration/request_queue/request_queue.html')
 
+@login_required
 def guest_book(request):
     return render(request, 'administration/guest_book/guest_book.html')
 
+@login_required
 def archives(request):
     return render(request, 'administration/archives/archives.html')
 
+@login_required
 def trash(request):
     return render(request, 'trash/trash.html')
