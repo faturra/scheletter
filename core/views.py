@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login
+from django.contrib.auth.models import User, Group
 from integrations.data import dapodik_school, dapodik_users, dapodik_employees, dapodik_students
-from .forms import CrispyLoginForm
+from .forms import CrispyLoginForm, CustomUserCreationForm
 
 # Create your views here.
 def index(request):
@@ -13,6 +13,8 @@ def index(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
+
+            messages.success(request, 'Login successful!')
             return redirect('dashboard')
     else:
         form = CrispyLoginForm()
@@ -43,7 +45,25 @@ def graduation(request):
 
 @login_required
 def accounts(request):
-    return render(request, 'accounts/employees/accounts.html')
+    users =  User.objects.all()
+
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            user = form.save(commit=False)
+            user.first_name = form.cleaned_data['first_name']
+            user.save()
+            group = form.cleaned_data['group']
+            group.user_set.add(user)
+            
+            messages.success(request, 'User has been created!')
+            return redirect('accounts')
+    else:
+        form = CustomUserCreationForm()
+
+    context = {'users': users, 'form': form}
+    return render(request, 'accounts/employees/accounts.html', context)
 
 @login_required
 def sign_request(request):

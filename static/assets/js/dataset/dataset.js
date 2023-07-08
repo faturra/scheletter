@@ -11,3 +11,10 @@ $(document).ready(function() {
     "pagingType": "simple",
   } );
 });
+
+$(document).ready(function() {
+  $('#tb_accounts').dataTable( {
+    "scrollX": true,
+    "pagingType": "simple",
+  } );
+});
