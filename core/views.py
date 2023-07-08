@@ -14,7 +14,7 @@ def index(request):
             user = form.get_user()
             login(request, user)
 
-            messages.success(request, 'Login successful!')
+            messages.success(request, 'Sign in success!, Hi {}'.format(user.first_name))
             return redirect('dashboard')
     else:
         form = CrispyLoginForm()

@@ -4,26 +4,26 @@
 {% block content %}
 <div class="container">
     <section class="pt-5 mb-5">
-        <div class="mb-3">
-            <h1 class=""><span class="bi bi-shuffle"></span>&nbsp;Setup Integration</h1>
-        </div>
-        <div>
-            <p class="lead">Dapodik data integration settings&nbsp;<span class="text-warning">Complete your setup</span></p>
-        </div>
+      <div class="mb-3">
+        <h1 class=""><span class="bi bi-shuffle"></span>&nbsp;Setup Integration</h1>
+      </div>
+      <div>
+        <p class="lead">Dapodik data integration settings&nbsp;<span class="text-warning">Complete your setup</span></p>
+      </div>
+      {% if messages %}
+      <div class="alert alert-success d-flex align-items-center animate__animated animate__fadeInDown animate__slow" role="alert">
+        {% for message in messages %}
+          <i class="bi-check-circle-fill"></i>
+          <div>
+            &nbsp;{{ message }}
+          </div>
+            {% endfor %}
+      </div>
+      {% endif %}
     </section>
-    {% if messages %}
-    <div class="alert alert-success d-flex align-items-center animate__animated animate__fadeInDown animate__slow" role="alert">
-      {% for message in messages %}
-        <i class="bi-check-circle-fill"></i>
-        <div>
-          &nbsp;{{ message }}
-        </div>
-          {% endfor %}
-    </div>
-    {% endif %}
-    <section class="mb-5 text-center">
+    <section class="mb-5">
       <div class="accordion" id="accordionPanelsStayOpenExample">
-        <div class="accordion-item">
+        <div class="accordion-item text-center">
           <h2 class="accordion-header">
             <button class="accordion-button bg-light text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne"><i class="bi bi-ui-checks"></i>&nbsp;System Check</button>
           </h2>
@@ -51,11 +51,11 @@
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button bg-light text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
+            <button class="accordion-button {% if request.user.integrations %}collapsed{% else %}{% endif %} bg-light text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="{% if request.user.integrations %}false{% else %}true{% endif %}" aria-controls="panelsStayOpen-collapseTwo">
               <i class="bi bi-gear-wide-connected"></i>&nbsp;Setup Integration&nbsp;
             </button>
           </h2>
-          <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show">
+          <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse {% if request.user.integrations %}{% else %}show{% endif %}">
             <div class="accordion-body">
               <div class="mb-3 mt-3">
                 <h4 class="fw-normal">Setup Integration</h4>

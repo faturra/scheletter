@@ -33,31 +33,25 @@
                     <th scope="col">Username</th>
                     <th scope="col">Group</th>
                     <th scope="col">Status</th>
-                    <th scope="col">Last Sign</th>
+                    <th scope="col">Last sign in</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="fw-normal">
             {% for item in users %}
                 <tr>
-                    <td>
-                        {% if item.is_active %}
-                        <i class="bi bi-person-check text-success"></i>
-                        {% else %}
-                        <i class="bi bi-person-dash text-danger"></i>
-                        {% endif %}
-                    </td>
+                    <td><i class="bi bi-person-fill"></i></td>
                     <td>{{ item.get_full_name }}</td>
                     <td>{{ item.username }}</td>
                     <td>{{ item.groups.first.name}}</td>
                     <td>
                         {% if item.is_active %}
-                        <span class="badge bg-success">Active</span>
+                        <span class="text-success"><i class="bi bi-check-circle"></i></span>
                         {% else %}
-                        <span class="badge bg-danger">Inactive</span>
+                        <span class="text-danger"><i class="bi bi-x-circle"></i></span>
                         {% endif %}
                     </td>
-                    <td>{{ item.last_login }}</td>
+                    <td>{% if item.last_login %}{{ item.last_login|timesince}}{% else %}Hasn't signed in{% endif %}</td>
                     <td>
                         <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                             <button type="button" class="btn btn-light">Reset password</button>

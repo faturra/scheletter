@@ -13,7 +13,7 @@
                   <h1 class=""><span class="bi bi-buildings"></span>&nbsp;Welcome</h1>
                 </div>
                 <div>
-                    <p class="lead">You're working in&nbsp;<span class="text-primary">{{school_info.nama|default_if_none:'Please check integration settings'}}</span></p>
+                  <p class="lead">You're working in&nbsp;<span class="text-primary">{{school_info.nama|default_if_none:'Please check integration settings'}}</span></p>
                 </div>
               </div>
             </div>
@@ -22,11 +22,21 @@
             <div class="card border border-0">
               <div class="card-body-none">
                 <h1><span class="bi bi-person-check text-white"></span></h1>
-                <p class="lead">Faturrachman Mochammad&nbsp;<span class="badge bg-primary"><i class="bi bi-person-fill"></i>&nbsp;Operator Sekolah</span></p>
+                <p class="lead"><i class="bi bi-person-fill"></i>&nbsp;{{ request.user.get_full_name}}&nbsp;<span class="badge bg-primary">{% if request.user.groups.first.name %}{{ request.user.groups.first.name }}{% else %}Undefined Role{% endif %}</span></p>
               </div>
             </div>
           </div>
         </div>
+        {% if messages %}
+        <div class="alert alert-success d-flex align-items-center animate__animated animate__fadeInDown animate__slow" role="alert">
+          {% for message in messages %}
+            <i class="bi-check-circle-fill"></i>
+            <div>
+              &nbsp;{{ message }}
+            </div>
+              {% endfor %}
+        </div>
+        {% endif %}
       </div>
     </section>
     <section class="mb-5">

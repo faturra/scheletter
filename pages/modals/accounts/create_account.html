@@ -11,13 +11,6 @@
             <form method="post">
               {% csrf_token %}
               {{ form|crispy }}
-              {% if messages %}
-                <div class="alert alert-danger">
-                  {% for message in messages %}
-                    <p>{{ message }}</p>
-                  {% endfor %}
-                </div>
-              {% endif %}
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary">Create</button>
