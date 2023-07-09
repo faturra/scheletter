@@ -24,7 +24,6 @@
                 <ul class="dropdown-menu border-0">
                   <li><a class="dropdown-item" href="{% url 'students' %}"><span><i class="bi bi-emoji-smile">&nbsp;</i></span>Students</a></li>
                   <li><a class="dropdown-item" href="{% url 'employees' %}"><span><i class="bi bi-people">&nbsp;</i></span>Employees</a></li>
-                  <!-- <li><a class="dropdown-item" href="{% url 'graduation' %}"><span><i class="bi bi-mortarboard">&nbsp;</i></span>Graduation</a></li> -->
                 </ul>
             </li>
             <li class="nav-item dropdown">
@@ -41,6 +40,7 @@
                 </a>
                 <ul class="dropdown-menu border-0">
                   <li><a class="dropdown-item" href="{% url 'sign-request' %}"><span><i class="bi bi-pen">&nbsp;</i></span>Sign Request&nbsp;<span class="badge bg-primary">4</span></a></li>
+                  <li><a class="dropdown-item" href="{% url 'letter' %}"><span><i class="bi bi-file-earmark-text">&nbsp;</i></span>Create Letter</a></li>
                   <li><a class="dropdown-item" href="{% url 'request-queue' %}"><span><i class="bi bi-list-ol">&nbsp;</i></span>Request Queue&nbsp;<span class="badge bg-primary">2</span></a></li>
                   <li><a class="dropdown-item" href="{% url 'guest-book' %}"><span><i class="bi bi-book">&nbsp;</i></span>Guest Book</a></li>
                   <li><a class="dropdown-item" href="{% url 'archives' %}"><span><i class="bi bi-archive">&nbsp;</i></span>Archives</a></li>
