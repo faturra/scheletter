@@ -5,7 +5,6 @@ from django.forms.widgets import EmailInput
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout, Field
 from crispy_forms.bootstrap import FormActions
-from crispy_bootstrap5.bootstrap5 import FloatingField
 from integrations.data import dapodik_employees
 
 class CrispyLoginForm(AuthenticationForm):
@@ -16,7 +15,7 @@ class CrispyLoginForm(AuthenticationForm):
         self.helper = FormHelper()
         self.helper.form_method = 'post'
         self.helper.layout = Layout(
-            FloatingField('username', placeholder='Email'),
+            Field('username', placeholder='Email'),
             Field('password', placeholder='Password'),
             FormActions(
                 Submit('submit', 'Login', css_class='btn-dark')

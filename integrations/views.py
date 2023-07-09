@@ -25,11 +25,11 @@ def setup_integration(request):
             end_time = time.time()
             processing_time = end_time - start_time
 
-            messages.success(request, 'Changes have been saved! {0:.2f}s'.format(processing_time))
+            messages.success(request, 'Changes have been updated! {0:.2f}s'.format(processing_time))
             return redirect('setup_integration')
         else:
             form = IntegrationsForm()
-            messages.error(request, 'Changes failed to save!')
+            messages.error(request, 'Changes failed to update!')
 
     context = {'form': IntegrationsForm}
     return render(request, 'integrations/setup_integration.html', context)

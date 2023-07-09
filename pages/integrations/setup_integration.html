@@ -11,14 +11,14 @@
         <p class="lead">Dapodik data integration settings&nbsp;<span class="text-warning">Complete your setup</span></p>
       </div>
       {% if messages %}
-      <div class="alert alert-success d-flex align-items-center animate__animated animate__fadeInDown animate__slow" role="alert">
-        {% for message in messages %}
+      {% for message in messages %}
+      <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} d-flex align-items-center animate__animated animate__fadeInDown animate__slow" role="alert">
           <i class="bi-check-circle-fill"></i>
           <div>
             &nbsp;{{ message }}
           </div>
-            {% endfor %}
       </div>
+      {% endfor %}
       {% endif %}
     </section>
     <section class="mb-5">

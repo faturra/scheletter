@@ -3,10 +3,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.models import User, Group
+from .decorators import unauthenticated_user
 from integrations.data import dapodik_school, dapodik_users, dapodik_employees, dapodik_students
 from .forms import CrispyLoginForm, CustomUserCreationForm
 
 # Create your views here.
+@unauthenticated_user
 def index(request):
     if request.method == 'POST':
         form = CrispyLoginForm(request, data=request.POST)
