@@ -10,3 +10,6 @@ def student_letter(request):
 
 def employee_letter(request):
     return render(request, 'administration/letter/create_letter/employee_letter.html')
+
+def common_letter(request):
+    return render(request, 'administration/letter/create_letter/common_letter.html')
