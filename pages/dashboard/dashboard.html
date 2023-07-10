@@ -22,7 +22,7 @@
             <div class="card border border-0">
               <div class="card-body-none">
                 <h1><span class="bi bi-person-check text-white"></span></h1>
-                <p class="lead"><i class="bi bi-person-fill"></i>&nbsp;{{ request.user.get_full_name}}&nbsp;<span class="badge bg-primary">{% if request.user.groups.first.name %}{{ request.user.groups.first.name }}{% else %}Undefined Role{% endif %}</span>&nbsp;||&nbsp;<span class="bi bi-clock-fill"></span>&nbsp;{% now "DATETIME_FORMAT" %}</p>
+                <p class="lead"><i class="bi bi-person-fill"></i>&nbsp;{{ request.user.get_full_name}}&nbsp;<span class="badge bg-primary">{% if request.user.groups.first.name %}{{ request.user.groups.first.name }}{% else %}Undefined Role{% endif %}</span>&nbsp;<span class="bi bi-clock-fill"></span>&nbsp;{% now "DATETIME_FORMAT" %}</p>
               </div>
             </div>
           </div>

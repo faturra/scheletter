@@ -12,11 +12,17 @@
         </div>
     </section>
     <section class="mb-5">
+      <div class="card mb-3">
+        <div class="card-body">
+          Last number of letter&nbsp;<span class="badge bg-dark">1</span> | 
+          Previous number of letter&nbsp;<span class="badge bg-dark">1</span>
+        </div>
+      </div>
       <div class="row">
         <div class="col-sm-6 mb-3">
             <a class="card btn btn-light mb-1" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-              <h1><span class="bi bi-file-earmark-plus"></span></h1>
               <div class="card-body">
+                <h3><span class="bi bi-file-earmark-plus"></span></h3>
                 <h5 class="card-title">Blank Letter</h5>
                 <p class="card-text">Create blank letter</p>
               </div>
@@ -34,7 +40,7 @@
                       <div class="mb-2">
                         <strong>Student letter</strong> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laboriosam quia vitae illum perferendis nulla necessitatibus dignissimos!
                       </div>  
-                      <a href="#" class="btn btn-primary">Create</a>
+                      <a href="{% url 'student_letter' %}" class="btn btn-dark">Create letter</a>
                     </div>
                   </div>
                 </div>
@@ -49,7 +55,7 @@
                       <div class="mb-2">
                         <strong>Employee letter</strong> Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda aut, mollitia atque voluptatibus corporis quia voluptatem.
                       </div>  
-                      <a href="#" class="btn btn-primary">Create</a>
+                      <a href="{% url 'employee_letter' %}" class="btn btn-dark">Create letter</a>
                     </div>
                   </div>
                 </div>
@@ -62,8 +68,8 @@
         </div>
         <div class="col-sm-6">
           <a href="{% url 'request-queue' %}" class="card btn btn-light" style="">
-            <h1><span class="bi bi-list-ol"></span></h1>
             <div class="card-body">
+              <h3><span class="bi bi-list-ol"></span></h3>
               <h5 class="card-title">Request Queue&nbsp;<span class="badge bg-primary">2</span></h5>
               <p class="card-text">Create letter from request queue</p>
             </div>
