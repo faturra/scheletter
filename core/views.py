@@ -47,7 +47,7 @@ def graduation(request):
 
 @login_required
 def accounts(request):
-    users =  User.objects.all()
+    users =  User.objects.filter(is_superuser=False, is_staff=False)
 
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
@@ -66,6 +66,33 @@ def accounts(request):
 
     context = {'users': users, 'form': form}
     return render(request, 'accounts/employees/accounts.html', context)
+
+@login_required
+def delete_user(request, user_id):
+    user = User.objects.get(pk=user_id)
+    user.delete()
+
+    messages.success(request, 'User has been deleted!')
+    return redirect('accounts')
+
+@login_required
+def deactivate_user(request, user_id):
+    user = User.objects.get(pk=user_id)
+    user.is_active = False
+    user.save()
+
+    messages.success(request, 'User has been deactivated!')
+    return redirect('accounts')
+
+@login_required
+def activate_user(request, user_id):
+    user = User.objects.get(pk=user_id)
+    user.is_active = True
+    user.save()
+
+    messages.success(request, 'User has been activated!')
+    return redirect('accounts')
+
 
 @login_required
 def sign_request(request):

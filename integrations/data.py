@@ -33,7 +33,7 @@ try:
         dapodik_employees = data.get('rows', [])
 
 except requests.exceptions.RequestException as e:
-        print('Error:', e)
+        pass
 
 # Data Students
 response = requests.get(getPesertaDidik, headers=headers)

@@ -4,5 +4,5 @@ from django.contrib import admin
 from integrations.views import *
 
 urlpatterns = [
-    path('', setup_integration, name='setup_integration'),
+    path('', setup_integration, name='setup-integration'),
 ]

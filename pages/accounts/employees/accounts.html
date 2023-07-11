@@ -54,9 +54,19 @@
                     <td>{% if item.last_login %}{{ item.last_login|timesince}}{% else %}Hasn't signed in{% endif %}</td>
                     <td>
                         <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                            <button type="button" class="btn btn-light">Reset password</button>
-                            <button type="button" class="btn btn-light">Suspend</button>
-                            <button type="button" class="btn btn-light">Delete account</button>
+                            <a href="" class="btn btn-light">Reset password</a>
+                            {% if item.id == request.user.id %}
+                            {% if item.is_active %}
+                            <a href="#" class="btn btn-light disabled">Deactivate</a>
+                            {% else %}
+                            <a href="#" class="btn btn-light disabled">Activate</a>
+                            {% endif %}
+                            <a href="#" class="btn btn-light disabled">Delete account</a>
+                            {% else %}
+                            <a href="{% url 'activate-user' user_id=item.id %}" class="btn btn-light">Activate</a>
+                            <a href="{% url 'deactivate-user' user_id=item.id %}" class="btn btn-light">Deactivate</a>
+                            <a href="{% url 'delete-user' user_id=item.id %}" class="btn btn-light">Delete account</a>
+                            {% endif %}
                         </div>
                     </td>
                 </tr>
