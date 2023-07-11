@@ -23,7 +23,7 @@
     </section>
     <section>
         <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-3">
-            <button class="btn btn-primary me-md-2" type="button" data-bs-toggle="modal" data-bs-target="#create-account"><i class="bi bi-person-plus"></i>&nbsp;Create account</button>
+            <button class="btn btn-primary me-md-2" type="button" data-bs-toggle="modal" data-bs-target="#create-account"><i class="bi bi-person-plus-fill"></i>&nbsp;Create account</button>
         </div>
         <table id="tb_students" class="table table-hover text-truncate">
             <thead>
@@ -34,6 +34,7 @@
                     <th scope="col">Group</th>
                     <th scope="col">Status</th>
                     <th scope="col">Last sign in</th>
+                    <th scope="col">Date created</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -48,24 +49,22 @@
                         {% if item.is_active %}
                         <span class="text-success"><i class="bi bi-check-circle"></i></span>
                         {% else %}
-                        <span class="text-danger"><i class="bi bi-x-circle"></i></span>
+                        <span class="text-danger"><i class="bi bi-dash-circle"></i></span>
                         {% endif %}
                     </td>
                     <td>{% if item.last_login %}{{ item.last_login|timesince}}{% else %}Hasn't signed in{% endif %}</td>
+                    <td>{{ item.date_joined|date}}</td>
                     <td>
                         <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                            <a href="" class="btn btn-light">Reset password</a>
+                            <a href="" class="btn btn-light"><i class="bi bi-arrow-counterclockwise"></i></a>
                             {% if item.id == request.user.id %}
-                            {% if item.is_active %}
-                            <a href="#" class="btn btn-light disabled">Deactivate</a>
+                            <a href="#" class="btn btn-light disabled"><i class="bi bi-check-circle"></i></a>
+                            <a href="#" class="btn btn-light disabled"><i class="bi bi-dash-circle"></i></a>
+                            <a href="#" class="btn btn-light disabled"><i class="bi bi-person-x-fill"></i>&nbsp;Delete account</a>
                             {% else %}
-                            <a href="#" class="btn btn-light disabled">Activate</a>
-                            {% endif %}
-                            <a href="#" class="btn btn-light disabled">Delete account</a>
-                            {% else %}
-                            <a href="{% url 'activate-user' user_id=item.id %}" class="btn btn-light">Activate</a>
-                            <a href="{% url 'deactivate-user' user_id=item.id %}" class="btn btn-light">Deactivate</a>
-                            <a href="{% url 'delete-user' user_id=item.id %}" class="btn btn-light">Delete account</a>
+                            <a href="{% url 'activate-user' user_id=item.id %}" class="btn btn-light"><i class="bi bi-check-circle"></i></a>
+                            <a href="{% url 'deactivate-user' user_id=item.id %}" class="btn btn-light"><i class="bi bi-dash-circle"></i></a>
+                            <a href="{% url 'delete-user' user_id=item.id %}" class="btn btn-light text-danger"><i class="bi bi-person-x-fill"></i>&nbsp;Delete account</a>
                             {% endif %}
                         </div>
                     </td>
