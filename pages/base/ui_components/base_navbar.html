@@ -58,17 +58,8 @@
           </li>
           </ul>
           <hr>
-          <div class="dropdown">
-            <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-              <!-- <img src="https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png" alt="" width="32" height="32" class="rounded-circle border me-2"> -->
-              <strong class="text-dark">{{ request.user.get_full_name }}</strong>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-light text-small shadow">
-              <li><a class="dropdown-item" href="#">Settings</a></li>
-              <li><a class="dropdown-item" href="#">Profile</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Sign out</a></li>
-            </ul>
+          <strong class="text-dark">{% now "DATE_FORMAT" %}</strong><br>
+          <p class="text-dark">{{ request.user.get_full_name }}</p>
           </div>
         </div>
       </div>
