@@ -5,13 +5,13 @@ from django.contrib.auth import login
 from django.contrib.auth.models import User, Group
 from .decorators import unauthenticated_user
 from integrations.data import dapodik_school, dapodik_users, dapodik_employees, dapodik_students
-from .forms import CrispyLoginForm, CustomUserCreationForm
+from .forms import LoginForm, CustomUserCreationForm
 
 # Create your views here.
 @unauthenticated_user
 def index(request):
     if request.method == 'POST':
-        form = CrispyLoginForm(request, data=request.POST)
+        form = LoginForm(request, data=request.POST)
         if form.is_valid():
             user = form.get_user()
             login(request, user)
@@ -19,7 +19,7 @@ def index(request):
             messages.success(request, 'Sign in success!, Hi {}'.format(user.first_name))
             return redirect('dashboard')
     else:
-        form = CrispyLoginForm()
+        form = LoginForm()
     
     context = {'form': form}
     return render(request, 'index/index.html', context)

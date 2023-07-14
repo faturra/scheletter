@@ -14,7 +14,7 @@ class Students_Letter(models.Model):
     number = models.CharField(max_length=50, null=True, blank=True)
     date = models.DateField()
     subject = models.CharField(max_length=255, null=True, blank=True)
-    body = models.TextField(max_length=500, null=True, blank=True)
+    body = models.TextField(max_length=1250, null=True, blank=True)
     student_name = models.CharField(max_length=100, null=True, blank=True)
     student_class = models.CharField(max_length=50, null=True, blank=True)
     student_place_of_birth = models.CharField(max_length=100, null=True, blank=True)

@@ -42,9 +42,10 @@
             </div>
             <div class="col-sm-9">
                 <div class="card card-body p-4 shadow-lg">
-                    <div class="mb-5">
-                        <form method="POST" action="." class="row g-3">
+                  <div>
+                        <form method="POST" action="." class="row g-2">
                           {% csrf_token %}
+                          {{ form.media }}
                           {{ form|crispy }}
                           <button type="submit" class="btn btn-primary">Create</button>
                             <!-- <div class="col-md-6">
