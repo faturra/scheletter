@@ -16,7 +16,7 @@
         <div class="row g-3">
             <div class="col-sm-3 mb-3">
                 <div class="card bg-white shadow-lg">
-                    <img src="https://www.creativefabrica.com/wp-content/uploads/2019/02/Letter-icon-by-ahlangraphic-2.jpg" class="card-img-top" alt="...">
+                    <img src="https://www.creativefabrica.com/wp-content/uploads/2019/02/Letter-icon-by-ahlangraphic-2.jpg" class="card-img-top" alt="..." draggable="false">
                     <div class="card-body">
                       <h5 class="card-title">Student letter</h5>
                       <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt odio fugiat architecto laborum?</p>
@@ -46,6 +46,7 @@
                         <form method="POST" action="." class="row g-3">
                           {% csrf_token %}
                           {{ form|crispy }}
+                          <button type="submit" class="btn btn-primary">Create</button>
                             <!-- <div class="col-md-6">
                               <label for="inputEmail4" class="form-label">Email</label>
                               <input type="text" class="form-control" id="inputEmail4">

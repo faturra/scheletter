@@ -10,9 +10,8 @@ def letter(request):
 
 @login_required
 def student_letter(request):
-    students_letter_form = StudentsLetterForm()
-    context = {'students_letter_form': students_letter_form}
-
+    form = StudentsLetterForm()
+    context = {'form': form}
     return render(request, 'administration/letter/create_letter/student_letter.html', context)
 
 @login_required
