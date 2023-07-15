@@ -9,7 +9,13 @@ class Students_Letter(models.Model):
         ('2', 'Manual Sign'),
     )
 
+    letter_type_choice = (
+        ('1', 'Surat Keterangan'),
+        ('2', 'Surat Rekomendasi'),
+    )
+
     letter_id = models.AutoField(primary_key=True)
+    letter_type = models.CharField(max_length=1, choices=type_sign_choice, null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     number = models.CharField(max_length=50, null=True, blank=True)
     date = models.DateField()

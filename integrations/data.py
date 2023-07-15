@@ -1,6 +1,6 @@
 import requests
 from .headers import headers
-from .api_endpoint import getSekolah, getPengguna, getGtk, getPesertaDidik
+from .api_endpoint import getSekolah, getPengguna, getGtk, getRombonganBelajar, getPesertaDidik
 
 # Data School
 response = requests.get(getSekolah, headers=headers)
@@ -9,6 +9,7 @@ try:
         response.raise_for_status()
         data = response.json()
         dapodik_school = data.get('rows', [])
+        print('Dapodik School API Connection [OK].')
         
 except requests.exceptions.RequestException as e:
         print('Error:', e)
@@ -20,6 +21,7 @@ try:
         response.raise_for_status()
         data = response.json()
         dapodik_users = data.get('rows', [])
+        print('Dapodik Users API Connection [OK].')
 
 except requests.exceptions.RequestException as e:
         print('Error:', e)
@@ -31,6 +33,19 @@ try:
         response.raise_for_status()
         data = response.json()
         dapodik_employees = data.get('rows', [])
+        print('Dapodik Employees API Connection [OK].')
+
+except requests.exceptions.RequestException as e:
+        pass
+
+# Data Learning Group  
+response = requests.get(getRombonganBelajar, headers=headers)
+
+try:
+        response.raise_for_status()
+        data = response.json()
+        dapodik_employees = data.get('rows', [])
+        print('Dapodik Learning Group API Connection [OK].')
 
 except requests.exceptions.RequestException as e:
         pass
@@ -42,6 +57,7 @@ try:
         response.raise_for_status()
         data = response.json()
         dapodik_students = data.get('rows', [])
+        print('Dapodik Students API Connection [OK].\n')
 
 except requests.exceptions.RequestException as e:
         print('Error:', e)

@@ -39,7 +39,10 @@ class CustomUserCreationForm(UserCreationForm):
     
     first_name = forms.ChoiceField(choices=[(user['nama'], user['nama']) for user in dapodik_employees], required=True, label='Name')
     group = forms.ModelChoiceField(queryset=Group.objects.all(), required=True, label='Role')
-    username = forms.CharField(widget=EmailInput(), label='Email')
+    username = forms.CharField(
+        widget=forms.EmailInput(attrs={'placeholder': 'email@example.com'}),
+        label='Email'
+    )
 
     class Meta(UserCreationForm.Meta):
         fields = UserCreationForm.Meta.fields + ('first_name','group')
