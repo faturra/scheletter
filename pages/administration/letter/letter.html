@@ -12,6 +12,16 @@
         </div>
     </section>
     <section class="mb-5">
+      {% if messages %}
+      <div class="alert alert-success d-flex align-items-center animate__animated animate__fadeInDown animate__slow" role="alert">
+        {% for message in messages %}
+          <i class="bi-check-circle-fill"></i>
+          <div>
+            &nbsp;{{ message }}
+          </div>
+            {% endfor %}
+      </div>
+      {% endif %}
       <div class="card mb-3">
         <div class="card-body">
           Last number of letter&nbsp;<span class="badge bg-dark">1</span> | 
@@ -24,7 +34,7 @@
               <div class="card-body">
                 <h3><span class="bi bi-file-earmark-plus"></span></h3>
                 <h5 class="card-title">Blank Letter</h5>
-                <p class="card-text">Create blank letter</p>
+                <p class="card-text text-muted">Create blank letter</p>
               </div>
             </a>
             <div class="collapse" id="collapseExample">
@@ -75,18 +85,14 @@
                   </div>
                 </div>
               </div>
-              <!-- <div class="list-group">
-                <a href="#" class="list-group-item list-group-item-action">Student letter</a>
-                <a href="#" class="list-group-item list-group-item-action">Employee letter</a>
-              </div> -->
             </div>
           </div>
         <div class="col-sm-6">
-          <a href="{% url 'request-queue' %}" class="card btn btn-light" style="">
+          <a href="{% url 'request-queue' %}" class="card btn btn-light">
             <div class="card-body">
               <h3><span class="bi bi-list-ol"></span></h3>
               <h5 class="card-title">Request Queue&nbsp;<span class="badge bg-primary">2</span></h5>
-              <p class="card-text">Create letter from request queue</p>
+              <p class="card-text text-muted">Create letter from request queue</p>
             </div>
           </a>
         </div>

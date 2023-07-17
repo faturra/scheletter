@@ -56,15 +56,14 @@
                     <td>{{ item.date_joined|date}}</td>
                     <td>
                         <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                            <a href="" class="btn btn-light"><i class="bi bi-arrow-counterclockwise"></i></a>
                             {% if item.id == request.user.id %}
                             <a href="#" class="btn btn-light disabled"><i class="bi bi-check-circle"></i></a>
                             <a href="#" class="btn btn-light disabled"><i class="bi bi-dash-circle"></i></a>
                             <a href="#" class="btn btn-light disabled"><i class="bi bi-person-x-fill"></i>&nbsp;Delete account</a>
                             {% else %}
-                            <a href="{% url 'activate-user' user_id=item.id %}" class="btn btn-light"><i class="bi bi-check-circle"></i></a>
-                            <a href="{% url 'deactivate-user' user_id=item.id %}" class="btn btn-light"><i class="bi bi-dash-circle"></i></a>
-                            <a href="{% url 'delete-user' user_id=item.id %}" class="btn btn-light text-danger"><i class="bi bi-person-x-fill"></i>&nbsp;Delete account</a>
+                            <a href="{% url 'activate-user' user_id=item.id %}" class="btn btn-light" onclick="return confirm('Are you sure you want to activate account');"><i class="bi bi-check-circle"></i></a>
+                            <a href="{% url 'deactivate-user' user_id=item.id %}" class="btn btn-light" onclick="return confirm('Are you sure you want to deactivate account');"><i class="bi bi-dash-circle"></i></a>
+                            <a href="{% url 'delete-user' user_id=item.id %}" class="btn btn-light text-danger" onclick="return confirm('Are you sure you want to delete account');"><i class="bi bi-person-x-fill"></i>&nbsp;Delete account</a>
                             {% endif %}
                         </div>
                     </td>

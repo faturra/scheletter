@@ -1,35 +1,52 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.contrib.auth import login
-from django.contrib.auth.models import User, Group
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
+from integrations.data import dapodik_school, dapodik_employees, dapodik_students
+from letter.models import Students_Letter
 from .decorators import unauthenticated_user
-from integrations.data import dapodik_school, dapodik_users, dapodik_employees, dapodik_students
-from .forms import LoginForm, CustomUserCreationForm
+from .forms import CustomUserCreationForm
 
 # Create your views here.
 @unauthenticated_user
 def index(request):
     if request.method == 'POST':
-        form = LoginForm(request, data=request.POST)
-        if form.is_valid():
-            user = form.get_user()
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
             login(request, user)
-
-            messages.success(request, 'Sign in success!, Hi {}'.format(user.first_name))
-            return redirect('dashboard')
-    else:
-        form = LoginForm()
-    
-    context = {'form': form}
-    return render(request, 'index/index.html', context)
+            next_url = request.POST.get('next')
+            if next_url:
+                messages.success(request, 'Sign in success! Hi {}'.format(user.get_full_name()))
+                return redirect(next_url)
+            else:
+                messages.success(request, 'Sign in success! Hi {}'.format(user.get_full_name()))
+                return redirect('dashboard')
+        else:
+            messages.info(request, 'Incorrect email or password')
+            return redirect('index')
+    return render(request, 'index/index.html')
 
 @login_required
 def dashboard(request):
     school_info = dapodik_school
     count_emp = len(dapodik_employees)
     count_std = len(dapodik_students)
-    context = {'school_info': school_info, 'count_emp': count_emp, 'count_std': count_std}
+    count_ltr = Students_Letter.objects.count()
+    count_arc = Students_Letter.objects.count() #+ Employee_Letter.objects.count() + Guest_Book.objects.count()
+
+    count_rs = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True).count
+
+    context = {
+        'school_info': school_info, 
+        'count_emp': count_emp, 
+        'count_std': count_std, 
+        'count_ltr': count_ltr, 
+        'count_arc': count_arc, 
+        'count_rs': count_rs
+        }
     return render(request, 'dashboard/dashboard.html', context)
 
 @login_required
@@ -59,7 +76,7 @@ def accounts(request):
             group = form.cleaned_data['group']
             group.user_set.add(user)
             
-            messages.success(request, 'User has been created!')
+            messages.success(request, 'Account successfully created!')
             return redirect('accounts')
     else:
         form = CustomUserCreationForm()
@@ -72,7 +89,7 @@ def delete_user(request, user_id):
     user = User.objects.get(pk=user_id)
     user.delete()
 
-    messages.success(request, 'User has been deleted!')
+    messages.success(request, 'Account has been deleted!')
     return redirect('accounts')
 
 @login_required
@@ -81,7 +98,7 @@ def deactivate_user(request, user_id):
     user.is_active = False
     user.save()
 
-    messages.success(request, 'User has been deactivated!')
+    messages.success(request, 'Account has been deactivated!')
     return redirect('accounts')
 
 @login_required
@@ -90,7 +107,7 @@ def activate_user(request, user_id):
     user.is_active = True
     user.save()
 
-    messages.success(request, 'User has been activated!')
+    messages.success(request, 'Account has been activated!')
     return redirect('accounts')
 
 
@@ -100,7 +117,12 @@ def sign_request(request):
 
 @login_required
 def request_queue(request):
-    return render(request, 'administration/request_queue/request_queue.html')
+    queue = Students_Letter.objects.all()
+    digital_sign = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True)
+    manual_sign = Students_Letter.objects.filter(type_sign='2')
+
+    context = {'queue': queue, 'digital_sign': digital_sign, 'manual_sign': manual_sign}
+    return render(request, 'administration/request_queue/request_queue.html', context)
 
 @login_required
 def guest_book(request):

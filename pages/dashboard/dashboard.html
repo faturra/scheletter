@@ -42,34 +42,38 @@
     <section class="mb-5">
       <div class="row row-cols-1 row-cols-md-4 g-4 mb-4">
         <div class="col">
-          <div class="card bg-danger shadow-sm">
+          <div class="card bg-wiretap border-0 shadow">
             <div class="card-body">
               <h5 class="card-title text-white">Students</h5>
-              <p class="card-text display-5 text-white"><i class="bi bi bi-emoji-smile">&nbsp;</i>{{count_std|default_if_none:'0'}}</p>
+              <hr class="text-white" style="border-style: dashed; border-width: 1px;;">
+              <p class="animate__animated animate__flipInX card-text display-5 text-white"><i class="bi bi bi-emoji-smile">&nbsp;</i>{{count_std|default_if_none:'0'}}</p>
             </div>
           </div>
         </div>
         <div class="col">
-          <div class="card bg-primary shadow-sm">
+          <div class="card bg-scooter border-0 shadow">
             <div class="card-body">
               <h5 class="card-title text-white">Employees</h5>
-              <p class="card-text display-5 text-white"><i class="bi bi-people">&nbsp;</i>{{count_emp|default_if_none:'0'}}</p>
+              <hr class="text-white" style="border-style: dashed; border-width: 1px;;">
+              <p class="animate__animated animate__flipInX card-text display-5 text-white"><i class="bi bi-people">&nbsp;</i>{{count_emp|default_if_none:'0'}}</p>
             </div>
           </div>
         </div>
         <div class="col">
-          <div class="card bg-dark shadow-sm">
+          <div class="card bg-asteroid border-0 shadow">
             <div class="card-body">
               <h5 class="card-title text-white">Letters</h5>
-              <p class="card-text display-5 text-white"><i class="bi bi-card-text">&nbsp;</i>0</p>
+              <hr class="text-white" style="border-style: dashed; border-width: 1px;;">
+              <p class="animate__animated animate__flipInX card-text display-5 text-white"><i class="bi bi-file-earmark-text">&nbsp;</i>{{count_ltr|default_if_none:'0'}}</p>
             </div>
           </div>
         </div>
         <div class="col">
-          <div class="card bg-warning shadow-sm">
+          <div class="card bg-turboscent border-0 shadow">
             <div class="card-body">
               <h5 class="card-title text-white">Archives</h5>
-              <p class="card-text display-5 text-white"><i class="bi bi-archive">&nbsp;</i>0</p>
+              <hr class="text-white" style="border-style: dashed; border-width: 1px;">
+              <p class="animate__animated animate__flipInX card-text display-5 text-white"><i class="bi bi-archive">&nbsp;</i>{{count_arc|default_if_none:'0'}}</p>
             </div>
           </div>
         </div>
@@ -83,47 +87,93 @@
                 <div class="card-body-none">
                   <div class="mb-3">
                     <h4 class="fw-normal">Quick access</h4>
+                    <!-- <h5 class="fw-light text-muted"><span class="bi "></span>&nbsp;Administration</h5> -->
                   </div>
                   <div class="mb-3">
-                    <h5 class="fw-light text-muted"><span class="bi "></span>&nbsp;Administration</h5>
                   </div>
                   <div class="row">
+                    {% if request.user.groups.first.name == 'Operator' %}
+                    <div class="col-sm-6 mb-3">
+                      <a href="{% url 'setup-integration' %}" class="text-decoration-none">
+                        <div class="card btn btn-light border-0 shadow-sm">
+                          <div class="card-body">
+                            <h5 class="card-title">System Check</h5>
+                            <p class="card-text text-muted">Setup integration info</p>
+                          </div>
+                        </div>
+                      </a> 
+                    </div>
+                    <div class="col-sm-6 mb-3">
+                      <a href="{% url 'accounts' %}" class="text-decoration-none">
+                        <div class="card btn btn-light border-0 shadow-sm">
+                          <div class="card-body">
+                            <h5 class="card-title">Accounts</h5>
+                            <p class="card-text text-muted">User management</p>
+                          </div>
+                        </div>
+                      </a> 
+                    </div>
+                    {% endif %}
+                    {% if request.user.groups.first.name == 'Student Correspondence Staff' or request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Head of Administration' %}
                     <div class="col-sm-6 mb-3">
                       <a href="{% url 'letter' %}" class="text-decoration-none">
-                        <div class="card btn btn-light">
+                        <div class="card btn btn-light border-0 shadow-sm">
                           <div class="card-body">
                             <h5 class="card-title">Create Letter</h5>
-                            <p class="card-text">Letter for administration</p>
+                            <p class="card-text text-muted">Blank letter</p>
                           </div>
                         </div>
                       </a> 
                     </div>
+                    <div class="col-sm-6 mb-3">
+                      <a href="{% url 'request-queue' %}" class="text-decoration-none">
+                        <div class="card btn btn-light border-0 shadow-sm">
+                          <div class="card-body">
+                            <h5 class="card-title">Request Queue&nbsp;{% if count_rq %}<span class="animate__animated animate__bounce animate__infinite infinite badge rounded-pill bg-primary">{{ count_rq }}</span>{% endif %}</h5>
+                            <p class="card-text text-muted">Digital signature</p>
+                          </div>
+                        </div>
+                      </a> 
+                    </div>
+                    {% endif %}
+                    {% if request.user.groups.first.name == 'Principal' %}
                     <div class="col-sm-6 mb-3">
                       <a href="{% url 'sign-request' %}" class="text-decoration-none">
-                        <div class="card btn btn-light">
+                        <div class="card btn btn-light border-0 shadow-sm">
                           <div class="card-body">
-                            <h5 class="card-title">Sign Request&nbsp;<span class="badge bg-primary">4</span></h5>
-                            <p class="card-text">Digital signature</p>
+                            <h5 class="card-title">Sign Request&nbsp;{% if count_rs %}<span class="animate__animated animate__bounce animate__infinite infinite badge rounded-pill bg-primary">{{ count_rs }}</span>{% endif %}</h5>
+                            <p class="card-text text-muted">Digital signature</p>
                           </div>
                         </div>
                       </a> 
                     </div>
+                    {% endif %}
                     <div class="col-sm-6 mb-3">
                       <a href="{% url 'guest-book' %}" class="text-decoration-none">
-                        <div class="card btn btn-light">
+                        <div class="card btn btn-light border-0 shadow-sm">
                           <div class="card-body">
                             <h5 class="card-title">Guest Book</h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet.</p>
+                            <p class="card-text text-muted">List of administration guest</p>
                           </div>
                         </div>
                       </a> 
                     </div>
                     <div class="col-sm-6">
                       <a href="{% url 'archives' %}" class="text-decoration-none">
-                        <div class="card btn btn-light">
+                        <div class="card btn btn-light border-0 shadow-sm">
                           <div class="card-body">
                             <h5 class="card-title">Archives</h5>
-                            <p class="card-text">Lorem ipsum dolor sit.</p>
+                            <p class="card-text text-muted">List of archives</p>
+                          </div>
+                        </div>
+                      </a> 
+                    </div>
+                    <div class="col-sm-6">
+                      <a href="{% url 'trash' %}" class="text-decoration-none">
+                        <div class="card btn btn-light border-0 shadow-sm">
+                          <div class="card-body">
+                            <h5 class="card-title">Trash</h5>
+                            <p class="card-text text-muted">Destruction of archives</p>
                           </div>
                         </div>
                       </a> 
@@ -138,9 +188,9 @@
                   <div class="mb-3">
                     <h4 class="fw-normal">Last Created</h4>
                   </div>
-                  <div class="mb-3">
+                  <!-- <div class="mb-3">
                     <h5 class="fw-light text-muted"><span class="bi "></span>&nbsp;Letters</h5>
-                  </div>
+                  </div> -->
                   <div class="table-responsive">
                     <table class="table table-striped table-bordered table-hover">
                       <thead>
@@ -148,6 +198,7 @@
                           <th scope="col">No</th>
                           <th scope="col">Letter</th>
                           <th scope="col">Number</th>
+                          <th scope="col">Date</th>
                           <th scope="col">Status</th>
                         </tr>
                       </thead>
@@ -156,18 +207,21 @@
                           <th scope="row">1</th>
                           <td>Letter 1</td>
                           <td>XXX / PK.0.1</td>
+                          <td>{% now "DATETIME_FORMAT" %}</td>
                           <td><span class="text-success bi-check-circle-fill"></span></td>
                         </tr>
                         <tr>
                           <th scope="row">2</th>
                           <td>Letter 2</td>
                           <td>XXX / PK.0.1</td>
+                          <td>{% now "DATETIME_FORMAT" %}</td>
                           <td><span class="text-warning bi-record-circle-fill"></span></td>
                         </tr>
                         <tr>
                           <th scope="row">3</th>
                           <td>Letter 3</td>
                           <td>XXX / PK.0.1</td>
+                          <td>{% now "DATETIME_FORMAT" %}</td>
                           <td><span class="text-danger bi-x-circle-fill"></span></td>
                         </tr>
                       </tbody>
@@ -179,7 +233,7 @@
           </div>
       </div>
   </section>
-    <section class="mb-5">
+    <!-- <section class="mb-5">
         <div class="mb-3">
             <h4 class="fw-normal">Charts</h4>
         </div>
@@ -220,6 +274,6 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 </div>
 {% endblock %}

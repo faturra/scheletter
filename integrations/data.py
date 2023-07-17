@@ -44,7 +44,8 @@ response = requests.get(getRombonganBelajar, headers=headers)
 try:
         response.raise_for_status()
         data = response.json()
-        dapodik_employees = data.get('rows', [])
+        dapodik_learning_group_raw = data.get('rows', [])
+        dapodik_learning_group = [(item['nama'], item['nama']) for item in dapodik_learning_group_raw]
         print('Dapodik Learning Group API Connection [OK].')
 
 except requests.exceptions.RequestException as e:
@@ -57,6 +58,7 @@ try:
         response.raise_for_status()
         data = response.json()
         dapodik_students = data.get('rows', [])
+        dapodik_students_name = [(item['nama'], item['nama']) for item in dapodik_students]
         print('Dapodik Students API Connection [OK].\n')
 
 except requests.exceptions.RequestException as e:

@@ -8,8 +8,52 @@
             <h1 class=""><span class="bi bi-trash3"></span>&nbsp;Trash</h1>
         </div>
         <div>
-            <p class="lead">Permanently delete or restore</p>
+            <p class="lead">Destruction of archives</p>
         </div>
+        {% if messages %}
+        <div class="alert alert-success d-flex align-items-center animate__animated animate__fadeInDown animate__slow" role="alert">
+          {% for message in messages %}
+            <i class="bi-check-circle-fill"></i>
+            <div>
+              &nbsp;{{ message }}
+            </div>
+              {% endfor %}
+        </div>
+        {% endif %}
+    </section>
+    <section>
+        <ul class="nav nav-tabs" id="trash-tab" role="tablist">
+            <li class="nav-item" role="trash">
+              <button class="nav-link active" id="trash" data-bs-toggle="tab" data-bs-target="#trash-pane" type="button" role="tab" aria-controls="trash-pane" aria-selected="true">Add archive</button>
+            </li>
+            <li class="nav-item" role="trash-ready">
+              <button class="nav-link" id="trash-ready" data-bs-toggle="tab" data-bs-target="#trash-ready-pane" type="button" role="tab" aria-controls="trash-ready-pane" aria-selected="true">Ready to destroy</button>
+            </li>
+        </ul>
+          <div class="tab-pane fade show active" id="trash-pane" role="tabpanel" aria-labelledby="trash" tabindex="0">
+            <div class="my-3">
+                <div class="position-relative p-5 text-center text-muted bg-body border border-dashed rounded-5">
+                  <!-- <i class="bi bi-exclamation-triangle display-3"></i> -->
+                  <h1 class="text-body-emphasis">Destruction of Electronic Archives</h1>
+                  <p class="col-lg-6 mx-auto mb-4">
+                    Referred to in Article 25 letter b is carried out through the following process:
+                    <div class="form-text">
+                        <i>a. destroy the physical and electronic archive information as well metadata;</i>
+                        <i>b. destruction of Electronic Archives must be implemented while maintaining the confidentiality of information; And</i>
+                        <i>c. destruction is carried out on all archived copies including security copies, preservation and backups.</i>
+                    </div>
+                  </p>
+                  <a href="#" class="px-5 mb-5">
+                    <span class="bi bi-plus-circle-dotted display-1"></span>
+                  </a>
+                </div>
+              </div>
+          </div>
+          <div class="tab-pane fade" id="trash-ready-pane" role="tabpanel" aria-labelledby="tresh-ready" tabindex="0">
+            <div >
+                <h3>List of archives</h3>
+            </div>
+          </div>
     </section>
 </div>
 {% endblock %}

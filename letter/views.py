@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import StudentsLetterForm
 
@@ -10,7 +11,18 @@ def letter(request):
 
 @login_required
 def student_letter(request):
-    form = StudentsLetterForm()
+    if request.method == 'POST':
+        form = StudentsLetterForm(request.POST)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.user = request.user
+            instance.created_by = request.user
+            instance.save()
+            messages.success(request, 'Letter successfully created!')
+            return redirect('dashboard')
+    else:
+        form = StudentsLetterForm()
+    
     context = {'form': form}
     return render(request, 'administration/letter/create_letter/student_letter.html', context)
 

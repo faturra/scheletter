@@ -1,11 +1,9 @@
-from django.contrib.auth import views as auth_views
-from django.urls import include, path
-from django.contrib import admin
-from letter.views import *
+from django.urls import path
+from letter import views
 
 urlpatterns = [
-    path('', letter, name='letter'),
-    path('create-blank-letter/student-letter', student_letter, name='student-letter'),
-    path('create-blank-letter/employee-letter', employee_letter, name='employee-letter'),
-    path('create-blank-letter/common-letter', common_letter, name='common-letter'),
+    path('', views.letter, name='letter'),
+    path('create-blank-letter/student-letter', views.student_letter, name='student-letter'),
+    path('create-blank-letter/employee-letter', views.employee_letter, name='employee-letter'),
+    path('create-blank-letter/common-letter', views.common_letter, name='common-letter'),
 ]

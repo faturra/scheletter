@@ -1,8 +1,6 @@
-from django.contrib.auth import views as auth_views
-from django.urls import include, path
-from django.contrib import admin
-from integrations.views import *
+from django.urls import path
+from integrations import views
 
 urlpatterns = [
-    path('', setup_integration, name='setup-integration'),
+    path('', views.setup_integration, name='setup-integration'),
 ]

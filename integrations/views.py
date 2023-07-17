@@ -9,6 +9,8 @@ from .models import Integrations
 
 @login_required
 def setup_integration(request):
+    integration_info = Integrations.objects.first() 
+
     try:
         instance = Integrations.objects.get()
     except Integrations.DoesNotExist:
@@ -26,10 +28,10 @@ def setup_integration(request):
             processing_time = end_time - start_time
 
             messages.success(request, 'Changes have been updated! {0:.2f}s'.format(processing_time))
-            return redirect('setup_integration')
+            return redirect('setup-integration')
         else:
             form = IntegrationsForm()
             messages.error(request, 'Changes failed to update!')
 
-    context = {'form': IntegrationsForm}
+    context = {'form': IntegrationsForm, 'integration_info': integration_info}
     return render(request, 'integrations/setup_integration.html', context)
