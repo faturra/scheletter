@@ -17,7 +17,7 @@
               <button class="nav-link active" id="request-queue-active" data-bs-toggle="tab" data-bs-target="#request-queue-active-pane" type="button" role="tab" aria-controls="request-queue-active-pane" aria-selected="true">Request&nbsp;<span class="badge bg-primary">2</span></button>
             </li>
             <li class="nav-item" role="letter-pending">
-              <button class="nav-link" id="letter-pending" data-bs-toggle="tab" data-bs-target="#letter-pending-pane" type="button" role="tab" aria-controls="letter-pending-pane" aria-selected="true">Waiting signature&nbsp;<span class="badge bg-primary">4</span></button>
+              <button class="nav-link" id="letter-pending" data-bs-toggle="tab" data-bs-target="#letter-pending-pane" type="button" role="tab" aria-controls="letter-pending-pane" aria-selected="true">Waiting signature{% if count_rs %}&nbsp;<span class="badge bg-primary">{{ count_rs }}</span>{% else %}{% endif %}</button>
             </li>
             <li class="nav-item" role="letter-done">
               <button class="nav-link" id="letter-done" data-bs-toggle="tab" data-bs-target="#letter-done-pane" type="button" role="tab" aria-controls="letter-done-pane" aria-selected="true">Done</button>

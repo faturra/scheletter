@@ -2,12 +2,14 @@ import time
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from core import config, decorators
 from .forms import IntegrationsForm
 from .models import Integrations
 
 # Create your views here.
 
 @login_required
+@decorators.group_required(config.opr)
 def setup_integration(request):
     integration_info = Integrations.objects.first() 
 

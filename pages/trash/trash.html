@@ -3,7 +3,7 @@
 {% block title%}Trash{% endblock %}
 {% block content %}
 <div class="container">
-    <section class="pt-5 mb-5">
+    <section class="pt-5 mb-4">
         <div class="mb-3">
             <h1 class=""><span class="bi bi-trash3"></span>&nbsp;Trash</h1>
         </div>
@@ -21,13 +21,10 @@
         </div>
         {% endif %}
     </section>
-    <section>
+    <section class="mb-5">
         <ul class="nav nav-tabs" id="trash-tab" role="tablist">
             <li class="nav-item" role="trash">
               <button class="nav-link active" id="trash" data-bs-toggle="tab" data-bs-target="#trash-pane" type="button" role="tab" aria-controls="trash-pane" aria-selected="true">Add archive</button>
-            </li>
-            <li class="nav-item" role="trash-ready">
-              <button class="nav-link" id="trash-ready" data-bs-toggle="tab" data-bs-target="#trash-ready-pane" type="button" role="tab" aria-controls="trash-ready-pane" aria-selected="true">Ready to destroy</button>
             </li>
         </ul>
           <div class="tab-pane fade show active" id="trash-pane" role="tabpanel" aria-labelledby="trash" tabindex="0">
@@ -43,15 +40,24 @@
                         <i>c. destruction is carried out on all archived copies including security copies, preservation and backups.</i>
                     </div>
                   </p>
-                  <a href="#" class="px-5 mb-5">
+                  <a href="#" class="px-5 mb-5" data-bs-toggle="modal" data-bs-target="#add_archive">
                     <span class="bi bi-plus-circle-dotted display-1"></span>
                   </a>
                 </div>
               </div>
           </div>
-          <div class="tab-pane fade" id="trash-ready-pane" role="tabpanel" aria-labelledby="tresh-ready" tabindex="0">
-            <div >
-                <h3>List of archives</h3>
+    </section>
+    <section>
+        <ul class="nav nav-tabs" id="trash-ready-tab" role="tablist">
+            <li class="nav-item" role="trash">
+              <button class="nav-link active" id="trash-ready" data-bs-toggle="tab" data-bs-target="#trash-ready-pane" type="button" role="tab" aria-controls="trash-ready-pane" aria-selected="true">Ready to destroy</button>
+            </li>
+        </ul>
+          <div class="tab-pane fade show active" id="trash-pane" role="tabpanel" aria-labelledby="trash" tabindex="0">
+            <div class="position-relative p-5 text-center text-muted">
+                <p class="col-lg-6 mx-auto mb-4 animate__animated animate__headShake">
+                    No archive available to destroy
+                </p>
             </div>
           </div>
     </section>

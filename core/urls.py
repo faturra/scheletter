@@ -1,6 +1,6 @@
 from django.contrib.auth import views as auth_views
 from django.urls import path
-from core import views
+from core import views, reportlab_rs
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -8,7 +8,6 @@ urlpatterns = [
     path('welcome', views.dashboard, name='dashboard'),
     path('data-reference/students', views.students, name='students'),
     path('data-reference/employees', views.employees, name='employees'),
-    path('data-reference/graduation', views.graduation, name='graduation'),
     path('accounts/employees', views.accounts, name='accounts'),
     path('accounts/user/delete/<int:user_id>/', views.delete_user, name='delete-user'),
     path('accounts/user/deactivate/<int:user_id>/', views.deactivate_user, name='deactivate-user'),
@@ -18,4 +17,6 @@ urlpatterns = [
     path('administration/guest-book', views.guest_book, name='guest-book'),
     path('administration/archives', views.archives, name='archives'),
     path('trash', views.trash, name='trash'),
+
+    path('user/pdf/', reportlab_rs.UserPDFView.as_view(), name='user_pdf'),
 ]

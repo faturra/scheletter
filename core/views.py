@@ -5,7 +5,8 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from integrations.data import dapodik_school, dapodik_employees, dapodik_students
 from letter.models import Students_Letter
-from .decorators import unauthenticated_user
+from core import config
+from .decorators import unauthenticated_user, group_required
 from .forms import CustomUserCreationForm
 
 # Create your views here.
@@ -51,18 +52,16 @@ def dashboard(request):
 
 @login_required
 def students(request):
-    context = {'students': dapodik_students}
+    context = {'students': dapodik_students, 'config': config}
     return render(request, 'reference_data/students/students.html', context)
 
 @login_required
 def employees(request):
-    context = {'employees': dapodik_employees}
+    context = {'employees': dapodik_employees, 'config': config}
     return render(request, 'reference_data/employees/employees.html', context)
 
-def graduation(request):
-    return render(request, 'reference_data/graduation/graduation.html')
-
 @login_required
+@group_required(config.opr)
 def accounts(request):
     users =  User.objects.filter(is_superuser=False, is_staff=False)
 
@@ -85,6 +84,7 @@ def accounts(request):
     return render(request, 'accounts/employees/accounts.html', context)
 
 @login_required
+@group_required(config.opr)
 def delete_user(request, user_id):
     user = User.objects.get(pk=user_id)
     user.delete()
@@ -93,6 +93,7 @@ def delete_user(request, user_id):
     return redirect('accounts')
 
 @login_required
+@group_required(config.opr)
 def deactivate_user(request, user_id):
     user = User.objects.get(pk=user_id)
     user.is_active = False
@@ -102,6 +103,7 @@ def deactivate_user(request, user_id):
     return redirect('accounts')
 
 @login_required
+@group_required(config.opr)
 def activate_user(request, user_id):
     user = User.objects.get(pk=user_id)
     user.is_active = True
@@ -112,16 +114,24 @@ def activate_user(request, user_id):
 
 
 @login_required
+@group_required(config.prl)
 def sign_request(request):
-    return render(request, 'administration/sign_request/sign_request.html')
+    queue = Students_Letter.objects.all()
+    digital_sign = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True)
+    count_rs = digital_sign.count
+
+    context = {'queue': queue, 'digital_sign': digital_sign, 'count_rs': count_rs}
+    return render(request, 'administration/sign_request/sign_request.html', context)
 
 @login_required
+@group_required(config.hoa, config.scs, config.ecs)
 def request_queue(request):
     queue = Students_Letter.objects.all()
     digital_sign = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True)
     manual_sign = Students_Letter.objects.filter(type_sign='2')
+    count_rs = digital_sign.count
 
-    context = {'queue': queue, 'digital_sign': digital_sign, 'manual_sign': manual_sign}
+    context = {'queue': queue, 'digital_sign': digital_sign, 'manual_sign': manual_sign, 'count_rs': count_rs}
     return render(request, 'administration/request_queue/request_queue.html', context)
 
 @login_required
@@ -133,5 +143,6 @@ def archives(request):
     return render(request, 'administration/archives/archives.html')
 
 @login_required
+@group_required(config.hoa)
 def trash(request):
     return render(request, 'trash/trash.html')

@@ -3,3 +3,4 @@ requests==2.26.0
 django-crispy-forms
 crispy-bootstrap5
 django-bootstrap-datepicker-plus
+reportlab

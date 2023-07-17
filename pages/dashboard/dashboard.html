@@ -168,6 +168,7 @@
                         </div>
                       </a> 
                     </div>
+                    {% if request.user.groups.first.name == 'Head of Administration' %}
                     <div class="col-sm-6">
                       <a href="{% url 'trash' %}" class="text-decoration-none">
                         <div class="card btn btn-light border-0 shadow-sm">
@@ -178,6 +179,7 @@
                         </div>
                       </a> 
                     </div>
+                    {% endif %}
                   </div>
                 </div>
               </div>

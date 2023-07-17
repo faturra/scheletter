@@ -1,19 +1,52 @@
 <section>
-    <div class="modal fade" id="check-letter" tabindex="-1" aria-labelledby="check-letter" aria-hidden="true">
-      <div class="modal-dialog modal-fullscreen">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">Check: Letter Title</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            ...
-          </div>
-          <div class="modal-footer justify-content-center">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <a href="#" class="btn btn-primary"><i class="bi-pen"></i>&nbsp;Sign the letter</a>
-          </div>
+  <div class="modal fade" id="check-letter" tabindex="-1" aria-labelledby="check-letter" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="cek-letter-label">Check: Letter Title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <iframe id="pdfIframe" style="width: 100%; height: 500px;"></iframe>
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <a href="#" class="btn btn-primary"><i class="bi-pen"></i>&nbsp;Sign the letter</a>
         </div>
       </div>
     </div>
+  </div>
 </section>
+
+<script>
+  $(document).ready(function() {
+    // Ketika modal Bootstrap ditampilkan
+    $('#check-letter').on('shown.bs.modal', function() {
+      // Ambil URL PDF
+      var pdfUrl = "{% url 'user_pdf' %}";
+
+      // Tampilkan PDF di dalam iframe menggunakan PDF.js
+      PDFJS.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js';
+      PDFJS.getDocument(pdfUrl).promise.then(function(pdfDoc) {
+        pdfDoc.getPage(1).then(function(page) {
+          var viewport = page.getViewport({ scale: 1.0 });
+          var canvas = document.createElement('canvas');
+          var context = canvas.getContext('2d');
+          canvas.height = viewport.height;
+          canvas.width = viewport.width;
+
+          var renderContext = {
+            canvasContext: context,
+            viewport: viewport
+          };
+
+          page.render(renderContext).promise.then(function() {
+            var dataUrl = canvas.toDataURL('image/jpeg');
+            var pdfIframe = document.getElementById('pdfIframe');
+            pdfIframe.src = dataUrl;
+          });
+        });
+      });
+    });
+  });
+</script>
