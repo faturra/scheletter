@@ -1,3 +1,5 @@
+# Description: Configuration file for the core app
+
 # Group / Role
 opr = 'Operator'
 prl = 'Principal'

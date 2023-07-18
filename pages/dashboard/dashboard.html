@@ -22,7 +22,7 @@
             <div class="card border border-0">
               <div class="card-body-none">
                 <h1><span class="bi bi-person-check text-white"></span></h1>
-                <p class="lead"><i class="bi bi-person-fill"></i>&nbsp;{{ request.user.get_full_name}}&nbsp;<span class="badge bg-primary">{% if request.user.groups.first.name %}{{ request.user.groups.first.name }}{% else %}Undefined Role{% endif %}</span></p>
+                <p class="lead"><i class="bi bi-person-fill"></i>&nbsp;{{ request.user.get_full_name}}&nbsp;<span class="badge bg-primary">{% if request.user.groups.first.name %}{{ request.user.groups.first.name }}{% else %}Undefined Role{% endif %}{% if user.is_superuser %}&nbsp;-&nbsp;Super User{% endif %}</span></p>
               </div>
             </div>
           </div>
@@ -92,7 +92,7 @@
                   <div class="mb-3">
                   </div>
                   <div class="row">
-                    {% if request.user.groups.first.name == 'Operator' %}
+                    {% if request.user.groups.first.name == 'Operator' or user.is_superuser %}
                     <div class="col-sm-6 mb-3">
                       <a href="{% url 'setup-integration' %}" class="text-decoration-none">
                         <div class="card btn btn-light border-0 shadow-sm">
@@ -114,7 +114,7 @@
                       </a> 
                     </div>
                     {% endif %}
-                    {% if request.user.groups.first.name == 'Student Correspondence Staff' or request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Head of Administration' %}
+                    {% if request.user.groups.first.name == 'Student Correspondence Staff' or request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Head of Administration' or user.is_superuser %}
                     <div class="col-sm-6 mb-3">
                       <a href="{% url 'letter' %}" class="text-decoration-none">
                         <div class="card btn btn-light border-0 shadow-sm">
@@ -136,7 +136,7 @@
                       </a> 
                     </div>
                     {% endif %}
-                    {% if request.user.groups.first.name == 'Principal' %}
+                    {% if request.user.groups.first.name == 'Principal' or user.is_superuser %}
                     <div class="col-sm-6 mb-3">
                       <a href="{% url 'sign-request' %}" class="text-decoration-none">
                         <div class="card btn btn-light border-0 shadow-sm">
@@ -168,7 +168,7 @@
                         </div>
                       </a> 
                     </div>
-                    {% if request.user.groups.first.name == 'Head of Administration' %}
+                    {% if request.user.groups.first.name == 'Head of Administration' or user.is_superuser %}
                     <div class="col-sm-6 mb-3">
                       <a href="{% url 'trash' %}" class="text-decoration-none">
                         <div class="card btn btn-light border-0 shadow-sm">
@@ -235,47 +235,5 @@
           </div>
       </div>
   </section>
-    <!-- <section class="mb-5">
-        <div class="mb-3">
-            <h4 class="fw-normal">Charts</h4>
-        </div>
-        <div class="mb-3">
-            <div class="mb-3">
-                <h5 class="fw-light text-muted"><span class="bi "></span>&nbsp;This year (Jan - Today)</h5>
-            </div>
-            <div class="row">
-                <div class="col-sm-3 mb-2 mmb-sm-0">
-                  <a href="#" class="text-decoration-none">
-                    <div class="card btn btn-light ">
-                      <div class="card-body">
-                        <h5 class="card-title">Create letter <span class="badge bg-secondary">New</span></h5>
-                        <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing.</p>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-                <div class="col-sm-3 mb-2 mmb-sm-0">
-                    <a href="#" class="text-decoration-none">
-                        <div class="card btn btn-light">
-                          <div class="card-body">
-                            <h5 class="card-title">Content 2 <span class="badge bg-secondary">New</span></h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing.</p>
-                          </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-sm-3 mb-2 mmb-sm-0">
-                  <a href="#" class="text-decoration-none">
-                    <div class="card btn btn-light">
-                      <div class="card-body">
-                        <h5 class="card-title">Content 3 <span class="badge bg-secondary">New</span></h5>
-                        <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing.</p>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-            </div>
-        </div>
-    </section> -->
 </div>
 {% endblock %}
