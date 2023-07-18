@@ -9,7 +9,7 @@
             <h1 class="fw-semibold"><span class="">Scheletter</span></h1>
             <p>Archives & Letters</p>
         </div>
-        <div class="col-4 card card-body shadow-lg">
+        <div class="col-4 card card-body rounded-3 shadow-lg">
           <div>
               <div class="row g-0">
                 <div class="col-md-6 text-center mt-2">
@@ -31,7 +31,7 @@
                     <form method="POST" class="mb-3" >
                         {% csrf_token %}
                       <div class="form-floating mb-4">
-                          <input type="email" class="form-control" id="username" name="username" placeholder="email@example.com" required>
+                          <input type="email" class="form-control" id="username" name="username" value="{{ username }}" placeholder="email@example.com" required>
                           <label for="username">Email address</label>
                         </div>
                         <div class="form-floating mb-4">

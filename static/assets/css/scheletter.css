@@ -81,3 +81,26 @@
     background: -webkit-linear-gradient(to right, #71B280, #134E5E);  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #71B280, #134E5E); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
+
+
+/* Loading Bar */
+#loading-bar {
+    width: 0;
+    height: 3px;
+    background: #8A2387;
+    background: -webkit-linear-gradient(to right, #F27121, #E94057, #8A2387);
+    background: linear-gradient(to right, #F27121, #E94057, #8A2387);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    transition: width 0.2s ease;
+  }
+  
+  .loaded {
+    width: 100%;
+    transition: width 0.2s ease, opacity 0.5s ease-out;
+    opacity: 0;
+    pointer-events: none;
+  }
+  
