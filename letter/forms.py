@@ -16,12 +16,13 @@ class StudentsLetterForm(forms.ModelForm):
         choices_class = dapodik_learning_group
         sorted_choices_class = sorted(choices_class, key=lambda x: x[1])
         self.fields['student_class'].choices = sorted_choices_class
-
+       
     class Meta:
         model = Students_Letter
         fields = ['letter_type', 'student_name', 'student_class', 'student_place_of_birth', 'student_date_of_birth', 'student_nisn', 'number', 'date', 'subject', 'body', 'type_sign']
 
         widgets = {
+            'letter_type': forms.Select(attrs={'class': 'form-control', 'required': True}),
             'student_place_of_birth': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Place of Birth', 'required': True}),
             'student_date_of_birth': DatePickerInput(options={
                 'format': 'YYYY-MM-DD',

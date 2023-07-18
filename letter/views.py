@@ -19,7 +19,7 @@ def student_letter(request):
             instance.created_by = request.user
             instance.save()
             messages.success(request, 'Letter successfully created!')
-            return redirect('dashboard')
+            return redirect('letter')
     else:
         form = StudentsLetterForm()
     
