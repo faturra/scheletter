@@ -8,7 +8,7 @@
             <h1 class=""><span class="bi bi-pen"></span>&nbsp;Sign Request</h1>
         </div>
         <div>
-            <p class="lead">List of letter that request digital signature</p>
+            <p class="lead">List of digital sign request</p>
         </div>
     </section>
     <section class="mb-5">
@@ -25,14 +25,14 @@
           <div class="row mt-3">
             {% if digital_sign %}
             {% for item in digital_sign %}
-            <div class="col-sm-3 mb-3 mb-sm-0">
+            <div class="col-sm-4 mb-3">
               <div class="card border-light shadow">
                 <div class="card-body">
                   <h5 class="card-title"><i class="bi bi-card-text"></i>&nbsp;{{ item.get_letter_type_display }}</h5>
-                  <p class="card-text small">{{ item.student_name }}&nbsp;{{ item.student_class }}-{{ item.student_nisn }}&nbsp;<br>{{ item.created_at }}</p>
+                  <p class="card-text small">{{ item.student_name }}&nbsp;{{ item.student_class }}-{{ item.student_nisn }}</p>
                   <hr style="border-style: dashed;">
                   <button type="button" class="btn btn-light text-primary" data-bs-toggle="modal" data-bs-target="#check-letter"><i class="bi bi-search"></i>&nbsp;Check</button>
-                  <small class="text-muted">Not signed yet</small>
+                  <small class="text-muted">{{ item.created_at }}</small>
                 </div>
               </div>
             </div>
@@ -48,7 +48,7 @@
         </div>
         <div class="tab-pane fade" id="signed-pane" role="tabpanel" aria-labelledby="signed" tabindex="0">
           <div class="row mt-3">
-            <div class="col-sm-3 mb-3 mb-sm-0">
+            <div class="col-sm-4 mb-3">
               <div class="card border-light shadow">
                 <div class="card-body">
                   <h5 class="card-title"><i class="bi bi-card-text"></i>&nbsp;Letter Title</h5>
@@ -59,7 +59,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-sm-3 mb-3 mb-sm-0">
+            <div class="col-sm-4 mb-3">
               <div class="card border-light shadow">
                 <div class="card-body">
                   <h5 class="card-title"><i class="bi bi-card-text"></i>&nbsp;Letter Title</h5>
@@ -70,7 +70,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-sm-3 mb-3 mb-sm-0">
+            <div class="col-sm-4 mb-3">
                 <div class="card border-light shadow">
                   <div class="card-body">
                     <h5 class="card-title"><i class="bi bi-card-text"></i>&nbsp;Letter Title</h5>
@@ -81,7 +81,7 @@
                   </div>
                 </div>
             </div>
-            <div class="col-sm-3 mb-3 mb-sm-0">
+            <div class="col-sm-4 mb-3">
                 <div class="card border-light shadow">
                   <div class="card-body">
                     <h5 class="card-title"><i class="bi bi-card-text"></i>&nbsp;Letter Title</h5>
