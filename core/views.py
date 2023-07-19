@@ -138,6 +138,9 @@ def request_queue(request):
 def guest_book(request):
     return render(request, 'administration/guest_book/guest_book.html')
 
+def guest_and_request_form(request):
+    return render(request, 'administration/guest_book/guest_and_request_form/guest_and_request_form.html')
+
 @login_required
 def archives(request):
     return render(request, 'administration/archives/archives.html')

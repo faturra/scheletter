@@ -14,6 +14,7 @@ urlpatterns = [
     path('accounts/user/activate/<int:user_id>/', views.activate_user, name='activate-user'),
     path('administration/sign-request', views.sign_request, name='sign-request'),
     path('administration/request-queue', views.request_queue, name='request-queue'),
+    path('administration/guest-and-request-form', views.guest_and_request_form, name='guest-and-request-form'),
     path('administration/guest-book', views.guest_book, name='guest-book'),
     path('administration/archives', views.archives, name='archives'),
     path('trash', views.trash, name='trash'),

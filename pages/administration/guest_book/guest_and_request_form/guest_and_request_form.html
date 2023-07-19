@@ -1,0 +1,48 @@
+{% extends 'base/common/base.html' %}
+{% load static %}
+{% block title%}Guest & Request{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <section class="pt-5 mb-4">
+        <div class="mb-3">
+            <h1 class=""><span><i class="bi bi-file-earmark-text"></i></span>&nbsp;Guest & Request</h1>
+        </div>
+        <div>
+            <p class="lead">Guest and request form</p>
+        </div>
+    </section>
+    <section class="mb-5">
+        <div class="row g-3">
+            <div class="col-sm-12">
+                <div class="">
+                  <form class="row g-3">
+                      <div class="col-12">
+                        <label for="inputAddress" class="form-label">Address</label>
+                        <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                      </div>
+                      <div class="col-12">
+                        <label for="inputAddress" class="form-label">Address</label>
+                        <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                      </div>
+                      <div class="col-12">
+                        <label for="inputAddress" class="form-label">Address</label>
+                        <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                      </div>
+                      <div class="col-12">
+                        <label for="inputAddress" class="form-label">Address</label>
+                        <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                      </div>
+                      <div class="col-12">
+                        <label for="inputAddress2" class="form-label">Address 2</label>
+                        <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+                      </div>
+                      <div class="col-12">
+                        <button type="submit" class="btn btn-lg btn-primary">Submit</button>
+                      </div>
+                    </form>
+                </div>
+            </div>
+          </div>
+    </section>
+</div>
+{% endblock %}

@@ -29,9 +29,10 @@
 
 </head>
 {% url 'index' as index %}
-<body class="{% if request.path == index %}container index-bg{% else %}container-fluid{% endif %}">
+{% url 'guest-and-request-form' as guest_and_request_form %}
+<body class="{% if request.path == index or request.path == guest_and_request_form %}container index-bg{% else %}container-fluid{% endif %}">
   <div id="loading-bar"></div>
-  {% if request.path == index %}
+  {% if request.path == index or request.path == guest_and_request_form %}
   {% else %}
   {% include 'base/ui_components/base_navbar.html' %}
   {% endif %}
