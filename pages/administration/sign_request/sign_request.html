@@ -12,6 +12,16 @@
         </div>
     </section>
     <section class="mb-5">
+      {% if messages %}
+      <div class="alert alert-success d-flex align-items-center animate__animated animate__fadeInDown animate__slow" role="alert">
+        {% for message in messages %}
+          <i class="bi-check-circle-fill"></i>
+          <div>
+            &nbsp;{{ message }}
+          </div>
+            {% endfor %}
+      </div>
+      {% endif %}
       <ul class="nav nav-tabs" id="sign-request-tab" role="tablist">
         <li class="nav-item" role="sign-request">
           <button class="nav-link active" id="sign-request" data-bs-toggle="tab" data-bs-target="#sign-request-pane" type="button" role="tab" aria-controls="sign-request-pane" aria-selected="true">Request{% if count_rs %}&nbsp;<span class="badge bg-primary">{{ count_rs }}</span>{% else %}{% endif %}</button>
@@ -31,7 +41,7 @@
                   <h5 class="card-title"><i class="bi bi-card-text"></i>&nbsp;{{ item.get_letter_type_display }}</h5>
                   <p class="card-text small">{{ item.student_name }}&nbsp;{{ item.student_class }}-{{ item.student_nisn }}</p>
                   <hr style="border-style: dashed;">
-                  <button type="button" class="btn btn-light text-primary" data-bs-toggle="modal" data-bs-target="#check-letter"><i class="bi bi-search"></i>&nbsp;Check</button>
+                  <a href="{% url 'check-letter' letter_id=item.letter_id %}" class="btn btn-light text-primary"><i class="bi bi-search"></i>&nbsp;Check</a>
                   <small class="text-muted">{{ item.created_at }}</small>
                 </div>
               </div>
@@ -39,8 +49,9 @@
             {% endfor %}
             {% else %}
             <div class="position-relative p-5 text-center text-muted">
+              <i class="bi bi-layers display-3"></i>
               <p class="col-lg-6 mx-auto mb-4 animate__animated animate__headShake">
-                  No letter avvailable to sign
+                  No letter available to sign
               </p>
             </div>
             {% endif %}

@@ -34,8 +34,8 @@ class Students_Letter(models.Model):
     digital_sign_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='digital_signed_students_letters', null=True)
     digital_sign_job_title = models.CharField(max_length=100, null=True, blank=True)
     digital_sign_institution = models.CharField(max_length=100, null=True, blank=True)
-    digital_sign_location = models.CharField(max_length=100, null=True, blank=True)
-    digital_sign_ip = models.GenericIPAddressField(null=True, blank=True)
+    digital_sign_location = models.CharField(max_length=1000, null=True, blank=True)
+    digital_sign_ip = models.CharField(max_length=100, null=True, blank=True)
     digital_sign_number = models.CharField(max_length=50, null=True, blank=True)
     digital_sign_url = models.URLField(null=True, blank=True)
 

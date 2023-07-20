@@ -1,0 +1,33 @@
+{% extends 'base/common/base.html' %}
+{% load static %}
+{% block title%}Check letter - {{ letter.student_name }}&nbsp;{{ letter.student_class }}{% endblock %}
+{% block content %}
+<div class="container">
+    <section class="pt-5 mb-4">
+        <div class="mb-3">
+            <h1 class=""><span><i class="bi bi-file-earmark-text"></i></span>&nbsp;Check letter</h1>
+        </div>
+        <div>
+            <p class="lead">Check letter {{ letter.student_name }}&nbsp;{{ letter.student_class }}</p>
+        </div>
+    </section>
+    <section class="mb-5">
+        <div class="row g-3">
+            <div class="col-sm-12">
+                <div class="card card-body">
+                    {{ letter.get_letter_type_display }}
+                    {{ letter.student_name }}
+                    {{ letter.student_class }}
+                    {{ letter.student_nisn }}
+                    {{ letter.subject }}
+                    {{ letter.body }}
+                    <form method="post" action="{% url 'apply-signature' letter_id=letter.letter_id %}">
+                        {% csrf_token %}
+                        <button type="submit">Tandatangani</button>
+                    </form>
+                </div>
+            </div>
+          </div>
+    </section>
+</div>
+{% endblock %}
