@@ -28,7 +28,7 @@ class StudentsLetterForm(forms.ModelForm):
                 'format': 'YYYY-MM-DD',
             }, attrs={'class': 'form-control', 'placeholder': 'yyyy-mm-dd', 'required': True}),
             'student_nisn': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'NISN', 'required': True}),
-            'number': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Number'}),
+            'number': forms.TextInput(attrs={'class': 'form-control','placeholder': 'Auto','readonly': True,}),
             'date': DatePickerInput(options={
                 'format': 'YYYY-MM-DD',
             }, attrs={'class': 'form-control', 'placeholder': 'yyyy-mm-dd'}),
