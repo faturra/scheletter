@@ -19,7 +19,7 @@ class StudentsLetterForm(forms.ModelForm):
        
     class Meta:
         model = Students_Letter
-        fields = ['letter_type', 'student_name', 'student_class', 'student_place_of_birth', 'student_date_of_birth', 'student_nisn', 'number', 'date', 'subject', 'body', 'type_sign']
+        fields = ['letter_type', 'student_name', 'student_class', 'student_gender', 'student_place_of_birth', 'student_date_of_birth', 'student_nisn', 'number', 'date', 'subject', 'body', 'type_sign']
 
         widgets = {
             'letter_type': forms.Select(attrs={'class': 'form-control', 'required': True}),

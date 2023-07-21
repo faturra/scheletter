@@ -39,10 +39,10 @@
               <div class="card border-light shadow">
                 <div class="card-body">
                   <h5 class="card-title"><i class="bi bi-card-text"></i>&nbsp;{{ item.get_letter_type_display }}</h5>
-                  <p class="card-text small">{{ item.student_name }}&nbsp;{{ item.student_class }}-{{ item.student_nisn }}<br>{{ item.number }}</p>
+                  <p class="card-text small"><span class="card-text text-muted">{{ item.number }}</span><br>{{ item.student_name }}&nbsp;{{ item.student_class }}-{{ item.student_nisn }}</p>
                   <hr style="border-style: dashed;">
                   <a href="{% url 'check-letter' letter_id=item.letter_id %}" class="btn btn-light text-primary"><i class="bi bi-search"></i>&nbsp;Check</a>
-                  <small class="text-muted">{{ item.created_at }}</small>
+                  <small class="text-muted">Created on&nbsp;{{ item.created_at|date:"Y-m-d H:i" }}</small>
                 </div>
               </div>
             </div>
@@ -59,51 +59,35 @@
         </div>
         <div class="tab-pane fade" id="signed-pane" role="tabpanel" aria-labelledby="signed" tabindex="0">
           <div class="row mt-3">
+            {% if digital_sign_applied %}
+            {% for item in digital_sign_applied %}
             <div class="col-sm-4 mb-3">
               <div class="card border-light shadow">
                 <div class="card-body">
-                  <h5 class="card-title"><i class="bi bi-card-text"></i>&nbsp;Letter Title</h5>
-                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                  <h5 class="card-title"><i class="bi bi-card-text"></i>&nbsp;{{ item.get_letter_type_display }}</h5>
+                  <p class="card-text small"><span class="card-text text-muted">{{ item.number }}</span><br>{{ item.student_name }}&nbsp;{{ item.student_class }}-{{ item.student_nisn }}</p>
                   <hr style="border-style: dashed;">
-                  <a href="#" class="btn btn-light text-primary"><i class="bi bi-box-arrow-up-right"></i></a>
-                  <small class="text-muted">Signed on 2023-05-21 11:55</small>
+                  <a href="{% url 'generate-pdf' letter_id=item.letter_id %}" class="btn btn-light text-primary" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a>
+                  <small class="text-muted">Signed on {{ item.digital_sign_at|date:"Y-m-d H:i" }}</small>
                 </div>
               </div>
             </div>
-            <div class="col-sm-4 mb-3">
-              <div class="card border-light shadow">
-                <div class="card-body">
-                  <h5 class="card-title"><i class="bi bi-card-text"></i>&nbsp;Letter Title</h5>
-                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                  <hr style="border-style: dashed;">
-                  <a href="#" class="btn btn-light text-primary"><i class="bi bi-box-arrow-up-right"></i></a>
-                  <small class="text-muted">Signed on 2023-05-21 11:55</small>
-                </div>
+            {% endfor %}
+            {% else %}
+            <div class="position-relative p-5 text-center text-muted">
+              <i class="bi bi-layers display-3"></i>
+              <p class="col-lg-6 mx-auto mb-4 animate__animated animate__headShake">
+                  No letter signed yet
+              </p>
+            </div>
+            {% endif %}
+            {% if digital_sign_applied %}
+            <div class="position-relative p-3 text-center text-muted">
+              <div class="col-lg-6 mx-auto mb-4">
+                  <a href="{% url 'archives' %}" class="">See more letter...</a>
               </div>
             </div>
-            <div class="col-sm-4 mb-3">
-                <div class="card border-light shadow">
-                  <div class="card-body">
-                    <h5 class="card-title"><i class="bi bi-card-text"></i>&nbsp;Letter Title</h5>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    <hr style="border-style: dashed;">
-                    <a href="#" class="btn btn-light text-primary"><i class="bi bi-box-arrow-up-right"></i></a>
-                    <small class="text-muted">Signed on 2023-05-21 11:55</small>  
-                  </div>
-                </div>
-            </div>
-            <div class="col-sm-4 mb-3">
-                <div class="card border-light shadow">
-                  <div class="card-body">
-                    <h5 class="card-title"><i class="bi bi-card-text"></i>&nbsp;Letter Title</h5>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    <hr style="border-style: dashed;">
-                    <a href="#" class="btn btn-light text-primary"><i class="bi bi-box-arrow-up-right"></i></a>
-                    <small class="text-muted">Signed on 2023-05-21 11:55</small>
-                  </div>
-                </div>
-            </div>
-          </div>
+            {% endif %}
         </div>
       </div>
     </section>

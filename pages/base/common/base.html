@@ -18,8 +18,6 @@
   <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
   <!-- DataSet -->
   <script src="{% static '/assets/js/dataset/dataset.js' %}"></script>
-  <!-- PDF.js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
 
   <!-- Title -->
   <title>{% block title%}{% endblock %}&nbsp;-&nbsp;Scheletter</title>
@@ -41,7 +39,6 @@
     {% endblock %}
   </div>
   <section>
-    {% include 'modals/sign_request/sign_request_check.html' %}
     {% include 'modals/accounts/create_account.html' %}
     {% include 'modals/trash/add_archive.html' %}
   </section>

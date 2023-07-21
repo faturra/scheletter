@@ -46,7 +46,7 @@
             <div class="card-body">
               <h5 class="card-title text-white">Students</h5>
               <hr class="text-white" style="border-style: dashed; border-width: 1px;;">
-              <p class="animate__animated animate__flipInX card-text display-5 text-white"><i class="bi bi bi-emoji-smile">&nbsp;</i>{{count_std|default_if_none:'0'}}</p>
+              <p class="animate__animated animate__jackInTheBox card-text display-5 text-white"><i class="bi bi bi-emoji-smile">&nbsp;</i>{{count_std|default_if_none:'0'}}</p>
             </div>
           </div>
         </div>
@@ -55,7 +55,7 @@
             <div class="card-body">
               <h5 class="card-title text-white">Employees</h5>
               <hr class="text-white" style="border-style: dashed; border-width: 1px;;">
-              <p class="animate__animated animate__flipInX card-text display-5 text-white"><i class="bi bi-people">&nbsp;</i>{{count_emp|default_if_none:'0'}}</p>
+              <p class="animate__animated animate__jackInTheBox card-text display-5 text-white"><i class="bi bi-people">&nbsp;</i>{{count_emp|default_if_none:'0'}}</p>
             </div>
           </div>
         </div>
@@ -64,7 +64,7 @@
             <div class="card-body">
               <h5 class="card-title text-white">Letters</h5>
               <hr class="text-white" style="border-style: dashed; border-width: 1px;;">
-              <p class="animate__animated animate__flipInX card-text display-5 text-white"><i class="bi bi-file-earmark-text">&nbsp;</i>{{count_ltr|default_if_none:'0'}}</p>
+              <p class="animate__animated animate__jackInTheBox card-text display-5 text-white"><i class="bi bi-file-earmark-text">&nbsp;</i>{{count_ltr|default_if_none:'0'}}</p>
             </div>
           </div>
         </div>
@@ -73,7 +73,7 @@
             <div class="card-body">
               <h5 class="card-title text-white">Archives</h5>
               <hr class="text-white" style="border-style: dashed; border-width: 1px;">
-              <p class="animate__animated animate__flipInX card-text display-5 text-white"><i class="bi bi-archive">&nbsp;</i>{{count_arc|default_if_none:'0'}}</p>
+              <p class="animate__animated animate__jackInTheBox card-text display-5 text-white"><i class="bi bi-archive">&nbsp;</i>{{count_arc|default_if_none:'0'}}</p>
             </div>
           </div>
         </div>
@@ -220,7 +220,7 @@
                       </tbody>
                       <tfoot>
                         <tr>
-                          <td colspan="5" class="text-muted">Last created</td>
+                          <td colspan="5" class="text-muted">Last created&nbsp;{% for ts in lc_timesince %}{{ ts.created_at|timesince }}&nbsp;ago{% endfor %}</td>
                         </tr>
                       </tfoot>
                     </table>
@@ -253,7 +253,7 @@
                       </tbody>
                       <tfoot>
                         <tr>
-                          <td colspan="5" class="text-muted">Done</td>
+                          <td colspan="5" class="text-muted">Last signed&nbsp;{% for ts in ld_timesince %}{{ ts.digital_sign_at|timesince }}&nbsp;ago{% endfor %}</td>
                         </tr>
                       </tfoot>
                     </table>

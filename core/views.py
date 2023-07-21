@@ -1,11 +1,16 @@
 import ipinfo
+import requests
+import hashlib
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
+from django.template.loader import get_template
 from django.utils import timezone
+from xhtml2pdf import pisa
 from integrations.data import dapodik_school, dapodik_employees, dapodik_students
 from letter.models import Students_Letter
 from core import config
@@ -46,6 +51,8 @@ def dashboard(request):
 
     last_created = Students_Letter.objects.order_by('-created_at')[:3]
     letter_done = Students_Letter.objects.order_by('-digital_sign_at')[:3]
+    lc_timesince = Students_Letter.objects.order_by('-created_at')[:1]
+    ld_timesince = Students_Letter.objects.order_by('-digital_sign_at')[:1]
 
     context = {
         'school_info': school_info, 
@@ -56,6 +63,8 @@ def dashboard(request):
         'count_rs': count_rs,
         'last_created': last_created,
         'letter_done': letter_done,
+        'lc_timesince': lc_timesince,
+        'ld_timesince': ld_timesince,
         }
     return render(request, 'dashboard/dashboard.html', context)
 
@@ -127,9 +136,10 @@ def activate_user(request, user_id):
 def sign_request(request):
     queue = Students_Letter.objects.all()
     digital_sign = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True)
+    digital_sign_applied = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False).order_by('-digital_sign_at')[:9]
     count_rs = digital_sign.count
 
-    context = {'queue': queue, 'digital_sign': digital_sign, 'count_rs': count_rs}
+    context = {'queue': queue, 'digital_sign': digital_sign, 'digital_sign_applied':digital_sign_applied, 'count_rs': count_rs}
     return render(request, 'administration/sign_request/sign_request.html', context)
 
 @login_required
@@ -148,25 +158,23 @@ def apply_signature(request, letter_id):
     letter.digital_sign_job_title = request.user.groups.first().name
     letter.digital_sign_institution = dapodik_school['nama']
 
-    ip_address = request.META.get('HTTP_X_FORWARDED_FOR')
+    ip_address = requests.get('https://api.ipify.org').text
     
     if not ip_address:
         ip_address = request.META.get('REMOTE_ADDR')
 
     letter.digital_sign_ip = ip_address
 
-    handler = ipinfo.getHandler('f2ce563eb2923e')
+    handler = ipinfo.getHandler('f2ce563eb2923e') # Key owner 2019470089@student.umj.ac.id
     details = handler.getDetails(ip_address)
 
-    print(details)
-
-    # Periksa jika atribut yang Anda cari ada di dalam objek Details
     if hasattr(details, 'city') and hasattr(details, 'country'):
-        location = details.city + ', ' + details.country
+        location = details.city + ', ' + details.country + ', ' + details.loc
         letter.digital_sign_location = location
     else:
         letter.digital_sign_location = 'Unknown'
 
+    letter.digital_sign_number = hashlib.sha256(str(letter_id).encode()).hexdigest()
     digital_sign_url = reverse('archives-students-letter-check', kwargs={'letter_id': letter_id})
     letter.digital_sign_url = digital_sign_url
 
@@ -180,13 +188,28 @@ def apply_signature(request, letter_id):
 @group_required(config.hoa, config.scs, config.ecs)
 def request_queue(request):
     queue = Students_Letter.objects.all()
-    digital_sign = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True)
-    digital_sign_applied = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False)
-    manual_sign = Students_Letter.objects.filter(type_sign='2')
+    digital_sign = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True).order_by('-created_at')
+    digital_sign_applied = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False).order_by('-created_at')
+    manual_sign = Students_Letter.objects.filter(type_sign='2').order_by('-created_at')
     count_rs = digital_sign.count
 
     context = {'queue': queue, 'digital_sign': digital_sign, 'digital_sign_applied': digital_sign_applied, 'manual_sign': manual_sign, 'count_rs': count_rs}
     return render(request, 'administration/request_queue/request_queue.html', context)
+
+@login_required
+@group_required(config.hoa, config.scs, config.ecs, config.prl)
+def generate_pdf(request, letter_id):
+    letter = get_object_or_404(Students_Letter, letter_id=letter_id)
+    template = get_template('administration/letter/letter_templates/students_letter.html')
+    context = {'letter': letter}
+    html = template.render(context)
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'filename="letter_{letter_id}.pdf"'
+
+    pisa.CreatePDF(html, dest=response)
+
+    return response
 
 
 @login_required

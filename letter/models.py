@@ -4,15 +4,21 @@ from django.contrib.auth.models import User
 # Create your models here.
 class Students_Letter(models.Model):
 
+    letter_type_choice = (
+        ('1', 'Surat Keterangan'),
+        ('2', 'Surat Rekomendasi'),
+    )
+    
+    gender_choice = (
+        ('1', 'Laki-laki'),
+        ('2', 'Perempuan'),
+    )
+
     type_sign_choice = (
         ('1', 'Digital Sign'),
         ('2', 'Manual Sign'),
     )
 
-    letter_type_choice = (
-        ('1', 'Surat Keterangan'),
-        ('2', 'Surat Rekomendasi'),
-    )
 
     letter_id = models.AutoField(primary_key=True)
     letter_type = models.CharField(max_length=1, choices=letter_type_choice, null=True, blank=True)
@@ -23,6 +29,7 @@ class Students_Letter(models.Model):
     body = models.TextField(max_length=1250, null=True, blank=True)
     student_name = models.CharField(max_length=100, null=True, blank=True)
     student_class = models.CharField(max_length=50, null=True, blank=True)
+    student_gender = models.CharField(max_length=1, choices=gender_choice, null=True, blank=True)
     student_place_of_birth = models.CharField(max_length=100, null=True, blank=True)
     student_date_of_birth = models.DateField()
     student_nisn = models.CharField(max_length=20, null=True, blank=True)
@@ -37,7 +44,7 @@ class Students_Letter(models.Model):
     digital_sign_institution = models.CharField(max_length=100, null=True, blank=True)
     digital_sign_location = models.CharField(max_length=1000, null=True, blank=True)
     digital_sign_ip = models.CharField(max_length=100, null=True, blank=True)
-    digital_sign_number = models.CharField(max_length=50, null=True, blank=True)
+    digital_sign_number = models.CharField(max_length=512, null=True, blank=True)
     digital_sign_url = models.URLField(null=True, blank=True)
 
     def __str__(self):

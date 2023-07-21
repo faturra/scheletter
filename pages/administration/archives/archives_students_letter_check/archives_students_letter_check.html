@@ -3,24 +3,92 @@
 {% block title%}Check letter - {{ letter.student_name }}&nbsp;{{ letter.student_class }}{% endblock %}
 {% block content %}
 <div class="container">
-    <section class="pt-5 mb-4">
-        <div class="mb-3">
-            <h1 class=""><span><i class="bi bi-file-earmark-text"></i></span>&nbsp;Check letter</h1>
-        </div>
-        <div>
-            <p class="lead">Check letter {{ letter.student_name }}&nbsp;{{ letter.student_class }}</p>
-        </div>
-    </section>
-    <section class="mb-5">
+    <section class="pt-3 mb-4">
         <div class="row g-3">
             <div class="col-sm-12">
-                <div class="card card-body">
-                    {{ letter.get_letter_type_display }}
+                <div class="">
+                    <div class="my-3">
+                        <div class="position-relative p-5 text-center text-muted bg-body border border-dashed rounded-5">                            <i class="bi bi-check-circle-fill display-1 text-success"></i>
+                          <h1 class="text-body-emphasis">Verified</h1>
+                          <p class="col-lg-6 mx-auto mb-4">
+                           {{ letter.get_letter_type_display }}
+                            <div class="form-text">
+                                <table class="table table-borderless">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">Number</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <td>{{ letter.number }}</td>
+                                      </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table table-borderless">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">Student name</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <td>{{ letter.student_name }}</td>
+                                      </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table table-borderless">
+                                    <thead>
+                                      <tr class="">
+                                        <th colspan="2">[ Signing information ]</th>
+                                      </tr>
+                                      <tr>
+                                        <th scope="col">Institution</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <td>{{ letter.digital_sign_institution }}</td>
+                                      </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table table-borderless">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">Signed by</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <td>{{ letter.digital_sign_by_name }}</td>
+                                      </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table table-borderless">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">Signed at</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <td>{{ letter.digital_sign_at }}</td>
+                                      </tr>
+                                      <tr>
+                                        <td>{{ letter.digital_sign_location }}</td>
+                                      </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                          </p>
+                        </div>
+                    </div>
+                    <!-- {{ letter.get_letter_type_display }}
                     {{ letter.student_name }}
                     {{ letter.student_class }}
                     {{ letter.student_nisn }}
                     {{ letter.subject }}
-                    {{ letter.body }}
+                    {{ letter.body }} -->
                 </div>
             </div>
           </div>
