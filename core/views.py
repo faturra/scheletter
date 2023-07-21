@@ -1,5 +1,6 @@
 import ipinfo
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
@@ -43,13 +44,18 @@ def dashboard(request):
 
     count_rs = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True).count
 
+    last_created = Students_Letter.objects.order_by('-created_at')[:3]
+    letter_done = Students_Letter.objects.order_by('-digital_sign_at')[:3]
+
     context = {
         'school_info': school_info, 
         'count_emp': count_emp, 
         'count_std': count_std, 
         'count_ltr': count_ltr, 
         'count_arc': count_arc, 
-        'count_rs': count_rs
+        'count_rs': count_rs,
+        'last_created': last_created,
+        'letter_done': letter_done,
         }
     return render(request, 'dashboard/dashboard.html', context)
 
@@ -138,14 +144,18 @@ def apply_signature(request, letter_id):
     letter = get_object_or_404(Students_Letter, letter_id=letter_id)
     letter.digital_sign_at = timezone.now()
     letter.digital_sign_by = request.user
+    letter.digital_sign_by_name = request.user.get_full_name()
     letter.digital_sign_job_title = request.user.groups.first().name
     letter.digital_sign_institution = dapodik_school['nama']
 
-    ip_address = request.META.get('REMOTE_ADDR')
+    ip_address = request.META.get('HTTP_X_FORWARDED_FOR')
+    
+    if not ip_address:
+        ip_address = request.META.get('REMOTE_ADDR')
+
     letter.digital_sign_ip = ip_address
 
-    # Mendapatkan informasi lokasi berdasarkan alamat IP pengguna menggunakan ipinfo.io
-    handler = ipinfo.getHandler('f2ce563eb2923e')  # Ganti YOUR_IPINFO_API_TOKEN dengan API token Anda
+    handler = ipinfo.getHandler('f2ce563eb2923e')
     details = handler.getDetails(ip_address)
 
     print(details)
@@ -156,6 +166,9 @@ def apply_signature(request, letter_id):
         letter.digital_sign_location = location
     else:
         letter.digital_sign_location = 'Unknown'
+
+    digital_sign_url = reverse('archives-students-letter-check', kwargs={'letter_id': letter_id})
+    letter.digital_sign_url = digital_sign_url
 
     messages.success(request, 'Signature applied successfully! Letter has been signed.')
     letter.save()
@@ -175,6 +188,7 @@ def request_queue(request):
     context = {'queue': queue, 'digital_sign': digital_sign, 'digital_sign_applied': digital_sign_applied, 'manual_sign': manual_sign, 'count_rs': count_rs}
     return render(request, 'administration/request_queue/request_queue.html', context)
 
+
 @login_required
 def guest_book(request):
     return render(request, 'administration/guest_book/guest_book.html')
@@ -185,6 +199,11 @@ def guest_and_request_form(request):
 @login_required
 def archives(request):
     return render(request, 'administration/archives/archives.html')
+
+@login_required
+def archives_students_letter_check(request, letter_id):
+    letter = get_object_or_404(Students_Letter, letter_id=letter_id)
+    return render(request, 'administration/archives/archives_students_letter_check/archives_students_letter_check.html', {'letter': letter})
 
 @login_required
 @group_required(config.hoa)

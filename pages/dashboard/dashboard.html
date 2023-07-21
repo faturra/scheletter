@@ -195,34 +195,28 @@
                       <thead class="bg-light">
                         <tr>
                           <th scope="col">No</th>
-                          <th scope="col">Letter</th>
                           <th scope="col">Number</th>
+                          <th scope="col">Letter</th>
                           <th scope="col">Date</th>
                           <th scope="col">Status</th>
                         </tr>
                       </thead>
                       <tbody>
+                        {% for item in last_created %}
                         <tr>
-                          <th scope="row">1</th>
-                          <td>Letter 1</td>
-                          <td>XXX / PK.0.1</td>
-                          <td>{% now "DATETIME_FORMAT" %}</td>
-                          <td><span class="text-success bi-check-circle-fill"></span></td>
+                          <th scope="row">{{ forloop.counter }}</th>
+                          <td>{{ item.number }}</td>
+                          <td>{{ item.subject}}</td>
+                          <td>{{ item.created_at }}</td>
+                          <td>
+                            {% if item.digital_sign_at %}
+                            <span class="text-success bi-check-circle-fill"></span>
+                            {% else %}
+                            <span class="text-warning bi-record-circle-fill"></span>
+                            {% endif %}
+                          </td>
                         </tr>
-                        <tr>
-                          <th scope="row">2</th>
-                          <td>Letter 2</td>
-                          <td>XXX / PK.0.1</td>
-                          <td>{% now "DATETIME_FORMAT" %}</td>
-                          <td><span class="text-warning bi-record-circle-fill"></span></td>
-                        </tr>
-                        <tr>
-                          <th scope="row">3</th>
-                          <td>Letter 3</td>
-                          <td>XXX / PK.0.1</td>
-                          <td>{% now "DATETIME_FORMAT" %}</td>
-                          <td><span class="text-danger bi-x-circle-fill"></span></td>
-                        </tr>
+                        {% endfor %}
                       </tbody>
                       <tfoot>
                         <tr>
@@ -240,34 +234,22 @@
                       <thead class="bg-light">
                         <tr>
                           <th scope="col">No</th>
-                          <th scope="col">Letter</th>
                           <th scope="col">Number</th>
+                          <th scope="col">Letter</th>
                           <th scope="col">Date</th>
                           <th scope="col">Status</th>
                         </tr>
                       </thead>
                       <tbody>
+                        {% for item in letter_done %}
                         <tr>
-                          <th scope="row">1</th>
-                          <td>Letter 1</td>
-                          <td>XXX / PK.0.1</td>
-                          <td>{% now "DATETIME_FORMAT" %}</td>
+                          <th scope="row">{{ forloop.counter }}</th>
+                          <td>{{ item.number }}</td>
+                          <td>{{ item.subject }}</td>
+                          <td>{{ item.digital_sign_at }}</td>
                           <td><span class="text-success bi-check-circle-fill"></span></td>
                         </tr>
-                        <tr>
-                          <th scope="row">2</th>
-                          <td>Letter 2</td>
-                          <td>XXX / PK.0.1</td>
-                          <td>{% now "DATETIME_FORMAT" %}</td>
-                          <td><span class="text-warning bi-record-circle-fill"></span></td>
-                        </tr>
-                        <tr>
-                          <th scope="row">3</th>
-                          <td>Letter 3</td>
-                          <td>XXX / PK.0.1</td>
-                          <td>{% now "DATETIME_FORMAT" %}</td>
-                          <td><span class="text-danger bi-x-circle-fill"></span></td>
-                        </tr>
+                        {% endfor %}
                       </tbody>
                       <tfoot>
                         <tr>

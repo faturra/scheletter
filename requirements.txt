@@ -6,3 +6,4 @@ django-bootstrap-datepicker-plus
 reportlab
 geocoder
 ipinfo
+qrcode[pil]

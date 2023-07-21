@@ -19,6 +19,7 @@ urlpatterns = [
     path('administration/guest-and-request-form', views.guest_and_request_form, name='guest-and-request-form'),
     path('administration/guest-book', views.guest_book, name='guest-book'),
     path('administration/archives', views.archives, name='archives'),
+    path('administration/archives/letters/<int:letter_id>', views.archives_students_letter_check, name='archives-students-letter-check'),
     path('trash', views.trash, name='trash'),
 
     path('user/pdf/', reportlab_rs.UserPDFView.as_view(), name='user_pdf'),

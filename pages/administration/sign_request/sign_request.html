@@ -39,7 +39,7 @@
               <div class="card border-light shadow">
                 <div class="card-body">
                   <h5 class="card-title"><i class="bi bi-card-text"></i>&nbsp;{{ item.get_letter_type_display }}</h5>
-                  <p class="card-text small">{{ item.student_name }}&nbsp;{{ item.student_class }}-{{ item.student_nisn }}</p>
+                  <p class="card-text small">{{ item.student_name }}&nbsp;{{ item.student_class }}-{{ item.student_nisn }}<br>{{ item.number }}</p>
                   <hr style="border-style: dashed;">
                   <a href="{% url 'check-letter' letter_id=item.letter_id %}" class="btn btn-light text-primary"><i class="bi bi-search"></i>&nbsp;Check</a>
                   <small class="text-muted">{{ item.created_at }}</small>

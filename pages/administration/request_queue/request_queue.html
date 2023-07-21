@@ -103,7 +103,7 @@
                     <div class="position-relative p-5 text-center text-muted">
                         <i class="bi bi-card-text display-3"></i>
                         <p class="col-lg-6 mx-auto mb-4 animate__animated animate__headShake">
-                            No letter done yet
+                            No waiting signature yet
                         </p>
                     </div>
                   </div>
@@ -124,6 +124,7 @@
                     <thead>
                         <tr>
                             <th scope="col">#</th>
+                            <th scope="col">Check</th>
                             <th scope="col">Number</th>
                             <th scope="col">Subject</th>
                             <th scope="col">Name</th>
@@ -139,13 +140,14 @@
                         {% for item in digital_sign_applied %}
                         <tr>
                             <th scope="row">{{ forloop.counter }}</th>
+                            <td><a href="{{ item.digital_sign_url }}" class="btn btn-sm btn-light text-primary">Check</a></td>
                             <td>{{ item.number }}</td>
                             <td>{{ item.subject }}</td>
                             <td>{{ item.student_name }}</td>
                             <td>{{ item.student_class }}</td>
                             <td>{{ item.student_nisn }}</td>
                             <td>{{ item.digital_sign_at }}</td>
-                            <td>{{ item.digital_sign_by }}</td>
+                            <td>{{ item.digital_sign_by_name }}</td>
                             <td>{{ item.digital_sign_job_title }}</td>
                             <td>{{ item.digital_sign_institution }}</td>
                         </tr>
