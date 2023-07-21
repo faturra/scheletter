@@ -14,15 +14,71 @@
     <section class="mb-5">
         <div class="row g-3">
             <div class="col-sm-12">
-                <div class="card card-body shadow-lg">
+                <div class="card card-body shadow text-center">
                     <h4 class="text-center">{{ letter.get_letter_type_display }}</h4>
                     <div class="text-center">{{ letter.number }}</div>
                     <hr>
-                    {{ letter.student_name }}<br>
-                    {{ letter.student_class }}<br>
-                    {{ letter.student_nisn }}<br>
-                    {{ letter.subject }}<br><br>
-                    Body:{{ letter.body }}
+                    <table class="table table-borderless">
+                        <thead>
+                          <tr>
+                            <th scope="col">Student name</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>{{ letter.student_name }}</td>
+                          </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-borderless">
+                        <thead>
+                          <tr>
+                            <th scope="col">Student Class</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>{{ letter.student_class }}</td>
+                          </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-borderless">
+                        <thead>
+                          <tr>
+                            <th scope="col">NISN</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>{{ letter.student_nisn }}</td>
+                          </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-borderless">
+                        <thead>
+                          <tr>
+                            <th scope="col">Regarding</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>{{ letter.subject }}</td>
+                          </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-borderless">
+                        <thead>
+                          <tr>
+                            <th scope="col">Reduction</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>{{ letter.body }}</td>
+                          </tr>
+                        </tbody>
+                    </table>
+                    <br><br>
                     <hr>
                 </div>
                 <div class="fixed-bottom">
@@ -30,7 +86,7 @@
                         <form method="post" action="{% url 'apply-signature' letter_id=letter.letter_id %}">
                             {% csrf_token %}
                         <a href="{% url 'sign-request' %}" class="btn btn-secondary shadow">Back</a>
-                        <a href="{% url 'apply-signature' letter_id=letter.letter_id %}" class="btn btn-primary shadow" onclick="return confirm('Are you sure you want to sign the letter\n\n[{{letter.get_letter_type_display}}]\n{{letter.student_name}} {{letter.student_nisn}} {{letter.number}}');"><i class="bi bi-fingerprint"></i>&nbsp;Sign the letter</a>
+                        <a href="{% url 'apply-signature' letter_id=letter.letter_id %}" class="btn btn-primary shadow" onclick="return confirm('Are you sure you want to sign the letter:\n\n[{{letter.get_letter_type_display}}]\n{{letter.student_name}} {{letter.student_nisn}}\n{{letter.number}}');"><i class="bi bi-fingerprint"></i>&nbsp;Sign the letter</a>
                         </form>
                     </div>
                 </div>

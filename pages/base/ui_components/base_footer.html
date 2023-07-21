@@ -1,3 +1,16 @@
+{% if messages %}
+{% for message in messages %}
+<div class="fixed-bottom container mb-4">
+  <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show d-flex align-items-center shadow animate__animated animate__bounceInUp" role="alert">
+      <i class="bi-check-circle-fill"></i>
+      <div>
+        &nbsp;{{ message }}
+      </div>
+      <button type="button" class="btn-close animate__animated animate__rotateIn animate__delay-3s" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+</div>
+{% endfor %}
+{% endif %}
 <div class="bg-white">
   <footer class="container fixed-bottom">
     <div class="d-flex">

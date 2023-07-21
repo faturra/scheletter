@@ -1,6 +1,10 @@
 import ipinfo
 import requests
 import hashlib
+import base64
+import time
+import qrcode
+from io import BytesIO
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
@@ -16,6 +20,7 @@ from letter.models import Students_Letter
 from core import config
 from .decorators import unauthenticated_user, group_required
 from .forms import CustomUserCreationForm
+from PIL import Image
 
 
 # Create your views here.
@@ -151,6 +156,7 @@ def check_letter(request, letter_id):
 @login_required
 @group_required(config.prl)
 def apply_signature(request, letter_id):
+    start_time = time.time()
     letter = get_object_or_404(Students_Letter, letter_id=letter_id)
     letter.digital_sign_at = timezone.now()
     letter.digital_sign_by = request.user
@@ -178,7 +184,18 @@ def apply_signature(request, letter_id):
     digital_sign_url = reverse('archives-students-letter-check', kwargs={'letter_id': letter_id})
     letter.digital_sign_url = digital_sign_url
 
-    messages.success(request, 'Signature applied successfully! Letter has been signed.')
+    qr_data = 'http://10.10.6.7:8080'+digital_sign_url
+    qr_code = qrcode.make(qr_data)
+    buffer = BytesIO()
+    qr_code.save(buffer)
+    qr_code_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
+
+    letter.qr_code_base64 = qr_code_base64
+
+    end_time = time.time()
+    processing_time = end_time - start_time
+
+    messages.success(request, 'Letter has been signed! {0:.2f}s'.format(processing_time))
     letter.save()
 
     return redirect('sign-request')
@@ -200,6 +217,11 @@ def request_queue(request):
 @group_required(config.hoa, config.scs, config.ecs, config.prl)
 def generate_pdf(request, letter_id):
     letter = get_object_or_404(Students_Letter, letter_id=letter_id)
+    digital_sign = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True)
+
+    for qrc in digital_sign:
+        qrc.generate_qr_code()
+
     template = get_template('administration/letter/letter_templates/students_letter.html')
     context = {'letter': letter}
     html = template.render(context)
@@ -223,7 +245,7 @@ def guest_and_request_form(request):
 def archives(request):
     return render(request, 'administration/archives/archives.html')
 
-@login_required
+# @login_required
 def archives_students_letter_check(request, letter_id):
     letter = get_object_or_404(Students_Letter, letter_id=letter_id)
     return render(request, 'administration/archives/archives_students_letter_check/archives_students_letter_check.html', {'letter': letter})

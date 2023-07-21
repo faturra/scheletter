@@ -1,5 +1,9 @@
+import qrcode
+import base64
 from django.db import models
 from django.contrib.auth.models import User
+from io import BytesIO
+from PIL import Image
 
 # Create your models here.
 class Students_Letter(models.Model):
@@ -43,9 +47,30 @@ class Students_Letter(models.Model):
     digital_sign_job_title = models.CharField(max_length=100, null=True, blank=True)
     digital_sign_institution = models.CharField(max_length=100, null=True, blank=True)
     digital_sign_location = models.CharField(max_length=1000, null=True, blank=True)
-    digital_sign_ip = models.CharField(max_length=100, null=True, blank=True)
+    digital_sign_ip = models.CharField(max_length=50, null=True, blank=True)
     digital_sign_number = models.CharField(max_length=512, null=True, blank=True)
-    digital_sign_url = models.URLField(null=True, blank=True)
+    digital_sign_url = models.CharField(max_length=1000, null=True, blank=True)
+    qr_code_base64 = models.TextField(null=True, blank=True)
+
+    def generate_qr_code(self):
+        qr = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_L,
+            box_size=10,
+            border=4,
+        )
+        qr.add_data(self.digital_sign_url)
+        qr.make(fit=True)
+
+        img = qr.make_image(fill_color="black", back_color="white")
+
+        qr_byte_array = BytesIO()
+        img.save(qr_byte_array, format='PNG')
+        qr_bytes = qr_byte_array.getvalue()
+
+        qr_base64 = base64.b64encode(qr_bytes).decode('utf-8')
+
+        self.qr_code_base64 = qr_base64
 
     def __str__(self):
-        return self.subject
+        return self.number

@@ -5,8 +5,69 @@
     <title>Letter {{ letter.letter_id }}</title>
 </head>
 <body>
-    <h1>Letter {{ letter.letter_id }}</h1>
-    <p>Subject: {{ letter.subject }}</p>
-    <p>Body: {{ letter.body }}</p>
+    <h4 class="text-center">{{ letter.get_letter_type_display }}</h4>
+                    <div class="text-center">{{ letter.number }}</div>
+                    <hr>
+                    <table class="table table-borderless">
+                        <thead>
+                          <tr>
+                            <th scope="col">Student name</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>{{ letter.student_name }}</td>
+                          </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-borderless">
+                        <thead>
+                          <tr>
+                            <th scope="col">Student Class</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>{{ letter.student_class }}</td>
+                          </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-borderless">
+                        <thead>
+                          <tr>
+                            <th scope="col">NISN</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>{{ letter.student_nisn }}</td>
+                          </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-borderless">
+                        <thead>
+                          <tr>
+                            <th scope="col">Regarding</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>{{ letter.subject }}</td>
+                          </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-borderless">
+                        <thead>
+                          <tr>
+                            <th scope="col">Reduction</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>{{ letter.body }}</td>
+                          </tr>
+                        </tbody>
+                    </table>
+    <img src="data:image/png;base64,{{ letter.qr_code_base64 }}" alt="QR Code">
 </body>
 </html>

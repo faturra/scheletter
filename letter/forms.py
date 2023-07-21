@@ -6,6 +6,7 @@ from .models import Students_Letter
 class StudentsLetterForm(forms.ModelForm):
     student_name = forms.ChoiceField(choices=[], required=True, label='Name')
     student_class = forms.ChoiceField(choices=[], required=True, label='Class')
+    subject = forms.CharField(required=True, label='Regarding')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
