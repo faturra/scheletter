@@ -121,7 +121,7 @@
         </ul>
         <div class="tab-content" id="request-queue-c">
             <div class="tab-pane fade show active" id="letter-done-pane" role="tabpanel" aria-labelledby="letter-done" tabindex="0">
-                {% if digital_sign_applied %}
+                {% if students_digital_sign_applied %}
                 <table id="tb_request_queue" class="table table-hover text-truncate">
                     <thead>
                         <tr>
@@ -139,7 +139,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for item in digital_sign_applied %}
+                        {% for item in students_digital_sign_applied %}
                         <tr>
                             <th scope="row">{{ forloop.counter }}</th>
                             <td><a href="{% url 'generate-pdf' letter_id=item.letter_id %}" class="text-primary" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a></td>

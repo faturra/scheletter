@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-tlrc(n8&mt$_e@=_lrk*!m#08-aulc8_ix#4&&x#$wk&)nv088
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['10.10.6.7','192.168.1.74','localhost']
+ALLOWED_HOSTS = ['10.10.6.7','192.168.1.74','a07817a5673f','localhost']
 
 LOGOUT_REDIRECT_URL = 'index'
 LOGIN_REDIRECT_URL = 'dashboard'
@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
 ]
+
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
 CRISPY_TEMPLATE_PACK = 'bootstrap5'

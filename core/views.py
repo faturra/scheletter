@@ -18,6 +18,7 @@ from xhtml2pdf import pisa
 from integrations.data import dapodik_school, dapodik_employees, dapodik_students
 from letter.models import Students_Letter
 from core import config
+from datetime import datetime
 from .decorators import unauthenticated_user, group_required
 from .forms import CustomUserCreationForm
 from PIL import Image
@@ -141,10 +142,10 @@ def activate_user(request, user_id):
 def sign_request(request):
     queue = Students_Letter.objects.all()
     digital_sign = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True)
-    digital_sign_applied = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False).order_by('-digital_sign_at')[:9]
+    students_digital_sign_applied = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False).order_by('-digital_sign_at')[:9]
     count_rs = digital_sign.count
 
-    context = {'queue': queue, 'digital_sign': digital_sign, 'digital_sign_applied':digital_sign_applied, 'count_rs': count_rs}
+    context = {'queue': queue, 'digital_sign': digital_sign, 'students_digital_sign_applied':students_digital_sign_applied, 'count_rs': count_rs}
     return render(request, 'administration/sign_request/sign_request.html', context)
 
 @login_required
@@ -206,11 +207,11 @@ def apply_signature(request, letter_id):
 def request_queue(request):
     queue = Students_Letter.objects.all()
     digital_sign = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True).order_by('-created_at')
-    digital_sign_applied = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False).order_by('-created_at')
+    students_digital_sign_applied = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False).order_by('-created_at')
     manual_sign = Students_Letter.objects.filter(type_sign='2').order_by('-created_at')
     count_rs = digital_sign.count
 
-    context = {'queue': queue, 'digital_sign': digital_sign, 'digital_sign_applied': digital_sign_applied, 'manual_sign': manual_sign, 'count_rs': count_rs}
+    context = {'queue': queue, 'digital_sign': digital_sign, 'students_digital_sign_applied': students_digital_sign_applied, 'manual_sign': manual_sign, 'count_rs': count_rs}
     return render(request, 'administration/request_queue/request_queue.html', context)
 
 @login_required
@@ -243,7 +244,10 @@ def guest_and_request_form(request):
 
 @login_required
 def archives(request):
-    return render(request, 'administration/archives/archives.html')
+    students_digital_sign_applied = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False).order_by('-digital_sign_at')
+
+    context = {'students_digital_sign_applied': students_digital_sign_applied}
+    return render(request, 'administration/archives/archives.html', context)
 
 # @login_required
 def archives_students_letter_check(request, letter_id):
@@ -253,4 +257,7 @@ def archives_students_letter_check(request, letter_id):
 @login_required
 @group_required(config.hoa)
 def trash(request):
-    return render(request, 'trash/trash.html')
+    students_digital_sign_applied = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False).order_by('-digital_sign_at')
+
+    context = {'students_digital_sign_applied': students_digital_sign_applied}
+    return render(request, 'trash/trash.html', context)

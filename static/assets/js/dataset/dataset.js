@@ -40,3 +40,25 @@ $(document).ready(function() {
     "pagingType": "simple",
   } );
 });
+
+// Archives
+$(document).ready(function() {
+  $('#tb_common_archives').dataTable( {
+    "scrollX": true,
+    "pagingType": "simple_numbers",
+  } );
+});
+
+$(document).ready(function() {
+  $('#tb_student_archives').dataTable( {
+    "scrollX": true,
+    "pagingType": "simple_numbers",
+  } );
+});
+
+$(document).ready(function() {
+  $('#tb_employee_archives').dataTable( {
+    "scrollX": true,
+    "pagingType": "simple_numbers",
+  } );
+});

@@ -51,6 +51,7 @@ class Students_Letter(models.Model):
     digital_sign_number = models.CharField(max_length=512, null=True, blank=True)
     digital_sign_url = models.CharField(max_length=1000, null=True, blank=True)
     qr_code_base64 = models.TextField(null=True, blank=True)
+    is_selected_for_destroy = models.BooleanField(default=False)
 
     def generate_qr_code(self):
         qr = qrcode.QRCode(
