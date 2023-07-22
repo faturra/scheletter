@@ -20,7 +20,6 @@
           <div class="tab-pane fade show active" id="trash-pane" role="tabpanel" aria-labelledby="trash" tabindex="0">
             <div class="my-3">
                 <div class="position-relative p-5 text-center text-muted bg-body border border-dashed rounded-5">
-                  <!-- <i class="bi bi-exclamation-triangle display-3"></i> -->
                   <h1 class="text-body-emphasis">Destruction of Electronic Archives</h1>
                   <p class="col-lg-6 mx-auto mb-4">
                     Referred to in Article 25 letter b is carried out through the following process:
@@ -44,10 +43,33 @@
             </li>
         </ul>
           <div class="tab-pane fade show active" id="trash-pane" role="tabpanel" aria-labelledby="trash" tabindex="0">
-            <div class="position-relative p-5 text-center text-muted">
-                <p class="col-lg-6 mx-auto mb-4 animate__animated animate__headShake">
-                    No archive available to destroy
-                </p>
+            {% if ready_to_destroy %}
+            {% for archive in ready_to_destroy %}
+            <div class="row mt-3">
+              <div class="col-sm-12 mb-3">
+                <div class="card border-light shadow">
+                  <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-card-text"></i>&nbsp;{{ archive.get_letter_type_display }}</h5>
+                    <p class="card-text small"><span class="card-text text-muted">{{ archive.number }}</span><br>{{ archive.student_name }}&nbsp;{{ archive.student_class }}-{{ archive.student_nisn }}</p>
+                    <hr style="border-style: dashed;">
+                    <form method="post">
+                      {% csrf_token %}
+                      <a href="{% url 'cancel-destroy-process-sl' archive_id=archive.letter_id %}" class="btn btn-dark" onclick="return confirm('Are you sure you want to cancel the archive:\n\n[{{archive.get_letter_type_display}}]\n{{archive.student_name}} {{archive.student_nisn}}\n{{archive.number}}');">Cancel</a>
+                      <a href="{% url 'generate-pdf' letter_id=archive.letter_id %}" class="btn btn-light text-primary" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a>
+                      <a href="{% url 'process-destroy-sl' archive_id=archive.letter_id %}" class="btn btn-danger" onclick="return confirm('Are you sure you want to permanently destroy the archive:\n\n[{{archive.get_letter_type_display}}]\n{{archive.student_name}} {{archive.student_nisn}}\n{{archive.number}}');">Destroy</a>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+              {% else %}
+              <div class="position-relative p-5 text-center text-muted">
+                <i class="bi bi-folder2-open display-3"></i>
+                  <p class="col-lg-6 mx-auto mb-4 animate__animated animate__headShake">
+                      No archive available to destroy
+                  </p>
+              </div>
+              {% endif %}
             </div>
           </div>
     </section>

@@ -22,4 +22,7 @@ urlpatterns = [
     path('administration/archives/letters/<int:letter_id>', views.archives_students_letter_check, name='archives-students-letter-check'),
     path('administration/archives/letters/generate-pdf/<int:letter_id>/', views.generate_pdf, name='generate-pdf'),
     path('trash', views.trash, name='trash'),
+    path('trash/selected/<int:sl_arc_id>/', views.process_sl_to_destroy_list, name='process-sl-to-destroy-list'),
+    path('trash/cancel/<int:archive_id>/', views.cancel_destroy_process_sl, name='cancel-destroy-process-sl'),
+    path('trash/process-to-destroy/<int:archive_id>/', views.process_destroy_sl, name='process-destroy-sl'),
 ]

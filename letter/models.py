@@ -40,6 +40,7 @@ class Students_Letter(models.Model):
     type_sign = models.CharField(max_length=1, choices=type_sign_choice, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='created_students_letters', null=True)
+    updated_at = models.DateTimeField(auto_now=True)
     updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='updated_students_letters', null=True)
     digital_sign_at = models.DateTimeField(null=True, blank=True)
     digital_sign_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='digital_signed_students_letters', null=True)
@@ -51,7 +52,7 @@ class Students_Letter(models.Model):
     digital_sign_number = models.CharField(max_length=512, null=True, blank=True)
     digital_sign_url = models.CharField(max_length=1000, null=True, blank=True)
     qr_code_base64 = models.TextField(null=True, blank=True)
-    is_selected_for_destroy = models.BooleanField(default=False)
+    is_selected_to_destroy = models.BooleanField(default=False)
 
     def generate_qr_code(self):
         qr = qrcode.QRCode(

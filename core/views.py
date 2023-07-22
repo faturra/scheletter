@@ -165,7 +165,7 @@ def apply_signature(request, letter_id):
     letter.digital_sign_job_title = request.user.groups.first().name
     letter.digital_sign_institution = dapodik_school['nama']
 
-    ip_address = requests.get('https://api.ipify.org').text
+    ip_address = requests.get('https://api.ipify.org/').text
     
     if not ip_address:
         ip_address = request.META.get('REMOTE_ADDR')
@@ -228,7 +228,7 @@ def generate_pdf(request, letter_id):
     html = template.render(context)
 
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = f'filename="letter_{letter_id}.pdf"'
+    response['Content-Disposition'] = f'filename="{letter.get_letter_type_display}_{letter_id}.pdf"'
 
     pisa.CreatePDF(html, dest=response)
 
@@ -257,7 +257,39 @@ def archives_students_letter_check(request, letter_id):
 @login_required
 @group_required(config.hoa)
 def trash(request):
-    students_digital_sign_applied = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False).order_by('-digital_sign_at')
+    students_digital_sign_applied = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False, is_selected_to_destroy=False).order_by('-digital_sign_at')
+    ready_to_destroy = Students_Letter.objects.filter(is_selected_to_destroy=True).order_by('-digital_sign_at')
 
-    context = {'students_digital_sign_applied': students_digital_sign_applied}
+    context = {'students_digital_sign_applied': students_digital_sign_applied, 'ready_to_destroy': ready_to_destroy}
     return render(request, 'trash/trash.html', context)
+
+@login_required
+@group_required(config.hoa)
+def process_sl_to_destroy_list(request, sl_arc_id):
+    students_letter = Students_Letter.objects.get(pk=sl_arc_id)
+    students_letter.is_selected_to_destroy = True
+    students_letter.updated_by = request.user
+    students_letter.save()
+
+    messages.warning(request, 'Archive has been added to destroy list!')
+    return redirect('trash')
+
+@login_required
+@group_required(config.hoa)
+def cancel_destroy_process_sl(request, archive_id):
+    students_letter = Students_Letter.objects.get(pk=archive_id)
+    students_letter.is_selected_to_destroy = False
+    students_letter.updated_by = request.user
+    students_letter.save()
+
+    messages.info(request, 'Archive has been cancelled!')
+    return redirect('trash')
+
+@login_required
+@group_required(config.hoa)
+def process_destroy_sl(request, archive_id):
+    students_letter = Students_Letter.objects.get(pk=archive_id)
+    students_letter.delete()
+
+    messages.error(request, 'Archive has been permanently destroyed!')
+    return redirect('trash')

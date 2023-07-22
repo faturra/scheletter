@@ -37,16 +37,16 @@
                           {% for item in commons_digital_sign_applied %}
                           <tr>
                               <th scope="row">{{ forloop.counter }}</th>
-                              <td><a href="{% url 'generate-pdf' letter_id=item.letter_id %}" class="text-primary" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a></td>
-                              <td>{{ item.number }}</td>
-                              <td>{{ item.subject }}</td>
-                              <td>{{ item.student_name }}</td>
-                              <td>{{ item.student_class }}</td>
-                              <td>{{ item.student_nisn }}</td>
-                              <td>{{ item.digital_sign_at }}</td>
-                              <td>{{ item.digital_sign_by_name }}</td>
-                              <td>{{ item.digital_sign_job_title }}</td>
-                              <td>{{ item.digital_sign_institution }}</td>
+                              <td><a href="{% url 'generate-pdf' letter_id=archive.letter_id %}" class="text-primary" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a></td>
+                              <td>{{ archive.number }}</td>
+                              <td>{{ archive.subject }}</td>
+                              <td>{{ archive.student_name }}</td>
+                              <td>{{ archive.student_class }}</td>
+                              <td>{{ archive.student_nisn }}</td>
+                              <td>{{ archive.digital_sign_at }}</td>
+                              <td>{{ archive.digital_sign_by_name }}</td>
+                              <td>{{ archive.digital_sign_job_title }}</td>
+                              <td>{{ archive.digital_sign_institution }}</td>
                           </tr>
                           {% endfor %}
                      </tbody>
@@ -93,16 +93,16 @@
                           {% for item in employees_digital_sign_applied %}
                           <tr>
                               <th scope="row">{{ forloop.counter }}</th>
-                              <td><a href="{% url 'generate-pdf' letter_id=item.letter_id %}" class="text-primary" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a></td>
-                              <td>{{ item.number }}</td>
-                              <td>{{ item.subject }}</td>
-                              <td>{{ item.student_name }}</td>
-                              <td>{{ item.student_class }}</td>
-                              <td>{{ item.student_nisn }}</td>
-                              <td>{{ item.digital_sign_at }}</td>
-                              <td>{{ item.digital_sign_by_name }}</td>
-                              <td>{{ item.digital_sign_job_title }}</td>
-                              <td>{{ item.digital_sign_institution }}</td>
+                              <td><a href="{% url 'generate-pdf' letter_id=archive.letter_id %}" class="text-primary" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a></td>
+                              <td>{{ archive.number }}</td>
+                              <td>{{ archive.subject }}</td>
+                              <td>{{ archive.student_name }}</td>
+                              <td>{{ archive.student_class }}</td>
+                              <td>{{ archive.student_nisn }}</td>
+                              <td>{{ archive.digital_sign_at }}</td>
+                              <td>{{ archive.digital_sign_by_name }}</td>
+                              <td>{{ archive.digital_sign_job_title }}</td>
+                              <td>{{ archive.digital_sign_institution }}</td>
                           </tr>
                           {% endfor %}
                      </tbody>
@@ -133,7 +133,8 @@
                       <thead>
                           <tr>
                               <th scope="col">#</th>
-                              <th scope="col"><i class="bi bi-box-arrow-up-right"></i></th>
+                              <th scope="col"><i class="bi bi-sticky"></i>&nbsp;Add</th>
+                              <th scope="col"><i class="bi bi-box-arrow-up-right"></i>&nbsp;Check</th>
                               <th scope="col">Number</th>
                               <th scope="col">Subject</th>
                               <th scope="col">Name</th>
@@ -146,19 +147,20 @@
                           </tr>
                       </thead>
                       <tbody>
-                          {% for item in students_digital_sign_applied %}
+                          {% for archive in students_digital_sign_applied %}
                           <tr>
                               <th scope="row">{{ forloop.counter }}</th>
-                              <td><a href="{% url 'generate-pdf' letter_id=item.letter_id %}" class="text-primary" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a></td>
-                              <td>{{ item.number }}</td>
-                              <td>{{ item.subject }}</td>
-                              <td>{{ item.student_name }}</td>
-                              <td>{{ item.student_class }}</td>
-                              <td>{{ item.student_nisn }}</td>
-                              <td>{{ item.digital_sign_at }}</td>
-                              <td>{{ item.digital_sign_by_name }}</td>
-                              <td>{{ item.digital_sign_job_title }}</td>
-                              <td>{{ item.digital_sign_institution }}</td>
+                              <td><a href="{% url 'process-sl-to-destroy-list' sl_arc_id=archive.letter_id %}" class="btn btn-sm btn-warning" onclick="return confirm('Are you sure you want to add the archive:\n\n[{{archive.get_letter_type_display}}]\n{{archive.student_name}} {{archive.student_nisn}}\n{{archive.number}}');"><i class="bi bi-sticky"></i>&nbsp;Add</a></td>
+                              <td><a href="{% url 'generate-pdf' letter_id=archive.letter_id %}" class="btn btn-sm btn-light" target="_blank"><i class="bi bi-box-arrow-up-right"></i>&nbsp;Check</a></td>
+                              <td>{{ archive.number }}</td>
+                              <td>{{ archive.subject }}</td>
+                              <td>{{ archive.student_name }}</td>
+                              <td>{{ archive.student_class }}</td>
+                              <td>{{ archive.student_nisn }}</td>
+                              <td>{{ archive.digital_sign_at }}</td>
+                              <td>{{ archive.digital_sign_by_name }}</td>
+                              <td>{{ archive.digital_sign_job_title }}</td>
+                              <td>{{ archive.digital_sign_institution }}</td>
                           </tr>
                           {% endfor %}
                      </tbody>

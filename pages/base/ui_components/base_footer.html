@@ -1,7 +1,7 @@
 {% if messages %}
 {% for message in messages %}
 <div class="fixed-bottom container mb-4">
-  <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show d-flex align-items-center shadow animate__animated animate__bounceInUp" role="alert">
+  <div class="alert alert-{% if message.tags == 'error' %}danger{% elif message.tags == 'info' %}primary{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show d-flex align-items-center shadow animate__animated animate__bounceInUp" role="alert">
       <i class="bi-check-circle-fill"></i>
       <div>
         &nbsp;{{ message }}
