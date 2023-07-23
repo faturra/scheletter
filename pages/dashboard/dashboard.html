@@ -200,9 +200,12 @@
                           <td>{{ item.created_at }}</td>
                           <td>
                             {% if item.digital_sign_at %}
-                            <span class="text-success bi-check-circle-fill"></span>
+                            <span class="text-success bi-check-circle-fill" data-bs-toggle="Signed on {{ item.digital_sign_at }}" data-bs-title="Default tooltip"></span>
+                            {% elif item.digital_sign_at == Null and item.type_sign == '1' %}
+                            <span class="text-warning bi-record-circle-fill" data-bs-toggle="tooltip" data-bs-title="Waiting signature"></span>
+                            {% elif item.type_sign == '2' %}
+                            <span class="text-dark bi-record-circle-fill" data-bs-toggle="tooltip" data-bs-title="Manual sign"></span>
                             {% else %}
-                            <span class="text-warning bi-record-circle-fill"></span>
                             {% endif %}
                           </td>
                         </tr>

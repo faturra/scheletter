@@ -17,3 +17,8 @@ document.onreadystatechange = function () {
     loadingBar.classList.remove('loaded');
   }
 };
+
+// Tooltip
+$(document).ready(function () {
+  $('[data-bs-toggle="tooltip"]').tooltip();
+});

@@ -51,7 +51,7 @@ def dashboard(request):
     count_emp = len(dapodik_employees)
     count_std = len(dapodik_students)
     count_ltr = Students_Letter.objects.count()
-    count_arc = Students_Letter.objects.count() #+ Employee_Letter.objects.count() + Guest_Book.objects.count()
+    count_arc = Students_Letter.objects.filter(digital_sign_at__isnull=False).count #+ Employee_Letter.objects.count() + Guest_Book.objects.count()
 
     count_rs = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True).count
 
@@ -244,7 +244,7 @@ def guest_and_request_form(request):
 
 @login_required
 def archives(request):
-    students_digital_sign_applied = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False).order_by('-digital_sign_at')
+    students_digital_sign_applied = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False).order_by('-created_at')
 
     context = {'students_digital_sign_applied': students_digital_sign_applied}
     return render(request, 'administration/archives/archives.html', context)
