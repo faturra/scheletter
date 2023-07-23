@@ -163,7 +163,7 @@
                       <a href="{% url 'trash' %}" class="text-decoration-none">
                         <div class="card btn btn-light border-0 shadow-sm">
                           <div class="card-body">
-                            <h5 class="card-title">Trash</h5>
+                            <h5 class="card-title">Trash&nbsp;{% if count_rtd %}<span class="animate__animated animate__bounce animate__infinite infinite badge rounded-pill bg-warning">{{ count_rtd }}</span>{% endif %}</h5>
                             <p class="card-text text-muted">Destruction of archives</p>
                           </div>
                         </div>
@@ -200,7 +200,7 @@
                           <td>{{ item.created_at }}</td>
                           <td>
                             {% if item.digital_sign_at %}
-                            <span class="text-success bi-check-circle-fill" data-bs-toggle="Signed on {{ item.digital_sign_at }}" data-bs-title="Default tooltip"></span>
+                            <span class="text-success bi-check-circle-fill" data-bs-toggle="tooltip" data-bs-title="Signed on {{ item.digital_sign_at }}"></span>
                             {% elif item.digital_sign_at == Null and item.type_sign == '1' %}
                             <span class="text-warning bi-record-circle-fill" data-bs-toggle="tooltip" data-bs-title="Waiting signature"></span>
                             {% elif item.type_sign == '2' %}
@@ -240,7 +240,7 @@
                           <td>{{ item.number }}</td>
                           <td>{{ item.subject }}</td>
                           <td>{{ item.digital_sign_at }}</td>
-                          <td><span class="text-success bi-check-circle-fill"></span></td>
+                          <td><span class="text-success bi-check-circle-fill" data-bs-toggle="tooltip" data-bs-title="Signed on {{ item.digital_sign_at }}"></span></td>
                         </tr>
                         {% endfor %}
                       </tbody>

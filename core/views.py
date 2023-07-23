@@ -54,6 +54,8 @@ def dashboard(request):
     count_arc = Students_Letter.objects.filter(digital_sign_at__isnull=False).count #+ Employee_Letter.objects.count() + Guest_Book.objects.count()
 
     count_rs = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True).count
+    count_rtd = Students_Letter.objects.filter(is_selected_to_destroy=True).count
+    
 
     last_created = Students_Letter.objects.order_by('-created_at')[:3]
     letter_done = Students_Letter.objects.order_by('-digital_sign_at')[:3]
@@ -67,6 +69,7 @@ def dashboard(request):
         'count_ltr': count_ltr, 
         'count_arc': count_arc, 
         'count_rs': count_rs,
+        'count_rtd': count_rtd,
         'last_created': last_created,
         'letter_done': letter_done,
         'lc_timesince': lc_timesince,
@@ -259,8 +262,9 @@ def archives_students_letter_check(request, letter_id):
 def trash(request):
     students_digital_sign_applied = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False, is_selected_to_destroy=False).order_by('-digital_sign_at')
     ready_to_destroy = Students_Letter.objects.filter(is_selected_to_destroy=True).order_by('-digital_sign_at')
+    count_rtd = Students_Letter.objects.filter(is_selected_to_destroy=True).count
 
-    context = {'students_digital_sign_applied': students_digital_sign_applied, 'ready_to_destroy': ready_to_destroy}
+    context = {'students_digital_sign_applied': students_digital_sign_applied, 'ready_to_destroy': ready_to_destroy, 'count_rtd': count_rtd}
     return render(request, 'trash/trash.html', context)
 
 @login_required
@@ -271,7 +275,7 @@ def process_sl_to_destroy_list(request, sl_arc_id):
     students_letter.updated_by = request.user
     students_letter.save()
 
-    messages.warning(request, 'Archive has been added to destroy list!')
+    messages.warning(request, 'Archive has been added to list!')
     return redirect('trash')
 
 @login_required

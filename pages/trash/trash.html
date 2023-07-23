@@ -39,7 +39,7 @@
     <section>
         <ul class="nav nav-tabs" id="trash-ready-tab" role="tablist">
             <li class="nav-item" role="trash">
-              <button class="nav-link active" id="trash-ready" data-bs-toggle="tab" data-bs-target="#trash-ready-pane" type="button" role="tab" aria-controls="trash-ready-pane" aria-selected="true">Ready to destroy</button>
+              <button class="nav-link active" id="trash-ready" data-bs-toggle="tab" data-bs-target="#trash-ready-pane" type="button" role="tab" aria-controls="trash-ready-pane" aria-selected="true">Ready to destroy&nbsp;{% if count_rtd %}<span class="badge bg-warning">{{ count_rtd }}</span>{% endif %}</button>
             </li>
         </ul>
           <div class="tab-pane fade show active" id="trash-pane" role="tabpanel" aria-labelledby="trash" tabindex="0">
@@ -54,9 +54,11 @@
                     <hr style="border-style: dashed;">
                     <form id="destroy_confirmation" method="post" action="{% url 'process-destroy-sl' archive_id=archive.letter_id %}">
                       {% csrf_token %}
-                      <a href="{% url 'cancel-destroy-process-sl' archive_id=archive.letter_id %}" class="btn btn-dark" onclick="return confirm('Are you sure you want to cancel the archive:\n\n[{{archive.get_letter_type_display}}]\n{{archive.student_name}} {{archive.student_nisn}}\n{{archive.number}}');">Cancel</a>
-                      <a href="{% url 'generate-pdf' letter_id=archive.letter_id %}" class="btn btn-light text-primary" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a>
-                      <a href="#" class="btn btn-danger btn-destroy" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-archive-number="{{ archive.number }}" data-bs-target="#staticBackdrop">Destroy</a>
+                      <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+                        <a href="{% url 'cancel-destroy-process-sl' archive_id=archive.letter_id %}" class="btn btn-dark" onclick="return confirm('Are you sure you want to cancel the archive:\n\n[{{archive.get_letter_type_display}}]\n{{archive.student_name}} {{archive.student_nisn}}\n{{archive.number}}');">Cancel</a>
+                        <a href="{% url 'generate-pdf' letter_id=archive.letter_id %}" class="btn btn-light text-primary" target="_blank"><i class="bi bi-box-arrow-up-right"></i>&nbsp;Check</a>
+                        <a href="#" class="btn btn-danger btn-destroy" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-archive-number="{{ archive.number }}" data-bs-target="#staticBackdrop">Destroy</a>
+                      </div>
                     </form>
                   </div>
                 </div>
