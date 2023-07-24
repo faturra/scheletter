@@ -188,7 +188,7 @@ def apply_signature(request, letter_id):
     digital_sign_url = reverse('archives-students-letter-check', kwargs={'letter_id': letter_id})
     letter.digital_sign_url = digital_sign_url
 
-    qr_data = 'http://10.10.6.7:8080'+digital_sign_url
+    qr_data = 'http://faturras-m1.local:8080'+digital_sign_url
     qr_code = qrcode.make(qr_data)
     buffer = BytesIO()
     qr_code.save(buffer)
