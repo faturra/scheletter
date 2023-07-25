@@ -8,7 +8,7 @@
             <h1><span class="bi bi-emoji-smile"></span>&nbsp;Students</h1>
         </div>
         <div>
-            <p class="lead">Students Dapodik reference</p>
+            <p class="lead">Dapodik students reference</p>
         </div>
     </section>
     <section class="mb-5">
@@ -59,7 +59,11 @@
                   <td colspan="13">
                     <div class="text-center animate__animated animate__headShake">
                       <small class="text-muted fw-semibold"><i class="bi bi-x-circle-fill"></i>&nbsp;No data available</small><br>
-                      <small class="text-muted">Make sure you have done the <a href="{% url 'setup_integration' %}" class="alert-link">integration settings</a> correctly.</small>
+                      {% if request.user.groups.first.name == config.opr or user.is_superuser  %}
+                      <small class="text-muted">Make sure you have done the <a href="{% url 'setup-integration' %}" class="alert-link">integration settings</a> correctly.</small>
+                      {% else %}
+                      <small class="text-muted">Contact the operator, check the integration settings and try again.</small>
+                      {% endif %}
                     </div>
                   </td>
                 </tr>

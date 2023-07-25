@@ -8,7 +8,7 @@
             <h1><span class="bi bi-people"></span>&nbsp;Employees</h1>
         </div>
         <div>
-            <p class="lead">Employees Dapodik reference</p>
+            <p class="lead">Dapodik employees reference</p>
         </div>
     </section>
     <section class="mb-5">
@@ -55,7 +55,7 @@
                   <td colspan="13">
                     <div class="text-center animate__animated animate__headShake">
                       <small class="text-muted fw-semibold"><i class="bi bi-x-circle-fill"></i>&nbsp;No data available</small><br>
-                      {% if request.user.groups.first.name == config.opr %}
+                      {% if request.user.groups.first.name == config.opr or user.is_superuser  %}
                       <small class="text-muted">Make sure you have done the <a href="{% url 'setup-integration' %}" class="alert-link">integration settings</a> correctly.</small>
                       {% else %}
                       <small class="text-muted">Contact the operator, check the integration settings and try again.</small>

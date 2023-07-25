@@ -2,101 +2,40 @@ import requests
 from .headers import headers
 from .api_endpoint import getSekolah, getPengguna, getGtk, getRombonganBelajar, getPesertaDidik
 
+# Get data from API
+def get_data_from_api(api_url, headers):
+    try:
+        response = requests.get(api_url, headers=headers)
+        response.raise_for_status()
+        data = response.json()
+        return data.get('rows', [])
+    except requests.exceptions.RequestException as e:
+        # print(f'Error while fetching data from {api_url}: {e}')
+        return []
+
 # Data School
-response = requests.get(getSekolah, headers=headers)
+dapodik_school = get_data_from_api(getSekolah, headers)
+if dapodik_school:
+    print('Dapodik School API Connection [OK].')
 
-try:
-        response.raise_for_status()
-        data = response.json()
-        dapodik_school = data.get('rows', [])
-        print('Dapodik School API Connection [OK].')
-        
-except requests.exceptions.RequestException as e:
-        print('Error:', e)
+# Data Users
+dapodik_users = get_data_from_api(getPengguna, headers)
+if dapodik_users:
+    print('Dapodik Users API Connection [OK].')
 
-# Data Users 
-response = requests.get(getPengguna, headers=headers)
+# Data Employees
+dapodik_employees = get_data_from_api(getGtk, headers)
+if dapodik_employees:
+    print('Dapodik Employees API Connection [OK].')
 
-try:
-        response.raise_for_status()
-        data = response.json()
-        dapodik_users = data.get('rows', [])
-        print('Dapodik Users API Connection [OK].')
-
-except requests.exceptions.RequestException as e:
-        print('Error:', e)
-
-# Data Employees  
-response = requests.get(getGtk, headers=headers)
-
-try:
-        response.raise_for_status()
-        data = response.json()
-        dapodik_employees = data.get('rows', [])
-        print('Dapodik Employees API Connection [OK].')
-
-except requests.exceptions.RequestException as e:
-        pass
-
-# Data Learning Group  
-response = requests.get(getRombonganBelajar, headers=headers)
-
-try:
-        response.raise_for_status()
-        data = response.json()
-        dapodik_learning_group_raw = data.get('rows', [])
-        dapodik_learning_group = [(item['nama'], item['nama']) for item in dapodik_learning_group_raw]
-        print('Dapodik Learning Group API Connection [OK].')
-
-except requests.exceptions.RequestException as e:
-        pass
+# Data Learning Group
+dapodik_learning_group_raw = get_data_from_api(getRombonganBelajar, headers)
+dapodik_learning_group = [(item['nama'], item['nama']) for item in dapodik_learning_group_raw]
+if dapodik_learning_group_raw:
+    print('Dapodik Learning Group API Connection [OK].')
 
 # Data Students
-response = requests.get(getPesertaDidik, headers=headers)
-
-try:
-        response.raise_for_status()
-        data = response.json()
-        dapodik_students = data.get('rows', [])
-        dapodik_students_name = [(item['nama'], item['nama']) for item in dapodik_students]
-        print('Dapodik Students API Connection [OK].\n')
-
-except requests.exceptions.RequestException as e:
-        print('Error:', e)
-
-# if response.status_code == 200:
-# 	data = response.json()
-# 	dapodik_school = data.get('rows', [])
-# 	print('Dapodik School API Connection [OK].')
-# else:
-# 	print('Dapodik School API Connection Failed [ERROR].')
-
-# # Data Users
-# response = requests.get(getPengguna, headers=headers)
-
-# if response.status_code == 200:
-# 	data = response.json()
-# 	dapodik_users = data.get('rows', [])
-# 	print('Dapodik Users API Connection [OK].')
-# else:
-# 	print('Dapodik Users API Connection Failed [ERROR].')
-
-# # Data Employees
-# response = requests.get(getGtk, headers=headers)
-
-# if response.status_code == 200:
-# 	data = response.json()
-# 	dapodik_employees = data.get('rows', [])
-# 	print('Dapodik Employees API Connection [OK].')
-# else:
-# 	print('Dapodik Employees API Connection Failed [ERROR].')
-
-# # Data Students
-# response = requests.get(getPesertaDidik, headers=headers)
-
-# if response.status_code == 200:
-# 	data = response.json()
-# 	dapodik_students = data.get('rows', [])
-# 	print('Dapodik Students API Connection [OK].')
-# else:
-# 	print('Dapodik Students API Connection Failed [ERROR].')
+dapodik_students = get_data_from_api(getPesertaDidik, headers)
+dapodik_students_name = [(item['nama'], item['nama']) for item in dapodik_students]
+if dapodik_students:
+    print('Dapodik Students API Connection [OK].\n')
