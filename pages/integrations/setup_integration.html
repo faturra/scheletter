@@ -50,45 +50,155 @@
               <div class="mb-3 mt-3">
                 <h4 class="fw-normal">Setup Integration</h4>
               </div>
-                <form class="mb-3" method="POST" action="{% url 'setup-integration' %}">
-                  {% csrf_token %}
-                    <div class="row g-2">
-                      <div class="col-md mb-2">
-                        <div class="form-floating">
-                          <input type="text" class="form-control text-muted" id="server_address" name="server_address" value="{{integration_info.server_address}}" placeholder="01234327" required>
-                          <label for="server_address">Server Address</label>
-                          <div id="server_address" class="form-text">
-                            Enter the Dapodik server address hostname or IP address
-                          </div>
+              <form class="mb-3" method="POST" action="{% url 'setup-integration' %}">
+                {% csrf_token %}
+                  <div class="row g-2">
+                    <div class="col-md mb-2">
+                      <div class="form-floating">
+                        <input type="text" class="form-control text-muted" id="server_address" name="server_address" value="{{integration_info.server_address}}" placeholder="01234327" required>
+                        <label for="server_address">Server Address</label>
+                        <div id="server_address" class="form-text">
+                          Enter the Dapodik server address hostname or IP address
                         </div>
                       </div>
-                      <div class="col-md mb-2">
-                        <div class="form-floating">
-                          <input type="text" class="form-control text-muted" id="npsn" name="npsn"  value="{{integration_info.npsn}}" placeholder="01234327" required>
-                          <label for="floatingInputGrid">NPSN</label>
-                          <div id="npsn" class="form-text">
-                            Enter the school national number
-                          </div>
+                    </div>
+                    <div class="col-md mb-2">
+                      <div class="form-floating">
+                        <input type="text" class="form-control text-muted" id="npsn" name="npsn"  value="{{integration_info.npsn}}" placeholder="01234327" required>
+                        <label for="floatingInputGrid">NPSN</label>
+                        <div id="npsn" class="form-text">
+                          Enter the school national number
                         </div>
                       </div>
-                      <div class="col-md">
-                          <div class="form-floating">
-                            <input type="password" class="form-control text-muted" id="token" name="token" value="{{integration_info.token}}" placeholder="AaBb1234" required>
-                            <label for="token">Token</label>
-                            <div class="form-text">
-                              Enter the token from Dapodik web service
-                            </div>
+                    </div>
+                    <div class="col-md">
+                        <div class="form-floating">
+                          <input type="password" class="form-control text-muted" id="token" name="token" value="{{integration_info.token}}" placeholder="AaBb1234" required>
+                          <label for="token">Token</label>
+                          <div class="form-text">
+                            Enter the token from Dapodik web service
                           </div>
-                      </div>
-                  </div>
-                  <button type="submit" class="btn btn-primary mt-4" onclick="return confirm('Are you sure you want to change the settings');"><span class="bi bi-shuffle"></span>&nbsp;Connect</button>
-                </form>
-            </section>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary mt-4" onclick="return confirm('Are you sure you want to change the settings');"><span class="bi bi-shuffle"></span>&nbsp;Connect</button>
+              </form>
             </div>
           </div>
         </div>
       </div>
     </section>
+    {% if user.is_superuser %}
+    <section class="mb-5">
+      <div class="card">
+        <div class="card-header">
+          Data API (from dj requests)
+        </div>
+        <div class="card-body">
+          <button id="getDataButton" class="btn btn-dark">Get Data</button>
+          <hr>
+          <div id="dataContainer" class="font-monospace">
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="mb-5">
+      <div class="card">
+        <div class="card-header">
+          Data API (from ajax)
+        </div>
+        <div class="card-body">
+          <button id="getApiInfoFromServer" class="btn btn-dark">Get Data</button>
+          <hr>
+          <div id="apiInfoContainer">
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="mb-5">
+      <div class="card">
+        <div class="card-header">
+          System Control
+        </div>
+        <div class="card-body">
+          <a href="{% url 'reload-server' %}" class="btn btn-danger"><span class="bi bi-arrow-clockwise"></span>&nbsp;Restart</a>
+        </div>
+      </div>
+    </section>
+  {% endif %}
     <section class="mb-5">
 </div>
+{% if user.is_superuser %}
+<script>
+  $(document).ready(function() {
+      function getDataFromAPI() {
+          $.ajax({
+              url: 'get-data-api-now',
+              method: 'GET',
+              success: function(response) {
+                  $('#dataContainer').html(response);
+              },
+              error: function(error) {
+                  console.error('Error:', error);
+              }
+          });
+      }
+
+      $('#getDataButton').on('click', function() {
+          getDataFromAPI();
+      });
+  });
+  </script>
+
+<script>
+  $(document).ready(function() {
+      function getApiInfoFromServer() {
+          $.ajax({
+              url: 'get-api-data-new/',
+              method: 'GET',
+              success: function(apiInfo) {
+                  // Loop melalui setiap info API
+                  for (var i = 0; i < apiInfo.length; i++) {
+                      var apiName = apiInfo[i].server_address;
+                      var apiUrl = apiInfo[i].server_address; // Gunakan server_address sebagai apiUrl
+                      var apiToken = apiInfo[i].token;
+
+                      // Buat permintaan ke API menggunakan informasi dari database
+                      $.ajax({
+                          url: apiUrl,
+                          method: 'GET',
+                          headers: {
+                              'Authorization': 'Bearer ' + apiToken,
+                          },
+                          success: function(response) {
+                              // Tampilkan respons dari API di dalam apiInfoContainer
+                              var responseDataHtml = '<p>Response from ' + apiName + ':</p>';
+                              responseDataHtml += '<pre>' + JSON.stringify(response, null, 2) + '</pre>';
+                              $('#apiInfoContainer').append(responseDataHtml);
+                          },
+                          error: function(error) {
+                              console.error('Error:', error);
+                          }
+                      });
+                  }
+              },
+              error: function(error) {
+                  console.error('Error:', error);
+              }
+          });
+      }
+
+      // Panggil fungsi untuk mengambil data API dari server
+      getApiInfoFromServer();
+
+      // Tambahkan event listener untuk tombol Get Data
+      $('#getApiInfoFromServer').on('click', function() {
+          // Kosongkan apiInfoContainer sebelum melakukan permintaan baru
+          $('#apiInfoContainer').empty();
+          // Panggil kembali fungsi untuk mengambil data API dari server
+          getApiInfoFromServer();
+      });
+  });
+</script>
+{% endif %}
 {% endblock %}

@@ -49,27 +49,52 @@
                         {{ form|crispy }}
                         <button type="submit" class="btn btn-primary" onclick="return confirm('Are you sure you want to create the letter?');">Create</button>
                     </form>
+                    <!-- <form method="post">
+                      {% csrf_token %}
+                      <label for="studentName">Nama Siswa:</label>
+                      <select name="nama" id="studentName">
+                          <option value="">Pilih Siswa</option>
+                          {% for student in student_list %}
+                          <option value="{{ student.peserta_didik_id }}">{{ student.nama }}</option>
+                          {% endfor %}
+                      </select><br>
+                      <label for="studentLearningGroup">Kelas:</label>
+                      <input type="text" name="nama_rombel" id="studentLearningGroup" readonly><br>
+                      <label for="studentDob">Tanggal Lahir:</label>
+                      <input type="text" name="tanggal_lahir" id="studentDob" readonly><br>
+                      <label for="isiSurat">Isi Surat:</label>
+                      <textarea name="isi_surat" id="isiSurat"></textarea><br>
+                      <input type="submit" value="Simpan">
+                  </form> -->
                   </div>
                 </div>
             </div>
           </div>
     </section>
 </div>
-<!-- Custom AJAX
+
 <script>
   $(document).ready(function() {
-      // Ketika ada perubahan pada field 'nama'
-      $("#id_student_name").change(function() {
-          var selectedOption = $(this).children("option:selected");
-          var student_class = selectedOption.data("nama_rombel");
-          var student_place_of_birth = selectedOption.data("tempat_lahir");
-          var student_nisn = selectedOption.data("nisn");
-
-          // Isi otomatis field 'kelas' dan 'tanggal_lahir'
-          $("#id_student_class").val(student_class);
-          $("#id_student_place_of_birth").val(student_place_of_birth);
-          $("#id_student_nisn").val(student_nisn);
-      });
-  });
-</script> -->
+    $('#studentName').change(function() {
+        var student_id = $(this).val();
+        if (student_id) {
+            $.ajax({
+                url: '/get-student-info',
+                type: 'GET',
+                data: { 'peserta_didik_id': student_id },
+                success: function(response) {
+                    $('#studentLearningGroup').val(response.nama_rombel);
+                    $('#studentDob').val(response.tanggal_lahir);
+                },
+                error: function(error) {
+                    console.log('Error:', error);
+                }
+            });
+        } else {
+            $('#studentLearningGroup').val('');
+            $('#studentDob').val('');
+        }
+    });
+});
+</script>
 {% endblock %}
