@@ -1,7 +1,7 @@
 from django import forms
 from bootstrap_datepicker_plus.widgets import DatePickerInput, TimePickerInput
 from integrations.data import dapodik_students_name, dapodik_learning_group, dapodik_employees_name
-from .models import Students_Letter, Employees_Letter
+from .models import Students_Letter, Employees_Letter, Common_Letter
 
 # Student Letter Form
 class StudentsLetterForm(forms.ModelForm):
@@ -62,18 +62,55 @@ class EmployeesLetterForm(forms.ModelForm):
             'date': DatePickerInput(options={
                 'format': 'YYYY-MM-DD',
             }, attrs={'class': 'form-control', 'placeholder': 'yyyy-mm-dd'}),
-            'date_start': DatePickerInput(options={
+            'date_start': DatePickerInput(
+                options={'format': 'YYYY-MM-DD'},
+                attrs={'class': 'form-control', 'placeholder': 'yyyy-mm-dd'}
+            ),
+            'date_end': DatePickerInput(
+                options={'format': 'YYYY-MM-DD'},
+                attrs={'class': 'form-control', 'placeholder': 'yyyy-mm-dd'}
+            ),
+            'time_start': TimePickerInput(
+                options={'format': 'HH:mm', 'showClear': True},
+                attrs={'class': 'form-control', 'placeholder': 'hh:mm'}
+            ),
+            'time_end': TimePickerInput(
+                options={'format': 'HH:mm', 'showClear': True},
+                attrs={'class': 'form-control', 'placeholder': 'hh:mm'}
+),
+        }
+
+# Common Letter Form
+class CommonLetterForm(forms.ModelForm):
+    subject = forms.CharField(required=True, label='Regarding')
+       
+    class Meta:
+        model = Common_Letter
+        fields = ['letter_type', 'letter_category', 'dear_invitation', 'attachment', 'number', 'date', 'subject', 'body_opening', 'date_start', 'date_end', 'time_start', 'time_end', 'place_address', 'event_name', 'body_closing','type_sign']
+
+        widgets = {
+            'letter_type': forms.Select(attrs={'class': 'form-control', 'required': True}),
+            'letter_category': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Category', 'required': True}),
+            'dear_invitation': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Dear/Invitation', 'required': True}),
+            'number': forms.TextInput(attrs={'class': 'form-control','placeholder': 'Auto','readonly': True,}),
+            'date': DatePickerInput(options={
                 'format': 'YYYY-MM-DD',
             }, attrs={'class': 'form-control', 'placeholder': 'yyyy-mm-dd'}),
-            'date_end': DatePickerInput(options={
-                'format': 'YYYY-MM-DD',
-            }, attrs={'class': 'form-control', 'placeholder': 'yyyy-mm-dd'}),
-            'time_start': TimePickerInput(options={
-                'format': 'HH:mm',
-                'showClear': True,
-            }, attrs={'class': 'form-control', 'placeholder': 'hh:mm'}),
-            'time_end': TimePickerInput(options={
-                'format': 'HH:mm',
-                'showClear': True,
-            }, attrs={'class': 'form-control', 'placeholder': 'hh:mm'}),
+            'date_start': DatePickerInput(
+                options={'format': 'YYYY-MM-DD'},
+                attrs={'class': 'form-control', 'placeholder': 'yyyy-mm-dd'}
+            ),
+            'date_end': DatePickerInput(
+                options={'format': 'YYYY-MM-DD'},
+                attrs={'class': 'form-control', 'placeholder': 'yyyy-mm-dd'}
+            ),
+            'time_start': TimePickerInput(
+                options={'format': 'HH:mm', 'showClear': True},
+                attrs={'class': 'form-control', 'placeholder': 'hh:mm'}
+            ),
+            'time_end': TimePickerInput(
+                options={'format': 'HH:mm', 'showClear': True},
+                attrs={'class': 'form-control', 'placeholder': 'hh:mm'}
+                ),
+            'event_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Event', 'required': True}),
         }

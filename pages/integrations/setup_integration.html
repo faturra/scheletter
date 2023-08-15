@@ -121,7 +121,7 @@
           System Control
         </div>
         <div class="card-body">
-          <a href="{% url 'reload-server' %}" class="btn btn-danger"><span class="bi bi-arrow-clockwise"></span>&nbsp;Restart</a>
+          <a href="{% url 'reload-server' %}" class="btn btn-danger" onclick="return confirm('Are you sure you want to restart the server');"><span class="bi bi-arrow-clockwise"></span>&nbsp;Restart</a>
         </div>
       </div>
     </section>

@@ -2,7 +2,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import StudentsLetterForm, EmployeesLetterForm
+from .forms import StudentsLetterForm, EmployeesLetterForm, CommonLetterForm
 from core import decorators, config
 from .models import Students_Letter
 from integrations.data import dapodik_students
@@ -74,4 +74,16 @@ def employee_letter(request):
 @login_required
 @decorators.group_required(config.hoa, config.scs, config.ecs)
 def common_letter(request):
-    return render(request, 'administration/letter/create_letter/common_letter.html')
+    if request.method == 'POST':
+        form = CommonLetterForm(request.POST)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.created_by = request.user
+            instance.save()
+            messages.success(request, 'Letter successfully created!')
+            return redirect('letter')
+    else:
+        form = CommonLetterForm()
+    
+    context = {'form': form}
+    return render(request, 'administration/letter/create_letter/common_letter.html', context)

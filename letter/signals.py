@@ -1,18 +1,20 @@
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from datetime import datetime
-from .models import Students_Letter, Employees_Letter
+from .models import Students_Letter, Employees_Letter, Common_Letter
 import pytz
 
 @receiver(pre_save, sender=Students_Letter)
 @receiver(pre_save, sender=Employees_Letter)
-def generate_surat_number(sender, instance, **kwargs):
+@receiver(pre_save, sender=Common_Letter)
+def generate_letter_number(sender, instance, **kwargs):
     if not instance.number:
         latest_student_letter = Students_Letter.objects.order_by('-created_at').first()
         latest_employee_letter = Employees_Letter.objects.order_by('-created_at').first()
+        latest_common_letter = Common_Letter.objects.order_by('-created_at').first()
 
         latest_letter = max(
-            (latest_student_letter, latest_employee_letter),
+            (latest_student_letter, latest_employee_letter, latest_common_letter),
             key=lambda x: x.created_at.replace(tzinfo=None) if x and x.created_at else datetime.min
         )
 
@@ -24,7 +26,9 @@ def generate_surat_number(sender, instance, **kwargs):
 
         year = instance.date.year
 
-        if isinstance(instance, Employees_Letter) and not instance.number:
+        if isinstance(instance, Common_Letter) and not instance.number:
+            instance.number = f'{new_number:03d} / PK.01.02'
+        elif isinstance(instance, Employees_Letter) and not instance.number:
             instance.number = f'{new_number:03d} / PK.02.00'
         elif not instance.number:
             instance.number = f'{new_number:03d} TAHUN {year}'
