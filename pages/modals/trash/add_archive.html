@@ -135,7 +135,7 @@
                               <th scope="col">#</th>
                               {% if students_digital_sign_applied.is_selected_to_destroy %}
                               {% else %}
-                              <th scope="col"><i class="bi bi-sticky"></i>&nbsp;Add</th>
+                              <th scope="col"><i class="bi bi-plus-circle"></i>&nbsp;Add</th>
                               {% endif %}
                               <th scope="col"><i class="bi bi-box-arrow-up-right"></i>&nbsp;Check</th>
                               <th scope="col">Number</th>
@@ -155,7 +155,7 @@
                               <th scope="row">{{ forloop.counter }}</th>
                               {% if students_digital_sign_applied.is_selected_to_destroy %}
                               {% else %}
-                              <td><a href="{% url 'process-sl-to-destroy-list' sl_arc_id=archive.letter_id %}" class="btn btn-sm btn-warning" onclick="return confirm('Are you sure you want to add the archive:\n\n[{{archive.get_letter_type_display}}]\n{{archive.student_name}} {{archive.student_nisn}}\n{{archive.number}}');"><i class="bi bi-sticky"></i>&nbsp;Add</a></td>
+                              <td><a href="{% url 'process-sl-to-destroy-list' sl_arc_id=archive.letter_id %}" class="btn btn-sm btn-warning" onclick="return confirm('Are you sure you want to add the archive:\n\n[{{archive.get_letter_type_display}}]\n{{archive.student_name}} {{archive.student_nisn}}\n{{archive.number}}');"><i class="bi bi-plus-circle"></i>&nbsp;Add</a></td>
                               {% endif %}
                               <td><a href="{% url 'generate-pdf' letter_id=archive.letter_id %}" class="btn btn-sm btn-light" target="_blank"><i class="bi bi-box-arrow-up-right"></i>&nbsp;Check</a></td>
                               <td>{{ archive.number }}</td>
