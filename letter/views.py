@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import StudentsLetterForm, EmployeesLetterForm, CommonLetterForm
 from core import decorators, config
-from .models import Students_Letter
+from .models import Students_Letter, Employees_Letter, Common_Letter
 from integrations.data import dapodik_students
 
 # Create your views here.
@@ -12,11 +12,19 @@ from integrations.data import dapodik_students
 @login_required
 @decorators.group_required(config.hoa, config.scs, config.ecs)
 def letter(request):
-    last_letter_number = Students_Letter.objects.order_by('-created_at').first()
-    last_number = int(last_letter_number.number.split(' ')[0])
+    latest_student_letter = Students_Letter.objects.order_by('-created_at').first()
+    latest_employee_letter = Employees_Letter.objects.order_by('-created_at').first()
+    latest_common_letter = Common_Letter.objects.order_by('-created_at').first()
+
+    student_number = int(latest_student_letter.number[:3]) if latest_student_letter else 0
+    employee_number = int(latest_employee_letter.number[:3]) if latest_employee_letter else 0
+    common_number = int(latest_common_letter.number[:3]) if latest_common_letter else 0
+
+    last_number = max(student_number, employee_number, common_number)
 
     context = {'last_number': last_number}
     return render(request, 'administration/letter/letter.html', context)
+
 
 @login_required
 @decorators.group_required(config.hoa, config.scs, config.ecs)
