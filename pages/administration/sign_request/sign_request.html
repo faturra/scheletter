@@ -58,7 +58,7 @@
                   <p class="card-text small"><span class="card-text text-muted">{{ item.number }}</span><br>{{ item.student_name }}&nbsp;{{ item.student_class }}-{{ item.student_nisn }}</p>
                   <hr style="border-style: dashed;">
                   <a href="{% url 'generate-pdf' letter_id=item.letter_id %}" class="btn btn-light text-primary" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a>
-                  <small class="text-muted">Signed on {{ item.digital_sign_at|date:"Y-m-d H:i" }}</small>
+                  <small class="text-muted">Signed on {{ item.digital_sign_at|date:"Y-m-d H:i" }}&nbsp;<i class="bi bi-check-circle-fill text-success"></i></small>
                 </div>
               </div>
             </div>
