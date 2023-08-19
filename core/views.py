@@ -53,7 +53,7 @@ def dashboard(request):
     count_ltr = Students_Letter.objects.count()
     count_arc = Students_Letter.objects.filter(digital_sign_at__isnull=False).count #+ Employee_Letter.objects.count() + Guest_Book.objects.count()
 
-    count_rs = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True).count
+    count_rs = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=False).count
     count_rtd = Students_Letter.objects.filter(is_selected_to_destroy=True).count
     
 
@@ -143,12 +143,11 @@ def activate_user(request, user_id):
 @login_required
 @group_required(config.prl)
 def sign_request(request):
-    queue = Students_Letter.objects.all()
-    digital_sign = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True)
+    digital_sign = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=False)
     students_digital_sign_applied = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False).order_by('-digital_sign_at')[:9]
     count_rs = digital_sign.count
 
-    context = {'queue': queue, 'digital_sign': digital_sign, 'students_digital_sign_applied':students_digital_sign_applied, 'count_rs': count_rs}
+    context = {'digital_sign': digital_sign, 'students_digital_sign_applied':students_digital_sign_applied, 'count_rs': count_rs}
     return render(request, 'administration/sign_request/sign_request.html', context)
 
 @login_required
@@ -236,7 +235,7 @@ def send_sign_request(request, letter_id):
     students_letter.updated_by = request.user
     students_letter.save()
 
-    messages.success(request, 'Requset was successfully submitted!')
+    messages.success(request, 'Requset was successfully sent!')
     return redirect('request-queue')
 
 
