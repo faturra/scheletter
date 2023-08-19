@@ -51,7 +51,7 @@
                   <li><a class="dropdown-item" href="{% url 'letter' %}"><span><i class="bi bi-file-earmark-text">&nbsp;</i></span>Create Letter</a></li>
                   <li><a class="dropdown-item" href="{% url 'request-queue' %}"><span><i class="bi bi-list-ol">&nbsp;</i></span>Request Queue&nbsp;<span class="badge bg-primary">2</span></a></li>
                   {% endif %}
-                  {% if request.user.groups.first.name == 'Principal' %}
+                  {% if request.user.groups.first.name == 'Principal' or user.is_superuser %}
                   <li><a class="dropdown-item" href="{% url 'sign-request' %}"><span><i class="bi bi-pen">&nbsp;</i></span>Sign Request&nbsp;{% if count_rs %}<span class="badge bg-primary">{{ count_rs }}</span>{% endif %}</a></li>
                   {% endif %}
                   <li><a class="dropdown-item" href="{% url 'guest-book' %}"><span><i class="bi bi-book">&nbsp;</i></span>Guest Book</a></li>
