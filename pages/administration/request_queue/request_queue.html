@@ -41,7 +41,8 @@
                         <tr>
                             <th scope="row">{{ forloop.counter }}</th>
                             <td>
-                                <a href="{% url 'send-sign-request' letter_id=item.letter_id %}" class="btn btn-sm btn-success"><span class="bi bi-send"></span>&nbsp;Send</a>
+                                <a href="{% url 'send-sign-request' letter_id=item.letter_id %}" class="btn btn-sm btn-success"><span class="bi bi-arrow-90deg-right"></span>&nbsp;Request sign</a>
+                                <a href="#" class="btn btn-sm btn-light"><span class="bi bi-box-arrow-up-right"></span>&nbsp;Check</a>
                                 <a href="#" class="btn btn-sm btn-light text-warning"><span class="bi bi-pen"></span></a>
                                 <a href="#" class="btn btn-sm btn-light text-danger"><span class="bi bi-trash"></span></a>
                             </td>
