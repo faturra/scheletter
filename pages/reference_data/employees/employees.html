@@ -38,7 +38,7 @@
               <tbody>
                 {% for item in employees %}
                 <tr>
-                  <th scope="row"><i class="bi bi-check2-circle text-primary"></i></th>
+                  <th scope="row"><span class="bi bi-check2-circle text-primary" data-bs-toggle="tooltip" data-bs-title="Registration id: {{ item.ptk_terdaftar_id|slice:":5" }}***"></span></th>
                   <td>{{ item.nama }}</td>
                   <td>{{ item.jenis_kelamin }}</td>
                   <td>{{ item.tempat_lahir }}</td>
