@@ -9,6 +9,7 @@ from core import config, decorators
 from .forms import IntegrationsForm
 from .models import Integrations
 from .data import dapodik_school
+from .system_check import dapodik_connection_status
 
 # Create your views here.
 
@@ -39,7 +40,10 @@ def setup_integration(request):
             form = IntegrationsForm()
             messages.error(request, 'Changes failed to update!')
 
-    context = {'form': IntegrationsForm, 'integration_info': integration_info}
+    dapodik_status = dapodik_connection_status
+    integration_connection_status = dapodik_school
+
+    context = {'form': IntegrationsForm, 'integration_info': integration_info, 'integration_connection_status': integration_connection_status, 'dapodik_status':dapodik_status}
     return render(request, 'integrations/setup_integration.html', context)
 
 
