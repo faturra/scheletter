@@ -208,14 +208,37 @@ def apply_signature(request, letter_id):
 @login_required
 @group_required(config.hoa, config.scs, config.ecs)
 def request_queue(request):
-    queue = Students_Letter.objects.all()
-    digital_sign = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True).order_by('-created_at')
+    staging = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=True).order_by('-created_at')
+    digital_sign = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=False).order_by('-created_at')
     students_digital_sign_applied = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False).order_by('-created_at')
     manual_sign = Students_Letter.objects.filter(type_sign='2').order_by('-created_at')
     count_rs = digital_sign.count
 
-    context = {'queue': queue, 'digital_sign': digital_sign, 'students_digital_sign_applied': students_digital_sign_applied, 'manual_sign': manual_sign, 'count_rs': count_rs}
+    context = {'staging': staging, 'digital_sign': digital_sign, 'students_digital_sign_applied': students_digital_sign_applied, 'manual_sign': manual_sign, 'count_rs': count_rs}
     return render(request, 'administration/request_queue/request_queue.html', context)
+
+@login_required
+@group_required(config.hoa, config.scs, config.ecs)
+def cancel_letter(request, letter_id):
+    students_letter = Students_Letter.objects.get(pk=letter_id)
+    students_letter.is_in_staging = True
+    students_letter.updated_by = request.user
+    students_letter.save()
+
+    messages.success(request, 'Letter has been canceled!')
+    return redirect('request-queue')
+
+@login_required
+@group_required(config.hoa, config.scs, config.ecs)
+def send_sign_request(request, letter_id):
+    students_letter = Students_Letter.objects.get(pk=letter_id)
+    students_letter.is_in_staging = False
+    students_letter.updated_by = request.user
+    students_letter.save()
+
+    messages.success(request, 'Requset was successfully submitted!')
+    return redirect('request-queue')
+
 
 @login_required
 @group_required(config.hoa, config.scs, config.ecs, config.prl)

@@ -14,34 +14,46 @@
     <section class="mb-5">
         <ul class="nav nav-tabs mb-3" id="request-queue-tab" role="tablist">
             <li class="nav-item" role="request-queue-active">
-              <button class="nav-link active" id="request-queue-active" data-bs-toggle="tab" data-bs-target="#request-queue-active-pane" type="button" role="tab" aria-controls="request-queue-active-pane" aria-selected="true">Request{% if count_rq %}&nbsp;<span class="badge bg-primary">{{ count_rq }}</span>{% else %}{% endif %}</button>
+              <button class="nav-link active" id="request-queue-active" data-bs-toggle="tab" data-bs-target="#request-queue-active-pane" type="button" role="tab" aria-controls="request-queue-active-pane" aria-selected="true">Staging{% if count_rq %}&nbsp;<span class="badge bg-primary">{{ count_rq }}</span>{% else %}{% endif %}</button>
             </li>
         </ul>
         <div class="tab-content" id="request-queue-a">
             <div class="tab-pane fade show active" id="request-queue-active-pane" role="tabpanel" aria-labelledby="request-queue-active" tabindex="0">
-                {% if request_queue %}
-                <table id="tb_request_queue" class="table table-hover text-truncate">
+                {% if staging %}
+                <table id="tb_staging" class="table table-hover text-truncate">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Nama Tamu</th>
-                            <th scope="col">Alamat</th>
-                            <th scope="col">Pekerjaan/Jabatan</th>
-                            <th scope="col">Bertamu Dengan</th>
-                            <th scope="col">Keperluan</th>
-                            <th scope="col">Pukul/Jam</th>
+                            <th scope="col">Action</th>
+                            <th scope="col">Number</th>
+                            <th scope="col">Subject</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Class</th>
+                            <th scope="col">L/P</th>
+                            <th scope="col">NISN</th>
+                            <th scope="col">Letter type</th>
+                            <th scope="col">Type sign</th>
+                            <th scope="col">Date</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for item in request_queue %}
+                        {% for item in staging %}
                         <tr>
                             <th scope="row">{{ forloop.counter }}</th>
-                            <td>{{ item.nama }}</td>
-                            <td>{{ item.jenis_kelamin }}</td>
-                            <td>{{ item.rombel }}</td>
-                            <td>{{ item.nisn }}</td>
-                            <td>{{ item.nis }}</td>
-                            <td>{{ item.nik }}</td>
+                            <td>
+                                <a href="{% url 'send-sign-request' letter_id=item.letter_id %}" class="btn btn-sm btn-success">Send</a>
+                                <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                            </td>
+                            <td>{{ item.number }}</td>
+                            <td>{{ item.subject }}</td>
+                            <td>{{ item.student_name }}</td>
+                            <td>{{ item.student_class }}</td>
+                            <td>{{ item.get_student_gender_display }}</td>
+                            <td>{{ item.student_nisn }}</td>
+                            <td>{{ item.get_letter_type_display }}</td>
+                            <td>{{ item.get_type_sign_display }}</td>
+                            <td>{{ item.created_at }}</td>
                         </tr>
                         {% endfor %}
                    </tbody>
@@ -72,6 +84,7 @@
                     <thead>
                         <tr>
                             <th scope="col">#</th>
+                            <th scope="col">Action</th>
                             <th scope="col">Number</th>
                             <th scope="col">Subject</th>
                             <th scope="col">Name</th>
@@ -87,6 +100,7 @@
                         {% for item in digital_sign %}
                         <tr>
                             <th scope="row">{{ forloop.counter }}</th>
+                            <td><a href="{% url 'cancel-letter' letter_id=item.letter_id %}" class="btn btn-sm btn-danger">Cancel</a></td>
                             <td>{{ item.number }}</td>
                             <td>{{ item.subject }}</td>
                             <td>{{ item.student_name }}</td>

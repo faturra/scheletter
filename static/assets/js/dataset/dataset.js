@@ -28,6 +28,13 @@ $(document).ready(function() {
 });
 
 $(document).ready(function() {
+  $('#tb_staging').dataTable( {
+    "scrollX": true,
+    "pagingType": "simple",
+  } );
+});
+
+$(document).ready(function() {
   $('#tb_waiting_sign').dataTable( {
     "scrollX": true,
     "pagingType": "simple",
