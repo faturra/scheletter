@@ -218,13 +218,13 @@ def request_queue(request):
 
 @login_required
 @group_required(config.hoa, config.scs, config.ecs)
-def cancel_letter(request, letter_id):
+def cancel_request_sign(request, letter_id):
     students_letter = Students_Letter.objects.get(pk=letter_id)
     students_letter.is_in_staging = True
     students_letter.updated_by = request.user
     students_letter.save()
 
-    messages.success(request, 'Letter has been canceled!')
+    messages.success(request, 'Request has been canceled!')
     return redirect('request-queue')
 
 @login_required
@@ -235,7 +235,7 @@ def send_sign_request(request, letter_id):
     students_letter.updated_by = request.user
     students_letter.save()
 
-    messages.success(request, 'Requset was successfully sent!')
+    messages.success(request, 'Request was successfully sent!')
     return redirect('request-queue')
 
 

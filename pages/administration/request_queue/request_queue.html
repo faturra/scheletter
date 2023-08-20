@@ -101,7 +101,7 @@
                         {% for item in digital_sign %}
                         <tr>
                             <th scope="row">{{ forloop.counter }}</th>
-                            <td><a href="{% url 'cancel-letter' letter_id=item.letter_id %}" class="btn btn-sm btn-danger">Cancel</a></td>
+                            <td><a href="{% url 'cancel-request-sign' letter_id=item.letter_id %}" class="btn btn-sm btn-danger">Cancel</a></td>
                             <td>{{ item.number }}</td>
                             <td>{{ item.subject }}</td>
                             <td>{{ item.student_name }}</td>
