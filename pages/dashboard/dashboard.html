@@ -13,7 +13,7 @@
                   <h1 class=""><span class="bi bi-buildings"></span>&nbsp;Welcome</h1>
                 </div>
                 <div>
-                  <p class="lead">You're working in&nbsp;<span class="text-primary">{{school_info.nama|default_if_none:'Please check integration settings'}}</span></p>
+                  {% if school_info.nama %}<p class="lead">You're working in&nbsp;<span class="text-primary">{{school_info.nama|default_if_none:'Please check integration settings'}}</span></p>{% endif %}
                 </div>
               </div>
             </div>

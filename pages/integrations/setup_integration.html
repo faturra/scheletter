@@ -8,7 +8,7 @@
         <h1 class=""><span class="bi bi-shuffle"></span>&nbsp;Setup Integration</h1>
       </div>
       <div>
-        <p class="lead">Dapodik data integration settings{% if dapodik_status == '1' %}&nbsp;<span class="text-warning">Complete your setup</span>{% endif %}</p>
+        <p class="lead">Dapodik data integration settings{% if dapodik_status == '1' and integration_connection_status.nama is None %}&nbsp;<span class="text-warning">Complete your setup</span>{% elif dapodik_status == '1' and integration_connection_status.nama %}{% endif %}</p>
       </div>
     </section>
     <section class="mb-5">
@@ -39,7 +39,7 @@
                   {% elif dapodik_status == '1' %}
                   <h2><span class="bi bi-record-circle-fill text-warning"></span></h2>
                   <h2 class="fw-normal">Setup Integration</h2>
-                  <p class="text-warning">Complete your setup</p>
+                  <p class="text-warning">Complete your setup form</p>
                   {% else %}
                   <h2><span class="bi bi-x-circle-fill text-danger"></span></h2>
                   <h2 class="fw-normal">Setup Integration</h2>
@@ -61,11 +61,11 @@
             </div>
           </div>
         </div>
-        {% if dapodik_status == '1' %}
+        {% if dapodik_status == '1' or user.is_superuser %}
         <div class="accordion-item">
           <h2 class="accordion-header">
             <button class="accordion-button {% if integration_info %}collapsed{% else %}{% endif %} bg-light text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="{% if request.user.integrations %}false{% else %}true{% endif %}" aria-controls="panelsStayOpen-collapseTwo">
-              <i class="bi bi-gear-wide-connected"></i>&nbsp;Setup Integration&nbsp;
+              <i class="bi bi-gear-wide-connected"></i>&nbsp;Setup Integration&nbsp;{% if dapodik_status == '1' and integration_connection_status.nama is None %}<span class="bi bi-exclamation-triangle text-warning"></span>{% endif %}
             </button>
           </h2>
           <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse {% if integration_info %}{% else %}show{% endif %}">
