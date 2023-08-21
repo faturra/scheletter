@@ -27,13 +27,15 @@ from PIL import Image
 # Create your views here.
 @unauthenticated_user
 def index(request):
+    next_url = request.POST.get('next')
+
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
+        
         if user is not None:
             login(request, user)
-            next_url = request.POST.get('next')
             if next_url:
                 messages.success(request, 'Sign in success! Hi {}'.format(user.get_full_name()))
                 return redirect(next_url)
@@ -42,8 +44,9 @@ def index(request):
                 return redirect('dashboard')
         else:
             messages.info(request, 'Incorrect email or password')
-            return redirect('index')
-    return render(request, 'index/index.html')
+    
+    context = {'next_url': next_url}
+    return render(request, 'index/index.html', context)
 
 @login_required
 def dashboard(request):
