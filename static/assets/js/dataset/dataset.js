@@ -19,6 +19,13 @@ $(document).ready(function() {
   } );
 });
 
+$(document).ready(function() {
+  $('#tb_guest_book').dataTable( {
+    "scrollX": true,
+    "pagingType": "simple",
+  } );
+});
+
 // Letters
 $(document).ready(function() {
   $('#tb_request_queue').dataTable( {
