@@ -20,7 +20,8 @@ from letter.models import Students_Letter
 from core import config
 from datetime import datetime
 from .decorators import unauthenticated_user, group_required
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, GuestBookForm
+from .models import Guest_Book
 from PIL import Image
 
 
@@ -265,10 +266,23 @@ def generate_pdf(request, letter_id):
 
 @login_required
 def guest_book(request):
-    return render(request, 'administration/guest_book/guest_book.html')
+    guest_list = Guest_Book.objects.all().order_by('-created_at')
+
+    context = {'guest_list': guest_list}
+    return render(request, 'administration/guest_book/guest_book.html', context)
 
 def guest_and_request_form(request):
-    return render(request, 'administration/guest_book/guest_and_request_form/guest_and_request_form.html')
+    if request.method == 'POST':
+        form = GuestBookForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Form has been submitted!')
+            return redirect('guest-and-request-form')
+    else:
+        form = GuestBookForm()
+    
+    context = {'form': form}
+    return render(request, 'administration/guest_book/guest_and_request_form/guest_and_request_form.html', context)
 
 @login_required
 def archives(request):

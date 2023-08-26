@@ -24,25 +24,25 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Nama Tamu</th>
-                                <th scope="col">Alamat</th>
-                                <th scope="col">Pekerjaan/Jabatan</th>
-                                <th scope="col">Bertamu Dengan</th>
-                                <th scope="col">Keperluan</th>
-                                <th scope="col">Pukul/Jam</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Address</th>
+                                <th scope="col">Occupation</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Message</th>
+                                <th scope="col">Date</th>
                             </tr>
                         </thead>
                         <tbody>
-                        {% if students %}
-                            {% for item in students %}
+                        {% if guest_list %}
+                            {% for item in guest_list %}
                             <tr>
                                 <th scope="row">{{ forloop.counter }}</th>
-                                <td>{{ item.nama }}</td>
-                                <td>{{ item.jenis_kelamin }}</td>
-                                <td>{{ item.rombel }}</td>
-                                <td>{{ item.nisn }}</td>
-                                <td>{{ item.nis }}</td>
-                                <td>{{ item.nik }}</td>
+                                <td>{{ item.name }}</td>
+                                <td>{{ item.address }}</td>
+                                <td>{{ item.occupation }}</td>
+                                <td>{{ item.email }}</td>
+                                <td>{{ item.message }}</td>
+                                <td>{{ item.created_at }}</td>
                             </tr>
                             {% endfor %}
                             {% else %}

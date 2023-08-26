@@ -6,6 +6,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout, Field
 from crispy_forms.bootstrap import FormActions
 from integrations.data import dapodik_employees
+from .models import Guest_Book
 
 class LoginForm(AuthenticationForm):
     def __init__(self, *args, **kwargs):
@@ -45,3 +46,23 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         fields = UserCreationForm.Meta.fields + ('first_name','group')
+
+
+class GuestBookForm(forms.ModelForm):
+    class Meta:
+        model = Guest_Book
+        fields = ['name', 'address', 'occupation', 'email', 'message']
+        widgets = {
+            'name': forms.TextInput(attrs={'placeholder': 'Name'}),
+            'address': forms.TextInput(attrs={'placeholder': 'Address'}),
+            'occupation': forms.TextInput(attrs={'placeholder': 'Occupation'}),
+            'email': forms.EmailInput(attrs={'placeholder': 'Email'}),
+            'message': forms.Textarea(attrs={'placeholder': 'Message'}),
+        }
+        labels = {
+            'name': 'Name',
+            'address': 'Address',
+            'occupation': 'Occupation',
+            'email': 'Email',
+            'message': 'Message',
+        }
