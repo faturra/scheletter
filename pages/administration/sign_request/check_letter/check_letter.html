@@ -86,8 +86,8 @@
                         <form method="post" action="{% url 'apply-signature' letter_id=letter.letter_id %}">
                           {% csrf_token %}
                           <a href="{% url 'sign-request' %}" class="btn btn-secondary shadow">Back</a>
-                          {% if letter.digital_sign_at %}
-                          {% else %}
+                          {% if letter.digital_sign_at and letter.is_in_staging is False %}
+                          {% elif letter.digital_sign_at is None and letter.is_in_staging is False %}
                           <a href="{% url 'apply-signature' letter_id=letter.letter_id %}" class="btn btn-primary shadow" onclick="return confirm('Are you sure you want to sign the letter:\n\n[{{letter.get_letter_type_display}}]\n{{letter.student_name}} {{letter.student_nisn}}\n{{letter.number}}');"><i class="bi bi-fingerprint"></i>&nbsp;Sign the letter</a>
                           {% endif %}
                         </form>
