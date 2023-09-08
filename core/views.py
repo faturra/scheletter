@@ -16,7 +16,7 @@ from django.template.loader import get_template
 from django.utils import timezone
 from xhtml2pdf import pisa
 from integrations.data import dapodik_school, dapodik_employees, dapodik_students
-from letter.models import Students_Letter
+from letter.models import Students_Letter, Employees_Letter
 from core import config
 from datetime import datetime
 from .decorators import unauthenticated_user, group_required
@@ -211,22 +211,41 @@ def apply_signature(request, letter_id):
 @login_required
 @group_required(config.hoa, config.scs, config.ecs)
 def request_queue(request):
-    staging = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=True).order_by('-created_at')
-    digital_sign = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=False).order_by('-created_at')
-    students_digital_sign_applied = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False).order_by('-created_at')
-    manual_sign = Students_Letter.objects.filter(type_sign='2').order_by('-created_at')
-    count_rs = digital_sign.count
+    staging_scs = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=True).order_by('-created_at')
+    digital_sign_scs = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=False).order_by('-created_at')
+    students_digital_sign_applied_scs = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False).order_by('-created_at')
+    manual_sign_scs = Students_Letter.objects.filter(type_sign='2').order_by('-created_at')
+    
+    staging_ecs = Employees_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=True).order_by('-created_at')
+    digital_sign_ecs = Employees_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=False).order_by('-created_at')
+    students_digital_sign_applied_ecs = Employees_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False).order_by('-created_at')
+    manual_sign_ecs = Employees_Letter.objects.filter(type_sign='2').order_by('-created_at')
 
-    context = {'staging': staging, 'digital_sign': digital_sign, 'students_digital_sign_applied': students_digital_sign_applied, 'manual_sign': manual_sign, 'count_rs': count_rs}
+    context = {
+        'staging_scs': staging_scs, 
+        'digital_sign_scs': digital_sign_scs, 
+        'students_digital_sign_applied_scs': students_digital_sign_applied_scs, 
+        'manual_sign_scs': manual_sign_scs,
+        
+        'staging_ecs': staging_ecs, 
+        'digital_sign_ecs': digital_sign_ecs, 
+        'students_digital_sign_applied_ecs': students_digital_sign_applied_ecs, 
+        'manual_sign_ecs': manual_sign_ecs
+        }
+    
     return render(request, 'administration/request_queue/request_queue.html', context)
 
 @login_required
 @group_required(config.hoa, config.scs, config.ecs)
 def cancel_request_sign(request, letter_id):
-    students_letter = Students_Letter.objects.get(pk=letter_id)
-    students_letter.is_in_staging = True
-    students_letter.updated_by = request.user
-    students_letter.save()
+    if request.user.groups.filter(name=config.scs).exists():
+        letter = Students_Letter.objects.get(pk=letter_id)
+    elif request.user.groups.filter(name=config.ecs).exists():
+        letter = Employees_Letter.objects.get(pk=letter_id)
+
+    letter.is_in_staging = True
+    letter.updated_by = request.user
+    letter.save()
 
     messages.success(request, 'Request has been canceled!')
     return redirect('request-queue')
@@ -234,10 +253,14 @@ def cancel_request_sign(request, letter_id):
 @login_required
 @group_required(config.hoa, config.scs, config.ecs)
 def send_sign_request(request, letter_id):
-    students_letter = Students_Letter.objects.get(pk=letter_id)
-    students_letter.is_in_staging = False
-    students_letter.updated_by = request.user
-    students_letter.save()
+    if request.user.groups.filter(name=config.scs).exists():
+        letter = Students_Letter.objects.get(pk=letter_id)
+    elif request.user.groups.filter(name=config.ecs).exists():
+        letter = Employees_Letter.objects.get(pk=letter_id)
+
+    letter.is_in_staging = False
+    letter.updated_by = request.user
+    letter.save()
 
     messages.success(request, 'Request was successfully sent!')
     return redirect('request-queue')

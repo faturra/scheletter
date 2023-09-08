@@ -12,9 +12,6 @@ def unauthenticated_user(view_func):
     return wrapper_func
 
 def group_required(*group_names):
-    """
-    Decorator untuk membatasi akses halaman hanya untuk pengguna dengan grup yang sesuai.
-    """
     def decorator(view_func):
         def wrapper(request, *args, **kwargs):
             if request.user.groups.filter(name__in=group_names).exists() or request.user.is_superuser:
@@ -25,9 +22,6 @@ def group_required(*group_names):
     return decorator
 
 def opr_required(view_func):
-    """
-    Decorator untuk membatasi akses halaman hanya untuk pengguna dengan grup 'operator'.
-    """
     def wrapper(request, *args, **kwargs):
         if request.user.groups.filter(name=config.opr).exists() or request.user.is_superuser:
             return view_func(request, *args, **kwargs)
@@ -37,9 +31,6 @@ def opr_required(view_func):
     return wrapper
 
 def prl_required(view_func):
-    """
-    Decorator untuk membatasi akses halaman hanya untuk pengguna dengan grup 'operator'.
-    """
     def wrapper(request, *args, **kwargs):
         if request.user.groups.filter(name=config.prl).exists() or request.user.is_superuser:
             return view_func(request, *args, **kwargs)
@@ -49,9 +40,6 @@ def prl_required(view_func):
     return wrapper
 
 def hoa_required(view_func):
-    """
-    Decorator untuk membatasi akses halaman hanya untuk pengguna dengan grup 'operator'.
-    """
     def wrapper(request, *args, **kwargs):
         if request.user.groups.filter(name=config.hoa).exists() or request.user.is_superuser:
             return view_func(request, *args, **kwargs)
@@ -61,9 +49,6 @@ def hoa_required(view_func):
     return wrapper
 
 def scs_required(view_func):
-    """
-    Decorator untuk membatasi akses halaman hanya untuk pengguna dengan grup 'operator'.
-    """
     def wrapper(request, *args, **kwargs):
         if request.user.groups.filter(name=config.scs).exists() or request.user.is_superuser:
             return view_func(request, *args, **kwargs)
@@ -73,9 +58,6 @@ def scs_required(view_func):
     return wrapper
 
 def ecs_required(view_func):
-    """
-    Decorator untuk membatasi akses halaman hanya untuk pengguna dengan grup 'operator'.
-    """
     def wrapper(request, *args, **kwargs):
         if request.user.groups.filter(name=config.ecs).exists() or request.user.is_superuser:
             return view_func(request, *args, **kwargs)
