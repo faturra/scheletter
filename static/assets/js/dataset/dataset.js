@@ -42,6 +42,13 @@ $(document).ready(function() {
 });
 
 $(document).ready(function() {
+  $('#tb_request_queue_c').dataTable( {
+    "scrollX": true,
+    "pagingType": "simple",
+  } );
+});
+
+$(document).ready(function() {
   $('#tb_staging_ecs').dataTable( {
     "scrollX": true,
     "pagingType": "simple",
@@ -50,6 +57,13 @@ $(document).ready(function() {
 
 $(document).ready(function() {
   $('#tb_staging_scs').dataTable( {
+    "scrollX": true,
+    "pagingType": "simple",
+  } );
+});
+
+$(document).ready(function() {
+  $('#tb_staging_c').dataTable( {
     "scrollX": true,
     "pagingType": "simple",
   } );
@@ -70,6 +84,13 @@ $(document).ready(function() {
 });
 
 $(document).ready(function() {
+  $('#tb_waiting_sign_c').dataTable( {
+    "scrollX": true,
+    "pagingType": "simple",
+  } );
+});
+
+$(document).ready(function() {
   $('#tb_sign_done_ecs').dataTable( {
     "scrollX": true,
     "pagingType": "simple",
@@ -78,6 +99,13 @@ $(document).ready(function() {
 
 $(document).ready(function() {
   $('#tb_sign_done_scs').dataTable( {
+    "scrollX": true,
+    "pagingType": "simple",
+  } );
+});
+
+$(document).ready(function() {
+  $('#tb_sign_done_c').dataTable( {
     "scrollX": true,
     "pagingType": "simple",
   } );
