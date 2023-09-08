@@ -28,28 +28,56 @@ $(document).ready(function() {
 
 // Letters
 $(document).ready(function() {
-  $('#tb_request_queue').dataTable( {
+  $('#tb_request_queue_ecs').dataTable( {
     "scrollX": true,
     "pagingType": "simple",
   } );
 });
 
 $(document).ready(function() {
-  $('#tb_staging').dataTable( {
+  $('#tb_request_queue_scs').dataTable( {
     "scrollX": true,
     "pagingType": "simple",
   } );
 });
 
 $(document).ready(function() {
-  $('#tb_waiting_sign').dataTable( {
+  $('#tb_staging_ecs').dataTable( {
     "scrollX": true,
     "pagingType": "simple",
   } );
 });
 
 $(document).ready(function() {
-  $('#tb_sign_done').dataTable( {
+  $('#tb_staging_scs').dataTable( {
+    "scrollX": true,
+    "pagingType": "simple",
+  } );
+});
+
+$(document).ready(function() {
+  $('#tb_waiting_sign_ecs').dataTable( {
+    "scrollX": true,
+    "pagingType": "simple",
+  } );
+});
+
+$(document).ready(function() {
+  $('#tb_waiting_sign_scs').dataTable( {
+    "scrollX": true,
+    "pagingType": "simple",
+  } );
+});
+
+$(document).ready(function() {
+  $('#tb_sign_done_ecs').dataTable( {
+    "scrollX": true,
+    "pagingType": "simple",
+  } );
+});
+
+$(document).ready(function() {
+  $('#tb_sign_done_scs').dataTable( {
     "scrollX": true,
     "pagingType": "simple",
   } );

@@ -5,24 +5,30 @@
 <div class="container">
     <section class="pt-5 mb-4">
         <div class="mb-3">
-            <h1 class=""><span class="bi bi-list-ol"></span>&nbsp;Request Queue</h1>
+            <h1><span class="bi bi-list-ol"></span>&nbsp;Request Queue</h1>
         </div>
         <div>
             <p class="lead">List of request queue / {% if request.user.groups.first.name %}{{ request.user.groups.first.name }}{% else %}Undefined Role{% endif %}{% if user.is_superuser %}&nbsp;-&nbsp;Super User{% endif %}</p>
         </div>
     </section>
-    {% if request.user.groups.first.name == 'Employee Correspondence Staff' %}
+    {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Head of Administration' or user.is_superuser %}
     <!-- e.c.s -->
-    <section class="mb-5">
+    <section id="employee_letters" class="mb-5">
+        {% if request.user.groups.first.name == 'Head of Administration' or user.is_superuser %}
+        <h5>Employee Letters</h5>
+        <a href="#student_letters" class="btn btn-sm btn-primary"><span class="bi bi-view-list"></span>&nbsp;Students</a>
+        <a href="#common_letters" class="btn btn-sm btn-primary"><span class="bi bi-view-list"></span>&nbsp;Common</a>
+        <hr>
+        {% endif %}
         <ul class="nav nav-tabs mb-3" id="request-queue-tab" role="tablist">
             <li class="nav-item" role="request-queue-active">
-              <button class="nav-link active" id="request-queue-active" data-bs-toggle="tab" data-bs-target="#request-queue-active-pane" type="button" role="tab" aria-controls="request-queue-active-pane" aria-selected="true">Staging{% if count_rq %}&nbsp;<span class="badge bg-primary">{{ count_rq }}</span>{% else %}{% endif %}</button>
+              <button class="nav-link active" id="request-queue-active" data-bs-toggle="tab" data-bs-target="#request-queue-active-pane" type="button" role="tab" aria-controls="request-queue-active-pane" aria-selected="true">Staging&nbsp;<b>Employee</b></button>
             </li>
         </ul>
         <div class="tab-content" id="request-queue-a">
             <div class="tab-pane fade show active" id="request-queue-active-pane" role="tabpanel" aria-labelledby="request-queue-active" tabindex="0">
                 {% if staging_ecs %}
-                <table id="tb_staging" class="table table-hover text-truncate">
+                <table id="tb_staging_ecs" class="table table-hover text-truncate">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -83,7 +89,7 @@
         <div class="tab-content" id="request-queue-b">
             <div class="tab-pane fade show active" id="letter-pending-pane" role="tabpanel" aria-labelledby="letter-pending" tabindex="0">
                 {% if digital_sign_ecs %}
-                <table id="tb_waiting_sign" class="table table-hover text-truncate">
+                <table id="tb_waiting_sign_ecs" class="table table-hover text-truncate">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -139,7 +145,7 @@
         <div class="tab-content" id="request-queue-c">
             <div class="tab-pane fade show active" id="letter-done-pane" role="tabpanel" aria-labelledby="letter-done" tabindex="0">
                 {% if students_digital_sign_applied_ecs %}
-                <table id="tb_request_queue" class="table table-hover text-truncate">
+                <table id="tb_request_queue_ecs" class="table table-hover text-truncate">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -186,18 +192,25 @@
             </div>
         </div>
     </section>
-    {% elif request.user.groups.first.name == 'Student Correspondence Staff' %}
+    {% endif %}
+    {% if request.user.groups.first.name == 'Student Correspondence Staff' or request.user.groups.first.name == 'Head of Administration' or user.is_superuser %}
     <!-- s.c.s -->
-    <section class="mb-5">
+    <section id="student_letters" class="mb-5">
+        {% if request.user.groups.first.name == 'Head of Administration' or user.is_superuser %}
+        <h5>Student Letters</h5>
+        <a href="#employee_letters" class="btn btn-sm btn-primary"><span class="bi bi-view-list"></span>&nbsp;Employees</a>
+        <a href="#common_letters" class="btn btn-sm btn-primary"><span class="bi bi-view-list"></span>&nbsp;Common</a>
+        <hr>
+        {% endif %}
         <ul class="nav nav-tabs mb-3" id="request-queue-tab" role="tablist">
             <li class="nav-item" role="request-queue-active">
-              <button class="nav-link active" id="request-queue-active" data-bs-toggle="tab" data-bs-target="#request-queue-active-pane" type="button" role="tab" aria-controls="request-queue-active-pane" aria-selected="true">Staging{% if count_rq %}&nbsp;<span class="badge bg-primary">{{ count_rq }}</span>{% else %}{% endif %}</button>
+              <button class="nav-link active" id="request-queue-active" data-bs-toggle="tab" data-bs-target="#request-queue-active-pane" type="button" role="tab" aria-controls="request-queue-active-pane" aria-selected="true">Staging&nbsp;<b>Student</b></button>
             </li>
         </ul>
         <div class="tab-content" id="request-queue-a">
             <div class="tab-pane fade show active" id="request-queue-active-pane" role="tabpanel" aria-labelledby="request-queue-active" tabindex="0">
                 {% if staging_scs %}
-                <table id="tb_staging" class="table table-hover text-truncate">
+                <table id="tb_staging_scs" class="table table-hover text-truncate">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -258,7 +271,7 @@
         <div class="tab-content" id="request-queue-b">
             <div class="tab-pane fade show active" id="letter-pending-pane" role="tabpanel" aria-labelledby="letter-pending" tabindex="0">
                 {% if digital_sign_scs %}
-                <table id="tb_waiting_sign" class="table table-hover text-truncate">
+                <table id="tb_waiting_sign_scs" class="table table-hover text-truncate">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -314,7 +327,7 @@
         <div class="tab-content" id="request-queue-c">
             <div class="tab-pane fade show active" id="letter-done-pane" role="tabpanel" aria-labelledby="letter-done" tabindex="0">
                 {% if students_digital_sign_applied_scs %}
-                <table id="tb_request_queue" class="table table-hover text-truncate">
+                <table id="tb_request_queue_scs" class="table table-hover text-truncate">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
