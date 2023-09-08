@@ -27,7 +27,7 @@ def letter(request):
 
 
 @login_required
-@decorators.group_required(config.hoa, config.scs, config.ecs)
+@decorators.group_required(config.hoa, config.scs)
 def student_letter(request):
     if request.method == 'POST':
         form = StudentsLetterForm(request.POST)
@@ -47,7 +47,7 @@ def student_letter(request):
     return render(request, 'administration/letter/create_letter/student_letter.html', context)
 
 @login_required
-@decorators.group_required(config.hoa, config.scs, config.ecs)
+@decorators.group_required(config.hoa, config.scs)
 def get_student_info(request):
     student_id = request.GET.get('peserta_didik_id')
     try:
@@ -62,7 +62,7 @@ def get_student_info(request):
         return JsonResponse({'error': 'Student does not exist'}, status=404)
 
 @login_required
-@decorators.group_required(config.hoa, config.scs, config.ecs)
+@decorators.group_required(config.hoa, config.ecs)
 def employee_letter(request):
     if request.method == 'POST':
         form = EmployeesLetterForm(request.POST)

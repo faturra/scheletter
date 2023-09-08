@@ -28,6 +28,7 @@
             </a>
             <div class="collapse" id="collapseExample">
               <div class="accordion" id="accordionExample">
+                {% if request.user.groups.first.name == 'Student Correspondence Staff' or request.user.groups.first.name == 'Head of Administration' or user.is_superuser%}
                 <div class="accordion-item">
                   <h2 class="accordion-header">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
@@ -43,6 +44,8 @@
                     </div>
                   </div>
                 </div>
+                {% endif %}
+                {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Head of Administration' or user.is_superuser%}
                 <div class="accordion-item">
                   <h2 class="accordion-header">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
@@ -58,6 +61,7 @@
                     </div>
                   </div>
                 </div>
+                {% endif %}
                 <div class="accordion-item">
                   <h2 class="accordion-header">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
