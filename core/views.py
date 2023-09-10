@@ -236,33 +236,55 @@ def request_queue(request):
     return render(request, 'administration/request_queue/request_queue.html', context)
 
 @login_required
-@group_required(config.hoa, config.scs, config.ecs)
+@group_required(config.scs, config.ecs)
 def cancel_request_sign(request, letter_id):
     if request.user.groups.filter(name=config.scs).exists():
         letter = Students_Letter.objects.get(pk=letter_id)
     elif request.user.groups.filter(name=config.ecs).exists():
         letter = Employees_Letter.objects.get(pk=letter_id)
-
-    letter.is_in_staging = True
-    letter.updated_by = request.user
-    letter.save()
-
-    messages.success(request, 'Request has been canceled!')
+    elif request.user.groups.filter(name=config.hoa).exists():
+        try:
+            letter = Students_Letter.objects.get(pk=letter_id)
+        except Students_Letter.DoesNotExist:
+            try:
+                letter = Employees_Letter.objects.get(pk=letter_id)
+            except Employees_Letter.DoesNotExist:
+                letter = None
+    
+    if letter:
+        letter.is_in_staging = True
+        letter.updated_by = request.user
+        letter.save()
+        messages.success(request, 'Request has been canceled!')
+    else:
+        messages.error(request, 'Request was failed to cancel!')
+        
     return redirect('request-queue')
 
 @login_required
-@group_required(config.hoa, config.scs, config.ecs)
+@group_required(config.scs, config.ecs)
 def send_sign_request(request, letter_id):
     if request.user.groups.filter(name=config.scs).exists():
         letter = Students_Letter.objects.get(pk=letter_id)
     elif request.user.groups.filter(name=config.ecs).exists():
         letter = Employees_Letter.objects.get(pk=letter_id)
+    elif request.user.groups.filter(name=config.hoa).exists():
+        try:
+            letter = Students_Letter.objects.get(pk=letter_id)
+        except Students_Letter.DoesNotExist:
+            try:
+                letter = Employees_Letter.objects.get(pk=letter_id)
+            except Employees_Letter.DoesNotExist:
+                letter = None
 
-    letter.is_in_staging = False
-    letter.updated_by = request.user
-    letter.save()
+    if letter:
+        letter.is_in_staging = False
+        letter.updated_by = request.user
+        letter.save()
+        messages.success(request, 'Request was successfully sent!')
+    else:
+        messages.error(request, 'Request was failed to send!')
 
-    messages.success(request, 'Request was successfully sent!')
     return redirect('request-queue')
 
 

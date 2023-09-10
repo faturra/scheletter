@@ -14,21 +14,23 @@
     {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Head of Administration' or user.is_superuser %}
     <!-- e.c.s -->
     <section id="employee_letters" class="mb-5">
-        {% if request.user.groups.first.name == 'Head of Administration' or user.is_superuser %}
+        {% if request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Employee Correspondence Staff' or user.is_superuser %}
         <h5>Employee Letters</h5><hr>
         {% endif %}
         <ul class="nav nav-tabs mb-3" id="request-queue-tab" role="tablist">
+            {% if request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Employee Correspondence Staff' or user.is_superuser %}
             <li class="nav-item" role="request-queue-active">
               <button class="nav-link active" id="request-queue-active" data-bs-toggle="tab" data-bs-target="#request-queue-active-pane" type="button" role="tab" aria-controls="request-queue-active-pane" aria-selected="true">Staging&nbsp;<b>Employee</b></button>
             </li>
-            {% if request.user.groups.first.name == 'Head of Administration' or user.is_superuser %}
+            {% endif %}
+            {% if request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Student Correspondence Staff' or user.is_superuser %}
             <li class="nav-item" role="request-queue-active">
                 <a href="#student_letters" class="nav-link"><span class="bi bi-view-list"></span>&nbsp;Students</a>
             </li>
+            {% endif %}
             <li class="nav-item" role="request-queue-active">
                 <a href="#common_letters" class="nav-link"><span class="bi bi-view-list"></span>&nbsp;Common</a>
             </li>
-            {% endif %}
         </ul>
         <div class="tab-content" id="request-queue-a">
             <div class="tab-pane fade show active" id="request-queue-active-pane" role="tabpanel" aria-labelledby="request-queue-active" tabindex="0">
@@ -37,7 +39,9 @@
                     <thead>
                         <tr>
                             <th scope="col">#</th>
+                            {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
                             <th scope="col">Action</th>
+                            {% endif %}
                             <th scope="col">Number</th>
                             <th scope="col">Subject</th>
                             <th scope="col">Name</th>
@@ -53,12 +57,14 @@
                         {% for item in staging_ecs %}
                         <tr>
                             <th scope="row">{{ forloop.counter }}</th>
+                            {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
                             <td>
                                 <a href="{% url 'send-sign-request' letter_id=item.letter_id %}" class="btn btn-sm btn-success"><span class="bi bi-arrow-90deg-right"></span>&nbsp;Request sign</a>
                                 <a href="#" class="btn btn-sm btn-light text-primary"><span class="bi bi-box-arrow-up-right"></span></a>
                                 <a href="#" class="btn btn-sm btn-light text-warning"><span class="bi bi-pen"></span></a>
                                 <a href="#" class="btn btn-sm btn-light text-danger"><span class="bi bi-trash"></span></a>
                             </td>
+                            {% endif %}
                             <td>{{ item.number }}</td>
                             <td>{{ item.subject }}</td>
                             <td>{{ item.student_name }}</td>
@@ -98,7 +104,9 @@
                     <thead>
                         <tr>
                             <th scope="col">#</th>
+                            {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
                             <th scope="col">Action</th>
+                            {% endif %}
                             <th scope="col">Number</th>
                             <th scope="col">Subject</th>
                             <th scope="col">Name</th>
@@ -114,7 +122,9 @@
                         {% for item in digital_sign_ecs %}
                         <tr>
                             <th scope="row">{{ forloop.counter }}</th>
+                            {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
                             <td><a href="{% url 'cancel-request-sign' letter_id=item.letter_id %}" class="btn btn-sm btn-danger">Cancel</a></td>
+                            {% endif %}
                             <td>{{ item.number }}</td>
                             <td>{{ item.subject }}</td>
                             <td>{{ item.student_name }}</td>
@@ -201,22 +211,24 @@
     {% if request.user.groups.first.name == 'Student Correspondence Staff' or request.user.groups.first.name == 'Head of Administration' or user.is_superuser %}
     <!-- s.c.s -->
     <section id="student_letters" class="mb-5">
-        {% if request.user.groups.first.name == 'Head of Administration' or user.is_superuser %}
+        {% if request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Student Correspondence Staff' or user.is_superuser %}
         <h5>Student Letters</h5>
         <hr>
         {% endif %}
         <ul class="nav nav-tabs mb-3" id="request-queue-tab" role="tablist">
+            {% if request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Student Correspondence Staff' or user.is_superuser %}
             <li class="nav-item" role="request-queue-active">
               <button class="nav-link active" id="request-queue-active" data-bs-toggle="tab" data-bs-target="#request-queue-active-pane" type="button" role="tab" aria-controls="request-queue-active-pane" aria-selected="true">Staging&nbsp;<b>Student</b></button>
             </li>
-            {% if request.user.groups.first.name == 'Head of Administration' or user.is_superuser %}
+            {% endif %}
+            {% if request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Employee Correspondence Staff' or user.is_superuser %}
             <li class="nav-item" role="request-queue-active">
                 <a href="#employee_letters" class="nav-link"><span class="bi bi-view-list"></span>&nbsp;Employees</a>
             </li>
+            {% endif %}
             <li class="nav-item" role="request-queue-active">
                 <a href="#common_letters" class="nav-link"><span class="bi bi-view-list"></span>&nbsp;Common</a>
             </li>
-            {% endif %}
         </ul>
         <div class="tab-content" id="request-queue-a">
             <div class="tab-pane fade show active" id="request-queue-active-pane" role="tabpanel" aria-labelledby="request-queue-active" tabindex="0">
@@ -225,7 +237,9 @@
                     <thead>
                         <tr>
                             <th scope="col">#</th>
+                            {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
                             <th scope="col">Action</th>
+                            {% endif %}
                             <th scope="col">Number</th>
                             <th scope="col">Subject</th>
                             <th scope="col">Name</th>
@@ -241,12 +255,14 @@
                         {% for item in staging_scs %}
                         <tr>
                             <th scope="row">{{ forloop.counter }}</th>
+                            {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
                             <td>
                                 <a href="{% url 'send-sign-request' letter_id=item.letter_id %}" class="btn btn-sm btn-success"><span class="bi bi-arrow-90deg-right"></span>&nbsp;Request sign</a>
                                 <a href="#" class="btn btn-sm btn-light text-primary"><span class="bi bi-box-arrow-up-right"></span></a>
                                 <a href="#" class="btn btn-sm btn-light text-warning"><span class="bi bi-pen"></span></a>
                                 <a href="#" class="btn btn-sm btn-light text-danger"><span class="bi bi-trash"></span></a>
                             </td>
+                            {% endif %}
                             <td>{{ item.number }}</td>
                             <td>{{ item.subject }}</td>
                             <td>{{ item.student_name }}</td>
@@ -286,7 +302,9 @@
                     <thead>
                         <tr>
                             <th scope="col">#</th>
+                            {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
                             <th scope="col">Action</th>
+                            {% endif %}
                             <th scope="col">Number</th>
                             <th scope="col">Subject</th>
                             <th scope="col">Name</th>
@@ -302,7 +320,9 @@
                         {% for item in digital_sign_scs %}
                         <tr>
                             <th scope="row">{{ forloop.counter }}</th>
+                            {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
                             <td><a href="{% url 'cancel-request-sign' letter_id=item.letter_id %}" class="btn btn-sm btn-danger">Cancel</a></td>
+                            {% endif %}
                             <td>{{ item.number }}</td>
                             <td>{{ item.subject }}</td>
                             <td>{{ item.student_name }}</td>
@@ -388,18 +408,18 @@
     {% endif %}
     <!-- c -->
     <section id="common_letters" class="mb-5">
-        {% if request.user.groups.first.name == 'Head of Administration' or user.is_superuser %}
         <h5>Common Letters</h5>
         <hr>
-        {% endif %}
         <ul class="nav nav-tabs mb-3" id="request-queue-tab" role="tablist">
             <li class="nav-item" role="request-queue-active">
               <button class="nav-link active" id="request-queue-active" data-bs-toggle="tab" data-bs-target="#request-queue-active-pane" type="button" role="tab" aria-controls="request-queue-active-pane" aria-selected="true">Staging&nbsp;<b>Common</b></button>
             </li>
-            {% if request.user.groups.first.name == 'Head of Administration' or user.is_superuser %}
+            {% if request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Employee Correspondence Staff' or user.is_superuser %}
             <li class="nav-item" role="request-queue-active">
                 <a href="#employee_letters" class="nav-link"><span class="bi bi-view-list"></span>&nbsp;Employees</a>
             </li>
+            {% endif %}
+            {% if request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Student Correspondence Staff' or user.is_superuser %}
             <li class="nav-item" role="request-queue-active">
                 <a href="#student_letters" class="nav-link"><span class="bi bi-view-list"></span>&nbsp;Students</a>
             </li>
@@ -412,7 +432,9 @@
                     <thead>
                         <tr>
                             <th scope="col">#</th>
+                            {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
                             <th scope="col">Action</th>
+                            {% endif %}
                             <th scope="col">Number</th>
                             <th scope="col">Subject</th>
                             <th scope="col">Name</th>
@@ -428,12 +450,14 @@
                         {% for item in staging_scs %}
                         <tr>
                             <th scope="row">{{ forloop.counter }}</th>
+                            {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
                             <td>
                                 <a href="{% url 'send-sign-request' letter_id=item.letter_id %}" class="btn btn-sm btn-success"><span class="bi bi-arrow-90deg-right"></span>&nbsp;Request sign</a>
                                 <a href="#" class="btn btn-sm btn-light text-primary"><span class="bi bi-box-arrow-up-right"></span></a>
                                 <a href="#" class="btn btn-sm btn-light text-warning"><span class="bi bi-pen"></span></a>
                                 <a href="#" class="btn btn-sm btn-light text-danger"><span class="bi bi-trash"></span></a>
                             </td>
+                            {% endif %}
                             <td>{{ item.number }}</td>
                             <td>{{ item.subject }}</td>
                             <td>{{ item.student_name }}</td>
@@ -473,7 +497,9 @@
                     <thead>
                         <tr>
                             <th scope="col">#</th>
+                            {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
                             <th scope="col">Action</th>
+                            {% endif %}
                             <th scope="col">Number</th>
                             <th scope="col">Subject</th>
                             <th scope="col">Name</th>
@@ -489,7 +515,9 @@
                         {% for item in digital_sign_scs %}
                         <tr>
                             <th scope="row">{{ forloop.counter }}</th>
+                            {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
                             <td><a href="{% url 'cancel-request-sign' letter_id=item.letter_id %}" class="btn btn-sm btn-danger">Cancel</a></td>
+                            {% endif %}
                             <td>{{ item.number }}</td>
                             <td>{{ item.subject }}</td>
                             <td>{{ item.student_name }}</td>
