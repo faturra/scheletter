@@ -54,7 +54,6 @@ class ReloadServerView(View):
     
 
 def get_data_from_api_testing(request):
-   
     data_text = str(dapodik_school)
     response = HttpResponse(data_text, content_type='text/plain')
 
