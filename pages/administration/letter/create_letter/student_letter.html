@@ -46,7 +46,7 @@ $(document).ready(function() {
         if (selectedSiswa) {
             var csrfToken = $('[name=csrfmiddlewaretoken]').val();
             $.ajax({
-                url: '/letter/get-student-info/',
+                url: '/letter/get-student-info',
                 data: {
                     'selected_siswa': selectedSiswa,
                     'csrfmiddlewaretoken': csrfToken
