@@ -45,9 +45,9 @@
                             <th scope="col">Number</th>
                             <th scope="col">Subject</th>
                             <th scope="col">Name</th>
-                            <th scope="col">Class</th>
+                            <th scope="col">Rank</th>
                             <th scope="col">L/P</th>
-                            <th scope="col">NISN</th>
+                            <th scope="col">NIP/NIKKI</th>
                             <th scope="col">Letter type</th>
                             <th scope="col">Type sign</th>
                             <th scope="col">Date</th>
@@ -67,10 +67,10 @@
                             {% endif %}
                             <td>{{ item.number }}</td>
                             <td>{{ item.subject }}</td>
-                            <td>{{ item.student_name }}</td>
-                            <td>{{ item.student_class }}</td>
-                            <td>{{ item.student_gender }}</td>
-                            <td>{{ item.student_nisn }}</td>
+                            <td>{{ item.employee_name }}</td>
+                            <td>{{ item.employee_rank }}</td>
+                            <td>{{ item.employee_gender }}</td>
+                            <td>{{ item.employee_empnumber }}</td>
                             <td>{{ item.get_letter_type_display }}</td>
                             <td>{{ item.get_type_sign_display }}</td>
                             <td>{{ item.created_at }}</td>
@@ -110,9 +110,9 @@
                             <th scope="col">Number</th>
                             <th scope="col">Subject</th>
                             <th scope="col">Name</th>
-                            <th scope="col">Class</th>
+                            <th scope="col">Rank</th>
                             <th scope="col">L/P</th>
-                            <th scope="col">NISN</th>
+                            <th scope="col">NIP/NIKKI</th>
                             <th scope="col">Letter type</th>
                             <th scope="col">Type sign</th>
                             <th scope="col">Date</th>
@@ -127,10 +127,10 @@
                             {% endif %}
                             <td>{{ item.number }}</td>
                             <td>{{ item.subject }}</td>
-                            <td>{{ item.student_name }}</td>
-                            <td>{{ item.student_class }}</td>
-                            <td>{{ item.student_gender }}</td>
-                            <td>{{ item.student_nisn }}</td>
+                            <td>{{ item.employee_name }}</td>
+                            <td>{{ item.employee_rank }}</td>
+                            <td>{{ item.employee_gender }}</td>
+                            <td>{{ item.employee_empnumber }}</td>
                             <td>{{ item.get_letter_type_display }}</td>
                             <td>{{ item.get_type_sign_display }}</td>
                             <td>{{ item.created_at }}</td>

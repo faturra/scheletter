@@ -59,7 +59,7 @@
                             $("#id_employee_gender").val(data.jenis_kelamin).prop('readonly', true);
                             $("#id_employee_place_of_birth").val(data.tempat_lahir).prop('readonly', true);
                             $("#id_employee_date_of_birth").val(data.tanggal_lahir);
-                            $("#id_employee_empnumber").val(data.nip).prop('readonly', true);
+                            $("#id_employee_empnumber").val(data.nip);
                         } else {
                             alert("Employee not found!");
                         }
@@ -70,7 +70,7 @@
                 $("#id_employee_gender").val('').prop('readonly', false);
                 $("#id_employee_place_of_birth").val('').prop('readonly', false);
                 $("#id_employee_date_of_birth").val('');
-                $("#id_employee_empnumber").val('').prop('readonly', false);
+                $("#id_employee_empnumber").val('');
             }
         });
     });
