@@ -28,7 +28,8 @@ class StudentsLetterForm(forms.ModelForm):
             'student_place_of_birth': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Place of birth', 'required': True, 'readonly': True}),
             'student_date_of_birth': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Date of birth', 'required': True, 'readonly': True}),
             'student_nisn': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'NISN', 'required': True, 'readonly': True}),
-            'number': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Auto', 'required': True, 'readonly': True}),
+            'number': forms.HiddenInput(),
+            'type_sign': forms.Select(attrs={'class': 'form-control', 'required': True}),
             'date': DatePickerInput(options={'format': 'YYYY-MM-DD'}, attrs={'class': 'form-control', 'placeholder': 'yyyy-mm-dd'}),
         }
 
@@ -76,10 +77,13 @@ class EmployeesLetterForm(forms.ModelForm):
 
         widgets = {
             'letter_type': forms.Select(attrs={'class': 'form-control', 'required': True}),
-            'employee_place_of_birth': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Place of Birth', 'required': True}),
-            'employee_date_of_birth': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Date of Birth', 'required': True}),
+            'employee_rank': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Rank', 'required': True, 'readonly': True}),
+            'employee_gender': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Gender', 'required': True, 'readonly': True}),
+            'employee_place_of_birth': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Place of Birth', 'required': True, 'readonly': True}),
+            'employee_date_of_birth': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Date of Birth', 'required': True, 'readonly': True}),
             'employee_empnumber': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'EMP Number', 'required': True}),
-            'number': forms.TextInput(attrs={'class': 'form-control','placeholder': 'Auto','readonly': True,}),
+            'number': forms.HiddenInput(),
+            'type_sign': forms.Select(attrs={'class': 'form-control', 'required': True}),
             'date': DatePickerInput(options={
                 'format': 'YYYY-MM-DD',
             }, attrs={'class': 'form-control', 'placeholder': 'yyyy-mm-dd'}),
@@ -98,7 +102,7 @@ class EmployeesLetterForm(forms.ModelForm):
             'time_end': TimePickerInput(
                 options={'format': 'HH:mm', 'showClear': True},
                 attrs={'class': 'form-control', 'placeholder': 'hh:mm'}
-),
+            ),
         }
 
 # Common Letter Form

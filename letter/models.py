@@ -106,7 +106,7 @@ class Employees_Letter(models.Model):
     employee_date_of_birth = models.DateField()
     employee_rank = models.CharField(max_length=50, null=True, blank=True)
     employee_gender = models.CharField(max_length=100, null=True, blank=True)
-    employee_empnumber = models.CharField(max_length=20, null=True, blank=True)
+    employee_empnumber = models.CharField(max_length=18, null=True, blank=True)
     type_sign = models.CharField(max_length=1, choices=type_sign_choice, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='created_employees_letters', null=True)
