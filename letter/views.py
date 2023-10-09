@@ -51,7 +51,7 @@ def student_letter(request):
 
 @login_required
 @decorators.group_required(config.hoa, config.scs)
-def sl_selected_siswa(request):
+def get_student_info(request):
     student_list = dapodik_students
 
     if request.method == 'POST':
@@ -80,22 +80,6 @@ def sl_selected_siswa(request):
     else:
         return JsonResponse({'error': 'Invalid request method'})
 
-
-
-@login_required
-@decorators.group_required(config.hoa, config.scs)
-def get_student_info(request):
-    student_id = request.GET.get('peserta_didik_id')
-    try:
-        student = next(student for student in dapodik_students if student['peserta_didik_id'] == int(student_id))
-
-        response = {
-            'nama_rombel': student['nama_rombel'],
-            'tanggal_lahir': student['tanggal_lahir'],
-        }
-        return JsonResponse(response)
-    except StopIteration:
-        return JsonResponse({'error': 'Student does not exist'}, status=404)
 
 @login_required
 @decorators.group_required(config.hoa, config.ecs)
