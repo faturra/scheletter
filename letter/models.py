@@ -14,11 +14,6 @@ class Students_Letter(models.Model):
         ('1', 'Surat Keterangan'),
         ('2', 'Surat Rekomendasi'),
     )
-    
-    gender_choice = (
-        ('1', 'Laki-laki'),
-        ('2', 'Perempuan'),
-    )
 
     type_sign_choice = (
         ('1', 'Digital Sign'),
@@ -35,7 +30,7 @@ class Students_Letter(models.Model):
     body = models.TextField(max_length=1000, null=True, blank=True)
     student_name = models.CharField(max_length=100, null=True, blank=True)
     student_class = models.CharField(max_length=50, null=True, blank=True)
-    student_gender = models.CharField(max_length=1, choices=gender_choice, null=True, blank=True)
+    student_gender = models.CharField(max_length=100, null=True, blank=True)
     student_place_of_birth = models.CharField(max_length=100, null=True, blank=True)
     student_date_of_birth = models.DateField()
     student_nisn = models.CharField(max_length=20, null=True, blank=True)

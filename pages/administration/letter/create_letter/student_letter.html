@@ -49,52 +49,52 @@
                         {{ form|crispy }}
                         <button type="submit" class="btn btn-primary" onclick="return confirm('Are you sure you want to create the letter?');">Create</button>
                     </form>
-                    <!-- <form method="post">
-                      {% csrf_token %}
-                      <label for="studentName">Nama Siswa:</label>
-                      <select name="nama" id="studentName">
-                          <option value="">Pilih Siswa</option>
-                          {% for student in student_list %}
-                          <option value="{{ student.peserta_didik_id }}">{{ student.nama }}</option>
-                          {% endfor %}
-                      </select><br>
-                      <label for="studentLearningGroup">Kelas:</label>
-                      <input type="text" name="nama_rombel" id="studentLearningGroup" readonly><br>
-                      <label for="studentDob">Tanggal Lahir:</label>
-                      <input type="text" name="tanggal_lahir" id="studentDob" readonly><br>
-                      <label for="isiSurat">Isi Surat:</label>
-                      <textarea name="isi_surat" id="isiSurat"></textarea><br>
-                      <input type="submit" value="Simpan">
-                  </form> -->
+                    <form method="POST">
+                        {% csrf_token %}
+                        <label for="siswa">Pilih Nama Siswa:</label>
+                        <select id="siswa" name="siswa">
+                            <option value="">Pilih Nama Siswa</option>
+                            {% for student in student_list %}
+                                <option value="{{ student.nama }}">{{ student.nama }}</option>
+                            {% endfor %}
+                        </select>
+                    </form>
+                    <div id="result">
+                        <!-- Hasil data nama_rombel akan ditampilkan di sini -->
+                    </div>
                   </div>
                 </div>
             </div>
           </div>
     </section>
 </div>
-
 <script>
-  $(document).ready(function() {
-    $('#studentName').change(function() {
-        var student_id = $(this).val();
-        if (student_id) {
-            $.ajax({
-                url: '/get-student-info',
-                type: 'GET',
-                data: { 'peserta_didik_id': student_id },
-                success: function(response) {
-                    $('#studentLearningGroup').val(response.nama_rombel);
-                    $('#studentDob').val(response.tanggal_lahir);
-                },
-                error: function(error) {
-                    console.log('Error:', error);
-                }
-            });
-        } else {
-            $('#studentLearningGroup').val('');
-            $('#studentDob').val('');
-        }
+    $(document).ready(function() {
+        $("#siswa").change(function() {
+            var selectedSiswa = $(this).val();
+            
+            if (selectedSiswa) {
+                var csrfToken = $('[name=csrfmiddlewaretoken]').val();
+                $.ajax({
+                    url: '/letter/sl-selected-siswa/',
+                    data: {
+                        'selected_siswa': selectedSiswa,
+                        'csrfmiddlewaretoken': csrfToken
+                    },
+                    type: 'post',
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.nama_rombel) {
+                            $("#result").html("Kelas Siswa: " + data.nama_rombel);
+                        } else {
+                            $("#result").html("Kelas Siswa tidak ditemukan.");
+                        }
+                    }
+                });
+            } else {
+                $("#result").empty();
+            }
+        });
     });
-});
 </script>
 {% endblock %}

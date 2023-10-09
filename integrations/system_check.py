@@ -1,4 +1,5 @@
 import socket
+from .config import server_address
 
 
 def check_telnet_connection(host, port):
@@ -8,4 +9,4 @@ def check_telnet_connection(host, port):
     except (socket.timeout, ConnectionRefusedError):
         return "0"
 
-dapodik_connection_status = check_telnet_connection('127.0.0.1', 5774)
+dapodik_connection_status = check_telnet_connection('api.smpn162jakarta.sch.id', 1162)

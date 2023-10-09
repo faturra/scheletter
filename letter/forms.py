@@ -6,7 +6,6 @@ from .models import Students_Letter, Employees_Letter, Common_Letter
 # Student Letter Form
 class StudentsLetterForm(forms.ModelForm):
     student_name = forms.ChoiceField(choices=[], required=True, label='Name')
-    student_class = forms.ChoiceField(choices=[], required=True, label='Class')
     subject = forms.CharField(required=True, label='Regarding')
 
     def __init__(self, *args, **kwargs):
@@ -14,10 +13,6 @@ class StudentsLetterForm(forms.ModelForm):
         choices_name = dapodik_students_name
         sorted_choices_name = sorted(choices_name, key=lambda x: x[1])
         self.fields['student_name'].choices = sorted_choices_name
-
-        choices_class = dapodik_learning_group
-        sorted_choices_class = sorted(choices_class, key=lambda x: x[1])
-        self.fields['student_class'].choices = sorted_choices_class
        
     class Meta:
         model = Students_Letter
@@ -25,7 +20,9 @@ class StudentsLetterForm(forms.ModelForm):
 
         widgets = {
             'letter_type': forms.Select(attrs={'class': 'form-control', 'required': True}),
-            'student_place_of_birth': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Place of Birth', 'required': True}),
+            'student_class': forms.TextInput(attrs={'class': 'form-control','placeholder': 'Class','readonly': True,}),
+            'student_gender': forms.TextInput(attrs={'class': 'form-control','placeholder': 'Gender','readonly': True,}),
+            'student_place_of_birth': forms.TextInput(attrs={'class': 'form-control','placeholder': 'Place of birth','readonly': True,}),
             'student_date_of_birth': DatePickerInput(options={
                 'format': 'YYYY-MM-DD',
             }, attrs={'class': 'form-control', 'placeholder': 'yyyy-mm-dd', 'required': True}),

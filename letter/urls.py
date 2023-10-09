@@ -7,4 +7,5 @@ urlpatterns = [
     path('create-blank-letter/employee-letter', views.employee_letter, name='employee-letter'),
     path('create-blank-letter/common-letter', views.common_letter, name='common-letter'),
     path('get-student-info', views.get_student_info, name='get-student-info'),
+    path('sl-selected-siswa/', views.sl_selected_siswa, name='sl-selected-siswa'),
 ]

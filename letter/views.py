@@ -43,8 +43,27 @@ def student_letter(request):
     
     student_list = dapodik_students
     
-    context = {'form': form, 'student_list': student_list}
+    selected_siswa = request.session.get('selected_siswa')
+    context = {'form': form, 'student_list': student_list, 'selected_siswa': selected_siswa}
     return render(request, 'administration/letter/create_letter/student_letter.html', context)
+
+@login_required
+@decorators.group_required(config.hoa, config.scs)
+def sl_selected_siswa(request):
+    student_list = dapodik_students
+
+    if request.method == 'POST':
+        selected_siswa = request.POST.get('selected_siswa')
+        selected_student = next((student for student in student_list if student['nama'] == selected_siswa), None)
+        
+        if selected_student:
+            nama_rombel = selected_student.get('nama_rombel', 'Class not found')
+            request.session['selected_siswa'] = selected_siswa
+            return JsonResponse({'success': True, 'nama_rombel': nama_rombel})
+        else:
+            return JsonResponse({'error': 'Nama siswa tidak ditemukan'})
+    else:
+        return JsonResponse({'error': 'Invalid request method'})
 
 @login_required
 @decorators.group_required(config.hoa, config.scs)
