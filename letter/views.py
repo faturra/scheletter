@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import StudentsLetterForm, EmployeesLetterForm, CommonLetterForm
 from core import decorators, config
 from .models import Students_Letter, Employees_Letter, Common_Letter
-from integrations.data import dapodik_students
+from integrations.data import dapodik_students, dapodik_employees
 
 # Create your views here.
 
@@ -24,6 +24,7 @@ def letter(request):
 
     context = {'last_number': last_number}
     return render(request, 'administration/letter/letter.html', context)
+
 
 
 @login_required
@@ -45,9 +46,10 @@ def student_letter(request):
         form = StudentsLetterForm()
 
     student_list = dapodik_students
-    selected_siswa = request.session.get('selected_siswa')
-    context = {'form': form, 'student_list': student_list, 'selected_siswa': selected_siswa}
+    selected_student = request.session.get('selected_student')
+    context = {'form': form, 'student_list': student_list, 'selected_student': selected_student}
     return render(request, 'administration/letter/create_letter/student_letter.html', context)
+
 
 @login_required
 @decorators.group_required(config.hoa, config.scs)
@@ -55,17 +57,17 @@ def get_student_info(request):
     student_list = dapodik_students
 
     if request.method == 'POST':
-        selected_siswa = request.POST.get('selected_siswa')
-        selected_student = next((student for student in student_list if student['nama'] == selected_siswa), None)
+        selected_student = request.POST.get('selected_student')
+        selected_student_next = next((student for student in student_list if student['nama'] == selected_student), None)
         
-        if selected_student:
-            nama_rombel = selected_student.get('nama_rombel', 'Class not found')
-            tempat_lahir = selected_student.get('tempat_lahir', 'Place of birth not found')
-            jenis_kelamin = selected_student.get('jenis_kelamin', 'Gender not found')
-            tanggal_lahir = selected_student.get('tanggal_lahir', 'Date of birth not found')
-            nisn = selected_student.get('nisn', 'NISN not found')
+        if selected_student_next:
+            nama_rombel = selected_student_next.get('nama_rombel', 'Class not found')
+            tempat_lahir = selected_student_next.get('tempat_lahir', 'Place of birth not found')
+            jenis_kelamin = selected_student_next.get('jenis_kelamin', 'Gender not found')
+            tanggal_lahir = selected_student_next.get('tanggal_lahir', 'Date of birth not found')
+            nisn = selected_student_next.get('nisn', 'NISN not found')
             
-            request.session['selected_siswa'] = selected_siswa
+            request.session['selected_student'] = selected_student
             
             return JsonResponse({
                 'success': True,
@@ -76,9 +78,10 @@ def get_student_info(request):
                 'nisn': nisn
             })
         else:
-            return JsonResponse({'error': 'Nama siswa tidak ditemukan'})
+            return JsonResponse({'error': 'Nama student tidak ditemukan'})
     else:
         return JsonResponse({'error': 'Invalid request method'})
+
 
 
 @login_required
@@ -98,6 +101,38 @@ def employee_letter(request):
     
     context = {'form': form}
     return render(request, 'administration/letter/create_letter/employee_letter.html', context)
+
+@login_required
+@decorators.group_required(config.hoa, config.ecs)
+def get_employee_info(request):
+    employee_list = dapodik_employees
+
+    if request.method == 'POST':
+        selected_employee = request.POST.get('selected_employee')
+        selected_employee_next = next((employee for employee in employee_list if employee['nama'] == selected_employee), None)
+        
+        if selected_employee_next:
+            pangkat_golongan_terakhir = selected_employee_next.get('pangkat_golongan_terakhir', 'Rank not found')
+            jenis_kelamin = selected_employee_next.get('jenis_kelamin', 'Gender not found')
+            tempat_lahir = selected_employee_next.get('tempat_lahir', 'Place of birth not found')
+            tanggal_lahir = selected_employee_next.get('tanggal_lahir', 'Date of birth not found')
+            nip = selected_employee_next.get('nip', 'NIP not found')
+            
+            request.session['selected_student'] = selected_employee
+            
+            return JsonResponse({
+                'success': True,
+                'pangkat_golongan_terakhir': pangkat_golongan_terakhir,
+                'jenis_kelamin': jenis_kelamin,
+                'tempat_lahir': tempat_lahir,
+                'tanggal_lahir': tanggal_lahir,
+                'nip': nip
+            })
+        else:
+            return JsonResponse({'error': 'Employee name not found'})
+    else:
+        return JsonResponse({'error': 'Invalid request method'})
+
 
 @login_required
 @decorators.group_required(config.hoa, config.scs, config.ecs)

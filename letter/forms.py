@@ -77,9 +77,7 @@ class EmployeesLetterForm(forms.ModelForm):
         widgets = {
             'letter_type': forms.Select(attrs={'class': 'form-control', 'required': True}),
             'employee_place_of_birth': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Place of Birth', 'required': True}),
-            'employee_date_of_birth': DatePickerInput(options={
-                'format': 'YYYY-MM-DD',
-            }, attrs={'class': 'form-control', 'placeholder': 'yyyy-mm-dd', 'required': True}),
+            'employee_date_of_birth': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Date of Birth', 'required': True}),
             'employee_empnumber': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'EMP Number', 'required': True}),
             'number': forms.TextInput(attrs={'class': 'form-control','placeholder': 'Auto','readonly': True,}),
             'date': DatePickerInput(options={

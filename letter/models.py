@@ -81,11 +81,6 @@ class Employees_Letter(models.Model):
     letter_type_choice = (
         ('1', 'Surat Tugas'),
     )
-    
-    gender_choice = (
-        ('1', 'Laki-laki'),
-        ('2', 'Perempuan'),
-    )
 
     type_sign_choice = (
         ('1', 'Digital Sign'),
@@ -110,7 +105,7 @@ class Employees_Letter(models.Model):
     employee_place_of_birth = models.CharField(max_length=100, null=True, blank=True)
     employee_date_of_birth = models.DateField()
     employee_rank = models.CharField(max_length=50, null=True, blank=True)
-    employee_gender = models.CharField(max_length=1, choices=gender_choice, null=True, blank=True)
+    employee_gender = models.CharField(max_length=100, null=True, blank=True)
     employee_empnumber = models.CharField(max_length=20, null=True, blank=True)
     type_sign = models.CharField(max_length=1, choices=type_sign_choice, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)

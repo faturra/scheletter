@@ -26,7 +26,7 @@
             <div class="col-sm-9">
                 <div class="card card-body p-4 shadow-lg">
                     <div>
-                      <form method="POST" class="row g-2">
+                      <form method="POST" class="row g-2" id="employee-letter-form">
                         {% csrf_token %}
                         {{ form.media }}
                         {{ form|crispy }}
@@ -38,4 +38,41 @@
           </div>
     </section>
 </div>
+<script>
+    $(document).ready(function() {
+        $("#id_employee_name").change(function() {
+            var selectedEmployee = $(this).val();
+            
+            if (selectedEmployee) {
+                var csrfToken = $('[name=csrfmiddlewaretoken]').val();
+                $.ajax({
+                    url: '/letter/get-employee-info',
+                    data: {
+                        'selected_employee': selectedEmployee,
+                        'csrfmiddlewaretoken': csrfToken
+                    },
+                    type: 'post',
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.success) {
+                            $("#id_employee_rank").val(data.pangkat_golongan_terakhir).prop('readonly', true);
+                            $("#id_employee_gender").val(data.jenis_kelamin).prop('readonly', true);
+                            $("#id_employee_place_of_birth").val(data.tempat_lahir).prop('readonly', true);
+                            $("#id_employee_date_of_birth").val(data.tanggal_lahir);
+                            $("#id_employee_empnumber").val(data.nip).prop('readonly', true);
+                        } else {
+                            alert("Employee not found!");
+                        }
+                    }
+                });
+            } else {
+                $("#id_employee_rank").val('').prop('readonly', false);
+                $("#id_employee_gender").val('').prop('readonly', false);
+                $("#id_employee_place_of_birth").val('').prop('readonly', false);
+                $("#id_employee_date_of_birth").val('');
+                $("#id_employee_empnumber").val('').prop('readonly', false);
+            }
+        });
+    });
+    </script>    
 {% endblock %}

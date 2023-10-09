@@ -41,14 +41,14 @@
 <script>
 $(document).ready(function() {
     $("#id_student_name").change(function() {
-        var selectedSiswa = $(this).val();
+        var selectedStudent = $(this).val();
         
-        if (selectedSiswa) {
+        if (selectedStudent) {
             var csrfToken = $('[name=csrfmiddlewaretoken]').val();
             $.ajax({
                 url: '/letter/get-student-info',
                 data: {
-                    'selected_siswa': selectedSiswa,
+                    'selected_student': selectedStudent,
                     'csrfmiddlewaretoken': csrfToken
                 },
                 type: 'post',
