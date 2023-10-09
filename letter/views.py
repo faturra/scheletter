@@ -38,11 +38,13 @@ def student_letter(request):
             instance.save()
             messages.success(request, 'Letter successfully created!')
             return redirect('letter')
+        else:
+            messages.error(request, 'Form submission failed. Please check the form.')
+
     else:
         form = StudentsLetterForm()
-    
+
     student_list = dapodik_students
-    
     selected_siswa = request.session.get('selected_siswa')
     context = {'form': form, 'student_list': student_list, 'selected_siswa': selected_siswa}
     return render(request, 'administration/letter/create_letter/student_letter.html', context)
@@ -58,12 +60,27 @@ def sl_selected_siswa(request):
         
         if selected_student:
             nama_rombel = selected_student.get('nama_rombel', 'Class not found')
+            tempat_lahir = selected_student.get('tempat_lahir', 'Place of birth not found')
+            jenis_kelamin = selected_student.get('jenis_kelamin', 'Gender not found')
+            tanggal_lahir = selected_student.get('tanggal_lahir', 'Date of birth not found')
+            nisn = selected_student.get('nisn', 'NISN not found')
+            
             request.session['selected_siswa'] = selected_siswa
-            return JsonResponse({'success': True, 'nama_rombel': nama_rombel})
+            
+            return JsonResponse({
+                'success': True,
+                'nama_rombel': nama_rombel,
+                'tempat_lahir': tempat_lahir,
+                'jenis_kelamin': jenis_kelamin,
+                'tanggal_lahir': tanggal_lahir,
+                'nisn': nisn
+            })
         else:
             return JsonResponse({'error': 'Nama siswa tidak ditemukan'})
     else:
         return JsonResponse({'error': 'Invalid request method'})
+
+
 
 @login_required
 @decorators.group_required(config.hoa, config.scs)
