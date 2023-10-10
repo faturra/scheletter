@@ -3,48 +3,87 @@ from django.http import HttpResponse, JsonResponse
 from django.views import View
 from django.utils.autoreload import restart_with_reloader
 from django.shortcuts import render, redirect
+from django.core.cache import cache
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from core import config, decorators
 from .forms import IntegrationsForm
 from .models import Integrations
-from .data import dapodik_school
+from .data import update_api_data
 from .system_check import dapodik_connection_status
 
 # Create your views here.
-
 @login_required
 @decorators.group_required(config.opr)
 def setup_integration(request):
-    integration_info = Integrations.objects.first() 
-
+    integration_info = Integrations.objects.first()
     try:
         instance = Integrations.objects.get()
     except Integrations.DoesNotExist:
         instance = None
 
     if request.method == 'POST':
-        start_time = time.time()
         form = IntegrationsForm(request.POST, instance=instance)
         if form.is_valid():
             instance = form.save(commit=False)
             instance.user = request.user
             instance.created_by = request.user
             instance.save()
-            end_time = time.time()
-            processing_time = end_time - start_time
 
-            messages.success(request, 'Changes have been updated! {0:.2f}s'.format(processing_time))
+            dapodik_school, dapodik_users, dapodik_employees, dapodik_learning_group, dapodik_students = update_api_data()
+            cache.set('dapodik_school', dapodik_school)
+            cache.set('dapodik_users', dapodik_users)
+            cache.set('dapodik_employees', dapodik_employees)
+            cache.set('dapodik_learning_group', dapodik_learning_group)
+            cache.set('dapodik_students', dapodik_students)
+
+            messages.success(request, 'Changes have been updated!')
             return redirect('setup-integration')
         else:
             form = IntegrationsForm()
             messages.error(request, 'Changes failed to update!')
-
+    
+    
     dapodik_status = dapodik_connection_status
-    integration_connection_status = dapodik_school
+    integration_connection_status = cache.get('dapodik_school')
 
     context = {'form': IntegrationsForm, 'integration_info': integration_info, 'integration_connection_status': integration_connection_status, 'dapodik_status':dapodik_status}
     return render(request, 'integrations/setup_integration.html', context)
+
+# @login_required
+# @decorators.group_required(config.opr)
+# def setup_integration(request):
+#     integration_info = Integrations.objects.first() 
+
+#     try:
+#         instance = Integrations.objects.get()
+#     except Integrations.DoesNotExist:
+#         instance = None
+
+#     if request.method == 'POST':
+#         start_time = time.time()
+#         form = IntegrationsForm(request.POST, instance=instance)
+#         if form.is_valid():
+#             instance = form.save(commit=False)
+#             instance.user = request.user
+#             instance.created_by = request.user
+#             instance.save()
+
+#             update_api_data()
+#             end_time = time.time()
+#             processing_time = end_time - start_time
+
+#             messages.success(request, 'Changes have been updated! {0:.2f}s'.format(processing_time))
+#             return redirect('setup-integration')
+#         else:
+#             form = IntegrationsForm()
+#             messages.error(request, 'Changes failed to update!')
+
+#     dapodik_status = dapodik_connection_status
+#     integration_connection_status = dapodik_school
+
+#     context = {'form': IntegrationsForm, 'integration_info': integration_info, 'integration_connection_status': integration_connection_status, 'dapodik_status':dapodik_status}
+#     return render(request, 'integrations/setup_integration.html', context)
 
 
 class ReloadServerView(View):
@@ -54,31 +93,7 @@ class ReloadServerView(View):
     
 
 def get_data_from_api_testing(request):
-    integration = Integrations.objects.get()
-    server_address = integration.server_address
-    npsn = integration.npsn
-    api_token = integration.token
-
-    base_url = f'http://{server_address}:1162/WebService/'
-
-    headers = {
-        'Authorization': f'Bearer {api_token}',
-        'Cache-Control': 'no-cache',
-    }
-
-    def get_data_from_api(api_url, headers):
-        try:
-            response = requests.get(api_url, headers=headers)
-            response.raise_for_status()
-            data = response.json()
-            return data.get('rows', [])
-        except requests.exceptions.RequestException as e:
-            return []
-
-    # Data School
-    dapodik_school_test = get_data_from_api(f'{base_url}getSekolah?npsn={npsn}', headers)
-
-    data_text = str(dapodik_school_test)
+    data_text = str(cache.get('dapodik_school'))
     response = HttpResponse(data_text, content_type='text/plain')
 
     return response

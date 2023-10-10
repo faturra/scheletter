@@ -12,7 +12,8 @@ class StudentsLetterForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        choices_name = dapodik_students([(item['nama'], item['nama']) for item in dapodik_employees])
+        dapodik_students_name = [(item['nama'], item['nama']) for item in dapodik_students]
+        choices_name = dapodik_students_name
         sorted_choices_name = sorted(choices_name, key=lambda x: x[1])
         self.fields['student_name'].choices = sorted_choices_name
        
@@ -35,7 +36,8 @@ class StudentsLetterForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        choices_name = dapodik_students
+        dapodik_students_name = [(item['nama'], item['nama']) for item in dapodik_students]
+        choices_name = dapodik_students_name
         sorted_choices_name = sorted(choices_name, key=lambda x: x[1])
         self.fields['student_name'].choices = sorted_choices_name
 
@@ -67,7 +69,8 @@ class EmployeesLetterForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        choices_name = dapodik_employees([(item['nama'], item['nama']) for item in dapodik_employees])
+        dapodik_employees_name = [(item['nama'], item['nama']) for item in dapodik_employees]
+        choices_name = dapodik_employees_name
         sorted_choices_name = sorted(choices_name, key=lambda x: x[1])
         self.fields['employee_name'].choices = sorted_choices_name
        

@@ -12,10 +12,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
+from django.core.cache import cache
 from django.template.loader import get_template
 from django.utils import timezone
 from xhtml2pdf import pisa
-from integrations.data import dapodik_school, dapodik_employees, dapodik_students
+from integrations.data import dapodik_school, dapodik_employees, dapodik_students, update_api_data
 from letter.models import Students_Letter, Employees_Letter
 from core import config
 from datetime import datetime

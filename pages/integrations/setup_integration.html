@@ -20,7 +20,7 @@
           <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
             <div class="accordion-body">
               <div class="row mt-3">
-                <div class="col-lg-4">
+                <div class="col-lg-4 animate__animated animate__fadeIn animate__delay-1s">
                   {% if dapodik_status == '1' %}
                   <h2><span class="bi bi-check-circle-fill text-success"></span></h2>
                   <h2 class="fw-normal">Dapodik</h2>
@@ -31,7 +31,7 @@
                   <p class="text-danger">Service is not running</p>
                   {% endif %}
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-4 animate__animated animate__fadeIn animate__delay-2s">
                   {% if dapodik_status == '1' and integration_connection_status.nama %}
                   <h2><span class="bi bi-check-circle-fill text-success"></span></h2>
                   <h2 class="fw-normal">Setup Integration</h2>
@@ -46,7 +46,7 @@
                   <p class="text-danger">Dapodik is not ready</p>
                   {% endif %}
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-4 animate__animated animate__fadeIn animate__delay-4s">
                   {% if integration_connection_status.nama %}
                   <h2><span class="bi bi-check-circle-fill text-success"></span></h2>
                   <h2 class="fw-normal">Integration</h2>
