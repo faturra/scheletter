@@ -1,11 +1,12 @@
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
+from django.core.cache import cache
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import StudentsLetterForm, EmployeesLetterForm, CommonLetterForm
 from core import decorators, config
 from .models import Students_Letter, Employees_Letter, Common_Letter
-from integrations.data import dapodik_students, dapodik_employees
+# from integrations.data import cache.get('dapodik_students'), cache.get('dapodik_employees')
 
 # Create your views here.
 
@@ -45,7 +46,7 @@ def student_letter(request):
     else:
         form = StudentsLetterForm()
 
-    student_list = dapodik_students
+    student_list = cache.get('dapodik_students')
     selected_student = request.session.get('selected_student')
     context = {'form': form, 'student_list': student_list, 'selected_student': selected_student}
     return render(request, 'administration/letter/create_letter/student_letter.html', context)
@@ -54,7 +55,7 @@ def student_letter(request):
 @login_required
 @decorators.group_required(config.hoa, config.scs)
 def get_student_info(request):
-    student_list = dapodik_students
+    student_list = cache.get('dapodik_students')
 
     if request.method == 'POST':
         selected_student = request.POST.get('selected_student')
@@ -105,7 +106,7 @@ def employee_letter(request):
 @login_required
 @decorators.group_required(config.hoa, config.ecs)
 def get_employee_info(request):
-    employee_list = dapodik_employees
+    employee_list = cache.get('dapodik_employees')
 
     if request.method == 'POST':
         selected_employee = request.POST.get('selected_employee')

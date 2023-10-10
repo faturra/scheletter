@@ -5,8 +5,10 @@ from django.forms.widgets import EmailInput
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout, Field
 from crispy_forms.bootstrap import FormActions
-from integrations.data import dapodik_employees
+# from integrations.data import cache.get('dapodik_employees')
 from .models import Guest_Book
+from django.core.cache import cache
+
 
 class LoginForm(AuthenticationForm):
     def __init__(self, *args, **kwargs):
@@ -25,6 +27,11 @@ class LoginForm(AuthenticationForm):
 
 class CustomUserCreationForm(UserCreationForm):
     first_name = forms.ChoiceField(choices=[], required=True, label='Name')
+    group = forms.ModelChoiceField(queryset=Group.objects.all(), required=True, label='Role')
+    username = forms.CharField(
+        widget=forms.EmailInput(attrs={'placeholder': 'email@example.com'}),
+        label='Email'
+    )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -33,19 +40,18 @@ class CustomUserCreationForm(UserCreationForm):
     def get_filtered_names(self):
         role_a = 'Tenaga Administrasi Sekolah'
         role_b = 'Kepala Sekolah'
-        filtered_names = [user['nama'] for user in dapodik_employees if user['jenis_ptk_id_str'] in [role_a, role_b]]
-        sorted_names = sorted(filtered_names)
-        return [(nama, nama) for nama in sorted_names]
-    
-    first_name = forms.ChoiceField(choices=[(user['nama'], user['nama']) for user in dapodik_employees], required=True, label='Name')
-    group = forms.ModelChoiceField(queryset=Group.objects.all(), required=True, label='Role')
-    username = forms.CharField(
-        widget=forms.EmailInput(attrs={'placeholder': 'email@example.com'}),
-        label='Email'
-    )
+        dapodik_employees = cache.get('dapodik_employees')
+
+        if dapodik_employees is not None:
+            filtered_names = [user['nama'] for user in dapodik_employees if user['jenis_ptk_id_str'] in [role_a, role_b]]
+            sorted_names = sorted(filtered_names)
+            return [(nama, nama) for nama in sorted_names]
+        else:
+            return []
 
     class Meta(UserCreationForm.Meta):
-        fields = UserCreationForm.Meta.fields + ('first_name','group')
+        fields = UserCreationForm.Meta.fields + ('first_name', 'group')
+
 
 
 class GuestBookForm(forms.ModelForm):

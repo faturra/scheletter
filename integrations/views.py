@@ -23,6 +23,7 @@ def setup_integration(request):
         instance = None
 
     if request.method == 'POST':
+        start_time = time.time()
         form = IntegrationsForm(request.POST, instance=instance)
         if form.is_valid():
             instance = form.save(commit=False)
@@ -30,14 +31,17 @@ def setup_integration(request):
             instance.created_by = request.user
             instance.save()
 
-            dapodik_school, dapodik_users, dapodik_employees, dapodik_learning_group, dapodik_students = update_api_data()
-            cache.set('dapodik_school', dapodik_school)
-            cache.set('dapodik_users', dapodik_users)
-            cache.set('dapodik_employees', dapodik_employees)
-            cache.set('dapodik_learning_group', dapodik_learning_group)
-            cache.set('dapodik_students', dapodik_students)
+            dapodik_school_api, dapodik_users_api, dapodik_employees_api, dapodik_learning_group_api, dapodik_students_api = update_api_data()
+            cache.set('dapodik_school', dapodik_school_api)
+            cache.set('dapodik_users', dapodik_users_api)
+            cache.set('dapodik_employees', dapodik_employees_api)
+            cache.set('dapodik_learning_group', dapodik_learning_group_api)
+            cache.set('dapodik_students', dapodik_students_api)
 
-            messages.success(request, 'Changes have been updated!')
+            end_time = time.time()
+            processing_time = end_time - start_time
+
+            messages.success(request, 'Changes have been updated! {0:.2f}s'.format(processing_time))
             return redirect('setup-integration')
         else:
             form = IntegrationsForm()

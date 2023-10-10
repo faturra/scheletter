@@ -16,7 +16,7 @@ from django.core.cache import cache
 from django.template.loader import get_template
 from django.utils import timezone
 from xhtml2pdf import pisa
-from integrations.data import dapodik_school, dapodik_employees, dapodik_students, update_api_data
+# from integrations.data import cache.get('dapodik_school'), cache.get('dapodik_employees'), cache.get('dapodik_students')
 from letter.models import Students_Letter, Employees_Letter
 from core import config
 from datetime import datetime
@@ -52,9 +52,9 @@ def index(request):
 
 @login_required
 def dashboard(request):
-    school_info = dapodik_school
-    count_emp = len(dapodik_employees)
-    count_std = len(dapodik_students)
+    school_info = cache.get('dapodik_school')
+    count_emp = len(cache.get('dapodik_employees'))
+    count_std = len(cache.get('dapodik_students'))
     count_ltr = Students_Letter.objects.count()
     count_arc = Students_Letter.objects.filter(digital_sign_at__isnull=False).count #+ Employee_Letter.objects.count() + Guest_Book.objects.count()
 
@@ -84,12 +84,12 @@ def dashboard(request):
 
 @login_required
 def students(request):
-    context = {'students': dapodik_students, 'config': config}
+    context = {'students': cache.get('dapodik_students'), 'config': config}
     return render(request, 'reference_data/students/students.html', context)
 
 @login_required
 def employees(request):
-    context = {'employees': dapodik_employees, 'config': config}
+    context = {'employees': cache.get('dapodik_employees'), 'config': config}
     return render(request, 'reference_data/employees/employees.html', context)
 
 @login_required
@@ -170,7 +170,7 @@ def apply_signature(request, letter_id):
     letter.digital_sign_by = request.user
     letter.digital_sign_by_name = request.user.get_full_name()
     letter.digital_sign_job_title = request.user.groups.first().name
-    letter.digital_sign_institution = dapodik_school['nama']
+    letter.digital_sign_institution = cache.get('dapodik_school')['nama']
 
     ip_address = requests.get('https://api.ipify.org/').text
     

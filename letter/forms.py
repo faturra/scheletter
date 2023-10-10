@@ -1,6 +1,7 @@
 from django import forms
+from django.core.cache import cache
 from bootstrap_datepicker_plus.widgets import DatePickerInput, TimePickerInput
-from integrations.data import dapodik_students, dapodik_employees
+# from integrations.data import cache.get('dapodik_students'), cache.get('dapodik_employees')
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Div, Field
 from .models import Students_Letter, Employees_Letter, Common_Letter
@@ -12,7 +13,7 @@ class StudentsLetterForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        dapodik_students_name = [(item['nama'], item['nama']) for item in dapodik_students]
+        dapodik_students_name = [(item['nama'], item['nama']) for item in cache.get('dapodik_students')]
         choices_name = dapodik_students_name
         sorted_choices_name = sorted(choices_name, key=lambda x: x[1])
         self.fields['student_name'].choices = sorted_choices_name
@@ -36,7 +37,7 @@ class StudentsLetterForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        dapodik_students_name = [(item['nama'], item['nama']) for item in dapodik_students]
+        dapodik_students_name = [(item['nama'], item['nama']) for item in cache.get('dapodik_students')]
         choices_name = dapodik_students_name
         sorted_choices_name = sorted(choices_name, key=lambda x: x[1])
         self.fields['student_name'].choices = sorted_choices_name
@@ -69,7 +70,7 @@ class EmployeesLetterForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        dapodik_employees_name = [(item['nama'], item['nama']) for item in dapodik_employees]
+        dapodik_employees_name = [(item['nama'], item['nama']) for item in cache.get('dapodik_employees')]
         choices_name = dapodik_employees_name
         sorted_choices_name = sorted(choices_name, key=lambda x: x[1])
         self.fields['employee_name'].choices = sorted_choices_name
