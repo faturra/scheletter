@@ -42,7 +42,7 @@
                 <tr>
                   <th scope="row"><span class="bi bi-check2-circle text-primary" data-bs-toggle="tooltip" data-bs-title="Registration id: {{ item.registrasi_id|slice:":5" }}***"></span></th>
                   <td>{{ item.nama }}</td>
-                  <td>{{ item.nipd }}</td>
+                  <td>{{ item.nipd|default:'-' }}</td>
                   <td>{{ item.nisn }}</td>
                   <td>{{ item.jenis_kelamin }}</td>
                   <td>{{ item.nama_rombel }}</td>

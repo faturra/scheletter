@@ -16,6 +16,9 @@
             <li class="nav-item" role="guest-book-active">
               <button class="nav-link active" id="guest-book-active" data-bs-toggle="tab" data-bs-target="#guest-book-active-pane" type="button" role="tab" aria-controls="guest-book-active-pane" aria-selected="true">Guest list</button>
             </li>
+            <li class="nav-item" role="request-queue-active">
+                <a href="{% url 'guest-and-request-form' %}" class="nav-link"><span class="bi bi-box-arrow-up-right"></span>&nbsp;Guest form</a>
+            </li>
           </ul>
           <div class="tab-content mt-3" id="guest-book">
             <div class="tab-pane fade show active" id="guest-book-active-pane" role="tabpanel" aria-labelledby="guest-book-active" tabindex="0">
@@ -39,8 +42,8 @@
                             <td>{{ item.name }}</td>
                             <td>{{ item.address }}</td>
                             <td>{{ item.occupation }}</td>
-                            <td>{{ item.email|default_if_none:'-' }}</td>
-                            <td>{{ item.message }}</td>
+                            <td>{{ item.email|default:'-' }}</td>
+                            <td>{{ item.message|default:'-' }}</td>
                             <td>{{ item.created_at }}</td>
                         </tr>
                         {% endfor %}

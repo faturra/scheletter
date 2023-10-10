@@ -16,6 +16,9 @@ $(document).ready(function() {
 
 $(document).ready(function() {
   $('#tb_accounts').dataTable( {
+    fixedColumns: {
+        right: 1
+    },
     "autoWidth": false,
     "scrollX": true,
     "pagingType": "simple",

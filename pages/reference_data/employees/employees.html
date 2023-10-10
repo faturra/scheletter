@@ -45,7 +45,7 @@
                   <td>{{ item.tanggal_lahir }}</td>
                   <td>{{ item.pendidikan_terakhir }}</td>
                   <td>{{ item.jenis_ptk_id_str }}</td>
-                  <td>{{ item.nip|default_if_none:'-' }}</td>
+                  <td>{{ item.nip|default:'-' }}</td>
                   <td>{{ item.pangkat_golongan_terakhir }}</td>
                   <td>{{ item.status_kepegawaian_id_str }}</td>
                 </tr>

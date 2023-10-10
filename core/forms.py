@@ -53,11 +53,11 @@ class GuestBookForm(forms.ModelForm):
         model = Guest_Book
         fields = ['name', 'address', 'occupation', 'email', 'message']
         widgets = {
-            'name': forms.TextInput(attrs={'placeholder': 'Name'}),
-            'address': forms.TextInput(attrs={'placeholder': 'Address'}),
-            'occupation': forms.TextInput(attrs={'placeholder': 'Occupation'}),
+            'name': forms.TextInput(attrs={'placeholder': 'Name', 'required': True}),
+            'address': forms.TextInput(attrs={'placeholder': 'Address', 'required': True}),
+            'occupation': forms.TextInput(attrs={'placeholder': 'Occupation', 'required': True}),
             'email': forms.EmailInput(attrs={'placeholder': 'Email'}),
-            'message': forms.Textarea(attrs={'placeholder': 'Message'}),
+            'message': forms.Textarea(attrs={'placeholder': 'Message', 'required': True}),
         }
         labels = {
             'name': 'Name',

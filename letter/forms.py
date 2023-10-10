@@ -1,6 +1,6 @@
 from django import forms
 from bootstrap_datepicker_plus.widgets import DatePickerInput, TimePickerInput
-from integrations.data import dapodik_students_name, dapodik_employees_name
+from integrations.data import dapodik_students, dapodik_employees
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Div, Field
 from .models import Students_Letter, Employees_Letter, Common_Letter
@@ -12,7 +12,7 @@ class StudentsLetterForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        choices_name = dapodik_students_name
+        choices_name = dapodik_students([(item['nama'], item['nama']) for item in dapodik_employees])
         sorted_choices_name = sorted(choices_name, key=lambda x: x[1])
         self.fields['student_name'].choices = sorted_choices_name
        
@@ -35,7 +35,7 @@ class StudentsLetterForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        choices_name = dapodik_students_name
+        choices_name = dapodik_students
         sorted_choices_name = sorted(choices_name, key=lambda x: x[1])
         self.fields['student_name'].choices = sorted_choices_name
 
@@ -67,7 +67,7 @@ class EmployeesLetterForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        choices_name = dapodik_employees_name
+        choices_name = dapodik_employees([(item['nama'], item['nama']) for item in dapodik_employees])
         sorted_choices_name = sorted(choices_name, key=lambda x: x[1])
         self.fields['employee_name'].choices = sorted_choices_name
        

@@ -1,4 +1,4 @@
-import time
+import time, requests
 from django.http import HttpResponse, JsonResponse
 from django.views import View
 from django.utils.autoreload import restart_with_reloader
@@ -54,7 +54,31 @@ class ReloadServerView(View):
     
 
 def get_data_from_api_testing(request):
-    data_text = str(dapodik_school)
+    integration = Integrations.objects.get()
+    server_address = integration.server_address
+    npsn = integration.npsn
+    api_token = integration.token
+
+    base_url = f'http://{server_address}:1162/WebService/'
+
+    headers = {
+        'Authorization': f'Bearer {api_token}',
+        'Cache-Control': 'no-cache',
+    }
+
+    def get_data_from_api(api_url, headers):
+        try:
+            response = requests.get(api_url, headers=headers)
+            response.raise_for_status()
+            data = response.json()
+            return data.get('rows', [])
+        except requests.exceptions.RequestException as e:
+            return []
+
+    # Data School
+    dapodik_school_test = get_data_from_api(f'{base_url}getSekolah?npsn={npsn}', headers)
+
+    data_text = str(dapodik_school_test)
     response = HttpResponse(data_text, content_type='text/plain')
 
     return response
