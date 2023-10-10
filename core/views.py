@@ -53,8 +53,16 @@ def index(request):
 @login_required
 def dashboard(request):
     school_info = cache.get('dapodik_school')
-    count_emp = len(cache.get('dapodik_employees'))
-    count_std = len(cache.get('dapodik_students'))
+    dapodik_employees_data = cache.get('dapodik_employees')
+    if dapodik_employees_data is not None:
+        count_emp = len(dapodik_employees_data)
+    else:
+        count_emp = 0
+    dapodik_students_data = cache.get('dapodik_students')
+    if dapodik_students_data is not None:
+        count_std = len(dapodik_students_data)
+    else:
+        count_std = 0
     count_ltr = Students_Letter.objects.count()
     count_arc = Students_Letter.objects.filter(digital_sign_at__isnull=False).count #+ Employee_Letter.objects.count() + Guest_Book.objects.count()
 
