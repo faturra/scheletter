@@ -8,7 +8,7 @@
         <h1 class=""><span class="bi bi-shuffle"></span>&nbsp;Setup Integration</h1>
       </div>
       <div>
-        <p class="lead">Dapodik data integration settings{% if dapodik_status == '1' and integration_connection_status.nama is None %}&nbsp;<span class="text-warning">Check your setup</span>{% elif dapodik_status == '1' and integration_connection_status.nama %}{% endif %}</p>
+        <p class="lead">Dapodik data integration settings{% if dapodik_status == '1' and integration_connection_status.nama is None %}&nbsp;<span class="text-warning animate__animated animate__fadeIn animate__delay-2s">Check your setup</span>{% elif dapodik_status == '1' and integration_connection_status.nama %}{% endif %}</p>
       </div>
     </section>
     <section class="mb-5">
@@ -20,7 +20,7 @@
           <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
             <div class="accordion-body">
               <div class="row mt-3">
-                <div class="col-lg-4 animate__animated animate__fadeIn animate__delay-1s">
+                <div class="col-lg-4 animate__animated animate__bounceIn animate__delay-1s">
                   {% if dapodik_status == '1' %}
                   <h2><span class="bi bi-check-circle-fill text-success"></span></h2>
                   <h2 class="fw-normal">Dapodik</h2>
@@ -31,22 +31,22 @@
                   <p class="text-danger">Service is not running</p>
                   {% endif %}
                 </div>
-                <div class="col-lg-4 animate__animated animate__fadeIn animate__delay-2s">
+                <div class="col-lg-4 animate__animated animate__bounceIn animate__delay-2s">
                   {% if dapodik_status == '1' and integration_connection_status.nama %}
                   <h2><span class="bi bi-check-circle-fill text-success"></span></h2>
                   <h2 class="fw-normal">Setup Integration</h2>
-                  <p class="text-success">Complete</p>
+                  <p class="text-success">({{total_data}}) data is available!</p>
                   {% elif dapodik_status == '1' %}
                   <h2><span class="bi bi-record-circle-fill text-warning"></span></h2>
                   <h2 class="fw-normal">Setup Integration</h2>
-                  <p class="text-warning">Check your setup form</p>
+                  <p class="text-warning">({{total_data}}) data is not available</p>
                   {% else %}
                   <h2><span class="bi bi-x-circle-fill text-danger"></span></h2>
                   <h2 class="fw-normal">Setup Integration</h2>
                   <p class="text-danger">Dapodik is not ready</p>
                   {% endif %}
                 </div>
-                <div class="col-lg-4 animate__animated animate__fadeIn animate__delay-4s">
+                <div class="col-lg-4 animate__animated animate__bounceIn animate__delay-4s">
                   {% if integration_connection_status.nama %}
                   <h2><span class="bi bi-check-circle-fill text-success"></span></h2>
                   <h2 class="fw-normal">Integration</h2>
@@ -120,7 +120,7 @@
     <section class="mb-5">
       <div class="card">
         <div class="card-header">
-          Data API (from dj requests)
+          Data API (from dj cache)
         </div>
         <div class="card-body">
           <button id="getDataButton" class="btn btn-dark">Get Data</button>

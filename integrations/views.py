@@ -88,15 +88,13 @@ def setup_integration(request):
             instance.created_by = request.user
             instance.save()
 
-            dapodik_school_api, dapodik_users_api, dapodik_employees_api, dapodik_learning_group_api, dapodik_students_api = update_api_data()
+            dapodik_school_api, dapodik_employees_api, dapodik_students_api = update_api_data()
 
             cache.set('dapodik_school', dapodik_school_api, 60*60*24*7)
-            cache.set('dapodik_users', dapodik_users_api, 60*60*24*7)
             cache.set('dapodik_employees', dapodik_employees_api, 60*60*24*7)
-            cache.set('dapodik_learning_group', dapodik_learning_group_api, 60*60*24*7)
             cache.set('dapodik_students', dapodik_students_api, 60*60*24*7)
 
-            if not (dapodik_school_api and dapodik_users_api and dapodik_employees_api and dapodik_learning_group_api and dapodik_students_api):
+            if not (dapodik_school_api and dapodik_employees_api and dapodik_students_api):
                 messages.warning(request, 'Data is empty, make sure the source information is correctly!')
             else:
 
@@ -108,6 +106,24 @@ def setup_integration(request):
             form = IntegrationsForm()
             messages.error(request, 'Changes failed to update!')
 
+    dapodik_school = cache.get('dapodik_school')
+    dapodik_employees = cache.get('dapodik_employees')
+    dapodik_students = cache.get('dapodik_students')
+
+    if dapodik_school is None:
+        dapodik_school = []
+
+    if dapodik_employees is None:
+        dapodik_employees = []
+
+    if dapodik_students is None:
+        dapodik_students = []
+
+    count_school = len(dapodik_school)
+    count_employees = len(dapodik_employees)
+    count_students = len(dapodik_students)
+
+    total_data = count_school + count_employees + count_students
     dapodik_status = dapodik_connection_status
     integration_connection_status = cache.get('dapodik_school')
 
@@ -115,9 +131,11 @@ def setup_integration(request):
         'form': IntegrationsForm,
         'integration_info': integration_info,
         'integration_connection_status': integration_connection_status,
-        'dapodik_status': dapodik_status
+        'dapodik_status': dapodik_status,
+        'total_data': total_data,
     }
     return render(request, 'integrations/setup_integration.html', context)
+
 
 class ReloadServerView(View):
     def get(self, request):

@@ -32,9 +32,9 @@ def update_api_data():
         print('Dapodik School API Connection [OK].')
 
     # Data Users
-    dapodik_users_api = get_data_from_api(f'{base_url}getPengguna?npsn={npsn}', headers)
-    if dapodik_users_api:
-        print('Dapodik Users API Connection [OK].')
+    # dapodik_users_api = get_data_from_api(f'{base_url}getPengguna?npsn={npsn}', headers)
+    # if dapodik_users_api:
+    #     print('Dapodik Users API Connection [OK].')
 
     # Data Employees
     dapodik_employees_api = get_data_from_api(f'{base_url}getGtk?npsn={npsn}', headers)
@@ -42,14 +42,14 @@ def update_api_data():
         print('Dapodik Employees API Connection [OK].')
 
     # Data Learning Group
-    dapodik_learning_group_raw = get_data_from_api(f'{base_url}getRombonganBelajar?npsn={npsn}', headers)
-    dapodik_learning_group_api = [(item['nama'], item['nama']) for item in dapodik_learning_group_raw]
-    if dapodik_learning_group_raw:
-        print('Dapodik Learning Group API Connection [OK].')
+    # dapodik_learning_group_raw = get_data_from_api(f'{base_url}getRombonganBelajar?npsn={npsn}', headers)
+    # dapodik_learning_group_api = [(item['nama'], item['nama']) for item in dapodik_learning_group_raw]
+    # if dapodik_learning_group_raw:
+    #     print('Dapodik Learning Group API Connection [OK].')
 
     # Data Students
     dapodik_students_api = get_data_from_api(f'{base_url}getPesertaDidik?npsn={npsn}', headers)
     if dapodik_students_api:
         print('Dapodik Students API Connection [OK].\n')
 
-    return dapodik_school_api, dapodik_users_api, dapodik_employees_api, dapodik_learning_group_api, dapodik_students_api
+    return dapodik_school_api, dapodik_employees_api, dapodik_students_api
