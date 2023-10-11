@@ -39,10 +39,10 @@ def index(request):
         if user is not None:
             login(request, user)
             if next_url:
-                messages.success(request, 'Sign in success! Hi {}'.format(user.get_full_name()))
+                messages.success(request, 'Hi, {}'.format(user.get_full_name()))
                 return redirect(next_url)
             else:
-                messages.success(request, 'Sign in success! Hi {}'.format(user.get_full_name()))
+                messages.success(request, 'Hi, {}'.format(user.get_full_name()))
                 return redirect('dashboard')
         else:
             messages.info(request, 'Incorrect email or password')

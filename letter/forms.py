@@ -38,7 +38,17 @@ class StudentsLetterForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        dapodik_students_name = [(item['nama'], item['nama']) for item in cache.get('dapodik_students')]
+
+        # Mendapatkan data dari cache
+        dapodik_students_data = cache.get('dapodik_students')
+
+        if dapodik_students_data is not None:
+            # Data ada, Anda dapat memprosesnya
+            dapodik_students_name = [(item['nama'], item['nama']) for item in dapodik_students_data]
+        else:
+            # Data tidak ada, ganti dengan daftar kosong
+            dapodik_students_name = []
+
         choices_name = dapodik_students_name
         sorted_choices_name = sorted(choices_name, key=lambda x: x[1])
         self.fields['student_name'].choices = sorted_choices_name
@@ -71,7 +81,14 @@ class EmployeesLetterForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        dapodik_employees_name = [(item['nama'], item['nama']) for item in cache.get('dapodik_employees')]
+
+        dapodik_employees_data = cache.get('dapodik_employees')
+
+        if dapodik_employees_data is not None:
+            dapodik_employees_name = [(item['nama'], item['nama']) for item in dapodik_employees_data]
+        else:
+            dapodik_employees_name = []
+
         choices_name = dapodik_employees_name
         sorted_choices_name = sorted(choices_name, key=lambda x: x[1])
         self.fields['employee_name'].choices = sorted_choices_name

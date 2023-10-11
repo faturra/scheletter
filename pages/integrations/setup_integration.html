@@ -104,7 +104,11 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary mt-4" onclick="return confirm('Are you sure you want to change the settings');"><span class="bi bi-shuffle"></span>&nbsp;Connect</button>
+                <button id="submitButton" class="btn btn-primary mt-4" onclick="return confirm('Are you sure you want to change the settings');">
+                  <span class="bi bi-shuffle"></span>
+                  <span class="spinner-border spinner-border-sm" role="status" style="display: none;"></span>
+                  &nbsp;<span id="buttonText">Connect</span>
+                </button>
               </form>
             </div>
           </div>
@@ -173,7 +177,6 @@
       });
   });
   </script>
-
 <script>
   $(document).ready(function() {
       function getApiInfoFromServer() {
@@ -181,13 +184,11 @@
               url: 'get-api-data-new/',
               method: 'GET',
               success: function(apiInfo) {
-                  // Loop melalui setiap info API
                   for (var i = 0; i < apiInfo.length; i++) {
                       var apiName = apiInfo[i].server_address;
-                      var apiUrl = apiInfo[i].server_address; // Gunakan server_address sebagai apiUrl
+                      var apiUrl = apiInfo[i].server_address; 
                       var apiToken = apiInfo[i].token;
 
-                      // Buat permintaan ke API menggunakan informasi dari database
                       $.ajax({
                           url: apiUrl,
                           method: 'GET',
@@ -195,7 +196,6 @@
                               'Authorization': 'Bearer ' + apiToken,
                           },
                           success: function(response) {
-                              // Tampilkan respons dari API di dalam apiInfoContainer
                               var responseDataHtml = '<p>Response from ' + apiName + ':</p>';
                               responseDataHtml += '<pre>' + JSON.stringify(response, null, 2) + '</pre>';
                               $('#apiInfoContainer').append(responseDataHtml);
@@ -212,17 +212,34 @@
           });
       }
 
-      // Panggil fungsi untuk mengambil data API dari server
       getApiInfoFromServer();
 
-      // Tambahkan event listener untuk tombol Get Data
       $('#getApiInfoFromServer').on('click', function() {
-          // Kosongkan apiInfoContainer sebelum melakukan permintaan baru
           $('#apiInfoContainer').empty();
-          // Panggil kembali fungsi untuk mengambil data API dari server
           getApiInfoFromServer();
       });
   });
 </script>
 {% endif %}
+<script>
+  document.querySelector('#submitButton').addEventListener('click', function(event) {
+    event.preventDefault();
+
+    var button = this;
+    var buttonText = button.querySelector('#buttonText');
+    var spinner = button.querySelector('.spinner-border');
+    var shuffleIcon = button.querySelector('.bi-shuffle');
+
+    buttonText.innerText = 'Loading...';
+
+    spinner.style.display = 'inline-block';
+
+    button.disabled = true;
+
+    shuffleIcon.style.display = 'none';
+
+    var form = button.closest('form');
+    form.submit();
+  });
+</script>
 {% endblock %}
