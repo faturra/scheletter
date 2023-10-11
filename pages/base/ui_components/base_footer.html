@@ -1,3 +1,4 @@
+{% load static %}
 {% if messages %}
 {% for message in messages %}
 <div class="fixed-bottom container mb-4">
@@ -9,6 +10,19 @@
       <button type="button" class="btn-close animate__animated animate__rotateIn animate__delay-3s" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>
 </div>
+<script>
+setTimeout(function() {
+  var audio = new Audio("{% static 'assets/sounds/pop.mp3' %}");
+  audio.volume = 0.1;
+  audio.play();
+}, 250);
+</script>
+<script>
+  var audio = document.getElementById('notificationSound');
+  if (audio) {
+    audio.play();
+  }
+</script>
 {% endfor %}
 {% endif %}
 <div class="bg-white">

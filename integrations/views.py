@@ -1,4 +1,5 @@
 import time, requests
+import socket
 from django.http import HttpResponse, JsonResponse
 from django.views import View
 from django.utils.autoreload import restart_with_reloader
@@ -10,12 +11,21 @@ from core import config, decorators
 from .forms import IntegrationsForm
 from .models import Integrations
 from .data import update_api_data
-from .system_check import dapodik_connection_status
+from .system_check import dapodik_connection_status, check_telnet_connection
 
 # Create your views here.
 @login_required
 @decorators.group_required(config.opr)
 def setup_integration(request):
+    def check_telnet_connection(host, port):
+        try:
+            with socket.create_connection((host, port), timeout=5) as sock:
+                return "1"
+        except (socket.timeout, ConnectionRefusedError):
+            return "0"
+
+    dapodik_connection_status = check_telnet_connection('api.smpn162jakarta.sch.id', 1162)
+
     integration_info = Integrations.objects.first()
     try:
         instance = Integrations.objects.get()
@@ -32,11 +42,11 @@ def setup_integration(request):
             instance.save()
 
             dapodik_school_api, dapodik_users_api, dapodik_employees_api, dapodik_learning_group_api, dapodik_students_api = update_api_data()
-            cache.set('dapodik_school', dapodik_school_api)
-            cache.set('dapodik_users', dapodik_users_api)
-            cache.set('dapodik_employees', dapodik_employees_api)
-            cache.set('dapodik_learning_group', dapodik_learning_group_api)
-            cache.set('dapodik_students', dapodik_students_api)
+            cache.set('dapodik_school', dapodik_school_api, 60*60*24*7)
+            cache.set('dapodik_users', dapodik_users_api, 60*60*24*7)
+            cache.set('dapodik_employees', dapodik_employees_api, 60*60*24*7)
+            cache.set('dapodik_learning_group', dapodik_learning_group_api, 60*60*24*7)
+            cache.set('dapodik_students', dapodik_students_api, 60*60*24*7)
 
             end_time = time.time()
             processing_time = end_time - start_time

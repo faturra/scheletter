@@ -1,7 +1,6 @@
 import socket
 from .config import server_address
 
-
 def check_telnet_connection(host, port):
     try:
         with socket.create_connection((host, port), timeout=5) as sock:

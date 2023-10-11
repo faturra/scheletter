@@ -31,6 +31,7 @@ class StudentsLetterForm(forms.ModelForm):
             'student_date_of_birth': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Date of birth', 'required': True, 'readonly': True}),
             'student_nisn': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'NISN', 'required': True, 'readonly': True}),
             'number': forms.HiddenInput(),
+            'body': forms.Textarea(attrs={'class': 'form-control', 'required': True}),
             'type_sign': forms.Select(attrs={'class': 'form-control', 'required': True}),
             'date': DatePickerInput(options={'format': 'YYYY-MM-DD'}, attrs={'class': 'form-control', 'placeholder': 'yyyy-mm-dd'}),
         }
@@ -87,6 +88,8 @@ class EmployeesLetterForm(forms.ModelForm):
             'employee_date_of_birth': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Date of Birth', 'required': True, 'readonly': True}),
             'employee_empnumber': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'EMP Number', 'required': True}),
             'number': forms.HiddenInput(),
+            'body_opening': forms.Textarea(attrs={'class': 'form-control', 'required': True}),
+            'body_purpose': forms.Textarea(attrs={'class': 'form-control', 'required': True}),
             'type_sign': forms.Select(attrs={'class': 'form-control', 'required': True}),
             'date': DatePickerInput(options={
                 'format': 'YYYY-MM-DD',
