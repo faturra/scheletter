@@ -95,7 +95,7 @@ def setup_integration(request):
             cache.set('dapodik_students', dapodik_students_api, 60*60*24*7)
 
             if not (dapodik_school_api and dapodik_employees_api and dapodik_students_api):
-                messages.warning(request, 'Data is empty, make sure the source information is correctly!')
+                messages.warning(request, 'No data available, make sure the source information is correctly!')
             else:
 
                 end_time = time.time()
