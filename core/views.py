@@ -306,7 +306,7 @@ def generate_pdf(request, letter_id):
     for qrc in digital_sign:
         qrc.generate_qr_code()
 
-    template = get_template('administration/letter/letter_templates/students_letter/surat_keterangan_sipw.html')
+    template = get_template('administration/letter/letter_templates/students_letter/surat_keterangan.html')
     context = {'letter': letter}
     html = template.render(context)
 
