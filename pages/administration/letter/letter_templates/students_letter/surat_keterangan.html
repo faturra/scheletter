@@ -22,7 +22,7 @@
         <td></td>
         <td width=20%>Jabatan</td>
         <td width=1%>:</td>
-        <td>{{ letter.digital_sign_job_title }}</td>
+        <td>{% if letter.digital_sign_job_title == 'Principal' %}Kepala Sekolah{% endif %}</td>
     </tr>
     <tr>
         <td></td>
@@ -97,5 +97,5 @@
 </table>
 {% endblock %}
 {% block footer %}
-<p id="footer_cipta" class="center">&copy; Scheletter Administration | UU No. 11 tahun 2008 tentang Informasi dan Transaksi Elektronik (UU ITE)</p>
+<!-- <p id="footer_cipta" class="center">&copy; Scheletter Administration | UU No. 11 tahun 2008 tentang Informasi dan Transaksi Elektronik (UU ITE)</p> -->
 {% endblock %}
