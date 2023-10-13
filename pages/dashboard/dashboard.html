@@ -119,7 +119,11 @@
                       <a href="{% url 'request-queue' %}" class="text-decoration-none">
                         <div class="card btn btn-light border-0 shadow-sm">
                           <div class="card-body">
-                            <h5 class="card-title">Request Queue&nbsp;{% if count_rq %}<span class="animate__animated animate__bounce animate__infinite infinite badge rounded-pill bg-primary">{{ count_rq }}</span>{% endif %}</h5>
+                            <h5 class="card-title">Request Queue
+                              {% if request.user.groups.first.name == 'Student Correspondence Staff' %}{% if count_staging_scs %}&nbsp;<span class="animate__animated animate__bounce animate__infinite infinite badge rounded-pill bg-primary">{{ count_staging_scs }}</span>{% endif %}{% endif %}
+                              {% if request.user.groups.first.name == 'Employee Correspondence Staff' %}{% if count_staging_ecs %}&nbsp;<span class="animate__animated animate__bounce animate__infinite infinite badge rounded-pill bg-primary">{{ count_staging_ecs }}</span>{% endif %}{% endif %}
+                              {% if request.user.groups.first.name == 'Head of Administration' or user.is_superuser%}{% if count_staging_hoa %}&nbsp;<span class="animate__animated animate__bounce animate__infinite infinite badge rounded-pill bg-primary">{{ count_staging_hoa }}</span>{% endif %}{% endif %}
+                            </h5>
                             <p class="card-text text-muted">Digital signature</p>
                           </div>
                         </div>

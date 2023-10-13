@@ -68,12 +68,17 @@ def dashboard(request):
 
     count_rs = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=False).count
     count_rtd = Students_Letter.objects.filter(is_selected_to_destroy=True).count
-    
 
     last_created = Students_Letter.objects.order_by('-created_at')[:3]
     letter_done = Students_Letter.objects.order_by('-digital_sign_at')[:3]
     lc_timesince = Students_Letter.objects.order_by('-created_at')[:1]
     ld_timesince = Students_Letter.objects.order_by('-digital_sign_at')[:1]
+
+    staging_scs = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=True).order_by('-created_at')
+    staging_ecs = Employees_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=True).order_by('-created_at')
+    count_staging_scs = staging_scs.count()
+    count_staging_ecs = staging_ecs.count()
+    count_staging_hoa = count_staging_scs + count_staging_ecs
 
     context = {
         'school_info': school_info, 
@@ -87,6 +92,9 @@ def dashboard(request):
         'letter_done': letter_done,
         'lc_timesince': lc_timesince,
         'ld_timesince': ld_timesince,
+        'count_staging_scs': count_staging_scs,
+        'count_staging_ecs': count_staging_ecs,
+        'count_staging_hoa': count_staging_hoa,
         }
     return render(request, 'dashboard/dashboard.html', context)
 

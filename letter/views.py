@@ -17,13 +17,26 @@ def letter(request):
     latest_employee_letter = Employees_Letter.objects.order_by('-created_at').first()
     latest_common_letter = Common_Letter.objects.order_by('-created_at').first()
 
+    staging_scs = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=True).order_by('-created_at')
+    count_staging_scs = staging_scs.count()
+
+    staging_ecs = Employees_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=True).order_by('-created_at')
+    count_staging_ecs = staging_ecs.count()
+
+    count_staging_hoa = count_staging_scs + count_staging_ecs
+
     student_number = int(latest_student_letter.number[:3]) if latest_student_letter else 0
     employee_number = int(latest_employee_letter.number[:3]) if latest_employee_letter else 0
     common_number = int(latest_common_letter.number[:3]) if latest_common_letter else 0
 
     last_number = max(student_number, employee_number, common_number)
 
-    context = {'last_number': last_number}
+    context = {
+        'last_number': last_number,
+        'count_staging_scs': count_staging_scs,
+        'count_staging_ecs': count_staging_ecs,
+        'count_staging_hoa': count_staging_hoa,
+        }
     return render(request, 'administration/letter/letter.html', context)
 
 
