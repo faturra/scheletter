@@ -12,7 +12,6 @@ class Students_Letter(models.Model):
 
     letter_type_choice = (
         ('1', 'Surat Keterangan'),
-        ('2', 'Surat Rekomendasi'),
     )
 
     type_sign_choice = (
