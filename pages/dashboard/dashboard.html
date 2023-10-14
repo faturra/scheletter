@@ -244,7 +244,7 @@
                       </tbody>
                       <tfoot>
                         <tr>
-                          <td colspan="5" class="text-muted">Last created&nbsp;{% for ts in lc_timesince_el %}{{ ts.created_at|timesince }}&nbsp;ago{% endfor %}</td>
+                          <td colspan="5" class="text-muted">{% if ld_timesince_sl.ts.digital_sign_at %}Last signed&nbsp;{% for ts in ld_timesince_sl %}{{ ts.digital_sign_at|timesince }}&nbsp;ago{% endfor %}{% endif %}</td>
                         </tr>
                       </tfoot>
                       {% endif %}
@@ -267,6 +267,7 @@
                       </thead>
                       <tbody>
                         {% if request.user.groups.first.name == "Student Correspondence Staff" %}
+                        {% if letter_done_sl %}
                         {% for item in letter_done_sl %}
                         <tr>
                           <th scope="row">{{ forloop.counter }}</th>
@@ -276,6 +277,11 @@
                           <td class="text-center"><span class="text-success bi-check-circle-fill" data-bs-toggle="tooltip" data-bs-title="Signed on {{ item.digital_sign_at }}"></span></td>
                         </tr>
                         {% endfor %}
+                        {% else %}
+                        <tr>
+                        	<td colspan="5" class="text-muted text-center animate__animated animate__headShake"><small>No data available</small></td>
+                        </tr>
+                        {% endif %}
                       </tbody>
                       <tfoot>
                         <tr>
@@ -284,6 +290,7 @@
                       </tfoot>
                       {% endif %}
                         {% if request.user.groups.first.name == "Employee Correspondence Staff" %}
+                        {% if letter_done_el %}
                         {% for item in letter_done_el %}
                         <tr>
                           <th scope="row">{{ forloop.counter }}</th>
@@ -293,10 +300,15 @@
                           <td class="text-center"><span class="text-success bi-check-circle-fill" data-bs-toggle="tooltip" data-bs-title="Signed on {{ item.digital_sign_at }}"></span></td>
                         </tr>
                         {% endfor %}
+                        {% else %}
+                        <tr>
+                        	<td colspan="5" class="text-muted text-center animate__animated animate__headShake"><small>No data available</small></td>
+                        </tr>
+                        {% endif %}
                       </tbody>
                       <tfoot>
                         <tr>
-                          <td colspan="5" class="text-muted">Last signed&nbsp;{% for ts in ld_timesince_el %}{{ ts.digital_sign_at|timesince }}&nbsp;ago{% endfor %}</td>
+                          <td colspan="5" class="text-muted">{% if ld_timesince_el.ts.digital_sign_at %}Last signed&nbsp;{% for ts in ld_timesince_el %}{{ ts.digital_sign_at|timesince }}&nbsp;ago{% endfor %}{% endif %}</td>
                         </tr>
                       </tfoot>
                       {% endif %}
