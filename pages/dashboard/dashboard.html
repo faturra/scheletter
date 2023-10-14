@@ -189,13 +189,14 @@
                       <thead class="bg-light">
                         <tr>
                           <th scope="col">No</th>
-                          <th scope="col">Number</th>
+                          <th scope="col" width="20%">Number</th>
                           <th scope="col">Regarding</th>
                           <th scope="col">Date</th>
                           <th scope="col">Status</th>
                         </tr>
                       </thead>
                       <tbody>
+                        {% if request.user.groups.first.name == "Student Correspondence Staff" %}
                         {% for item in last_created_sl %}
                         <tr>
                           <th scope="row">{{ forloop.counter }}</th>
@@ -220,6 +221,33 @@
                           <td colspan="5" class="text-muted">Last created&nbsp;{% for ts in lc_timesince_sl %}{{ ts.created_at|timesince }}&nbsp;ago{% endfor %}</td>
                         </tr>
                       </tfoot>
+                      {% endif %}
+                      {% if request.user.groups.first.name == "Employee Correspondence Staff" %}
+                        {% for item in last_created_el %}
+                        <tr>
+                          <th scope="row">{{ forloop.counter }}</th>
+                          <td>{{ item.number }}</td>
+                          <td>{{ item.subject}}</td>
+                          <td>{{ item.created_at }}</td>
+                          <td class="text-center">
+                            {% if item.digital_sign_at %}
+                            <span class="text-success bi-check-circle-fill" data-bs-toggle="tooltip" data-bs-title="Signed on {{ item.digital_sign_at }}"></span>
+                            {% elif item.digital_sign_at == Null and item.type_sign == '1' %}
+                            <span class="text-warning bi-record-circle-fill" data-bs-toggle="tooltip" data-bs-title="Waiting signature"></span>
+                            {% elif item.type_sign == '2' %}
+                            <span class="text-dark bi-record-circle-fill" data-bs-toggle="tooltip" data-bs-title="Manual sign"></span>
+                            {% else %}
+                            {% endif %}
+                          </td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <td colspan="5" class="text-muted">Last created&nbsp;{% for ts in lc_timesince_el %}{{ ts.created_at|timesince }}&nbsp;ago{% endfor %}</td>
+                        </tr>
+                      </tfoot>
+                      {% endif %}
                     </table>
                   </div>
                 </div>
@@ -231,13 +259,14 @@
                       <thead class="bg-light">
                         <tr>
                           <th scope="col">No</th>
-                          <th scope="col">Number</th>
+                          <th scope="col" width="20%">Number</th>
                           <th scope="col">Letter</th>
                           <th scope="col">Date</th>
                           <th scope="col">Status</th>
                         </tr>
                       </thead>
                       <tbody>
+                        {% if request.user.groups.first.name == "Student Correspondence Staff" %}
                         {% for item in letter_done_sl %}
                         <tr>
                           <th scope="row">{{ forloop.counter }}</th>
@@ -253,6 +282,24 @@
                           <td colspan="5" class="text-muted">Last signed&nbsp;{% for ts in ld_timesince_sl %}{{ ts.digital_sign_at|timesince }}&nbsp;ago{% endfor %}</td>
                         </tr>
                       </tfoot>
+                      {% endif %}
+                        {% if request.user.groups.first.name == "Employee Correspondence Staff" %}
+                        {% for item in letter_done_el %}
+                        <tr>
+                          <th scope="row">{{ forloop.counter }}</th>
+                          <td>{{ item.number }}</td>
+                          <td>{{ item.subject }}</td>
+                          <td>{{ item.digital_sign_at }}</td>
+                          <td class="text-center"><span class="text-success bi-check-circle-fill" data-bs-toggle="tooltip" data-bs-title="Signed on {{ item.digital_sign_at }}"></span></td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <td colspan="5" class="text-muted">Last signed&nbsp;{% for ts in ld_timesince_el %}{{ ts.digital_sign_at|timesince }}&nbsp;ago{% endfor %}</td>
+                        </tr>
+                      </tfoot>
+                      {% endif %}
                     </table>
                   </div>
                 </div>
