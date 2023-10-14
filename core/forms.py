@@ -1,5 +1,5 @@
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, User
 from django import forms
 from django.forms.widgets import EmailInput
 from crispy_forms.helper import FormHelper
@@ -25,7 +25,7 @@ class LoginForm(AuthenticationForm):
             )
         )
 
-class CustomUserCreationForm(UserCreationForm):
+class AccountsCreationForm(UserCreationForm):
     first_name = forms.ChoiceField(choices=[], required=True, label='Name')
     group = forms.ModelChoiceField(queryset=Group.objects.all(), required=True, label='Role')
     username = forms.CharField(
@@ -51,6 +51,20 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         fields = UserCreationForm.Meta.fields + ('first_name', 'group')
+
+
+from django import forms
+from django.contrib.auth.forms import UserCreationForm
+
+class StarterForm(UserCreationForm):
+    username = forms.EmailField(
+        widget=forms.EmailInput(attrs={'placeholder': 'email@example.com'}),
+        label='Email'
+    )
+
+    class Meta:
+        model = User
+        fields = ('first_name', 'username', 'password1', 'password2')
 
 
 

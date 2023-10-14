@@ -196,7 +196,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        {% for item in last_created %}
+                        {% for item in last_created_sl %}
                         <tr>
                           <th scope="row">{{ forloop.counter }}</th>
                           <td>{{ item.number }}</td>
@@ -217,7 +217,7 @@
                       </tbody>
                       <tfoot>
                         <tr>
-                          <td colspan="5" class="text-muted">Last created&nbsp;{% for ts in lc_timesince %}{{ ts.created_at|timesince }}&nbsp;ago{% endfor %}</td>
+                          <td colspan="5" class="text-muted">Last created&nbsp;{% for ts in lc_timesince_sl %}{{ ts.created_at|timesince }}&nbsp;ago{% endfor %}</td>
                         </tr>
                       </tfoot>
                     </table>
@@ -238,7 +238,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        {% for item in letter_done %}
+                        {% for item in letter_done_sl %}
                         <tr>
                           <th scope="row">{{ forloop.counter }}</th>
                           <td>{{ item.number }}</td>
@@ -250,7 +250,7 @@
                       </tbody>
                       <tfoot>
                         <tr>
-                          <td colspan="5" class="text-muted">Last signed&nbsp;{% for ts in ld_timesince %}{{ ts.digital_sign_at|timesince }}&nbsp;ago{% endfor %}</td>
+                          <td colspan="5" class="text-muted">Last signed&nbsp;{% for ts in ld_timesince_sl %}{{ ts.digital_sign_at|timesince }}&nbsp;ago{% endfor %}</td>
                         </tr>
                       </tfoot>
                     </table>

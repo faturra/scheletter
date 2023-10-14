@@ -11,17 +11,18 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
+from django.db.models import Q
 from django.core.cache import cache
 from django.template.loader import get_template
 from django.utils import timezone
 from xhtml2pdf import pisa
 # from integrations.data import cache.get('dapodik_school'), cache.get('dapodik_employees'), cache.get('dapodik_students')
-from letter.models import Students_Letter, Employees_Letter
+from letter.models import Students_Letter, Employees_Letter, Common_Letter
 from core import config
 from datetime import datetime
 from .decorators import unauthenticated_user, group_required
-from .forms import CustomUserCreationForm, GuestBookForm
+from .forms import StarterForm, AccountsCreationForm, GuestBookForm
 from .models import Guest_Book
 from PIL import Image
 
@@ -39,15 +40,32 @@ def index(request):
         if user is not None:
             login(request, user)
             if next_url:
-                messages.success(request, 'Hi, {}'.format(user.get_full_name()))
+                messages.success(request, 'Welcome, {}'.format(user.get_full_name()))
                 return redirect(next_url)
             else:
-                messages.success(request, 'Hi, {}'.format(user.get_full_name()))
+                messages.success(request, 'Welcome, {}'.format(user.get_full_name()))
                 return redirect('dashboard')
         else:
             messages.info(request, 'Incorrect email or password')
     
-    context = {'next_url': next_url}
+    if request.method == 'POST':
+        starter_form = StarterForm(request.POST)
+        if starter_form.is_valid():
+            user = starter_form.save(commit=False)
+            user.save()
+            
+            try:
+                group = Group.objects.get(id=1)
+                group.user_set.add(user)
+            except Group.DoesNotExist:
+                messages.error(request, 'Group is not available, please contact support!')
+
+            messages.success(request, 'Congratulation! You`re all set. Please login to continue.')
+            return redirect('index')
+    else:
+        starter_form = AccountsCreationForm()
+    
+    context = {'next_url': next_url, 'starter_form': starter_form}
     return render(request, 'index/index.html', context)
 
 @login_required
@@ -63,16 +81,25 @@ def dashboard(request):
         count_std = len(dapodik_students_data)
     else:
         count_std = 0
-    count_ltr = Students_Letter.objects.count()
-    count_arc = Students_Letter.objects.filter(digital_sign_at__isnull=False).count #+ Employee_Letter.objects.count() + Guest_Book.objects.count()
+    count_ltr = Students_Letter.objects.count() + Employees_Letter.objects.count() + Common_Letter.objects.count()
+    count_sl_ts_m = Students_Letter.objects.filter(Q(type_sign='2') | (Q(type_sign='1') & ~Q(digital_sign_at__isnull=True))).count()
+    count_el_ts_m = Employees_Letter.objects.filter(Q(type_sign='2') | (Q(type_sign='1') & ~Q(digital_sign_at__isnull=True))).count()
+    count_cl_ts_m = Common_Letter.objects.filter(Q(type_sign='2') | (Q(type_sign='1') & ~Q(digital_sign_at__isnull=True))).count()
+
+    count_arc = count_sl_ts_m + count_el_ts_m + count_cl_ts_m
 
     count_rs = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=False).count
     count_rtd = Students_Letter.objects.filter(is_selected_to_destroy=True).count
 
-    last_created = Students_Letter.objects.order_by('-created_at')[:3]
-    letter_done = Students_Letter.objects.order_by('-digital_sign_at')[:3]
-    lc_timesince = Students_Letter.objects.order_by('-created_at')[:1]
-    ld_timesince = Students_Letter.objects.order_by('-digital_sign_at')[:1]
+    last_created_sl = Students_Letter.objects.order_by('-created_at')[:3]
+    letter_done_sl = Students_Letter.objects.order_by('-digital_sign_at')[:3]
+    lc_timesince_sl = Students_Letter.objects.order_by('-created_at')[:1]
+    ld_timesince_sl = Students_Letter.objects.order_by('-digital_sign_at')[:1]
+
+    last_created_el = Employees_Letter.objects.order_by('-created_at')[:3]
+    letter_done_el = Employees_Letter.objects.order_by('-digital_sign_at')[:3]
+    lc_timesince_el = Employees_Letter.objects.order_by('-created_at')[:1]
+    ld_timesince_el = Employees_Letter.objects.order_by('-digital_sign_at')[:1]
 
     staging_scs = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=True).order_by('-created_at')
     staging_ecs = Employees_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=True).order_by('-created_at')
@@ -88,10 +115,14 @@ def dashboard(request):
         'count_arc': count_arc, 
         'count_rs': count_rs,
         'count_rtd': count_rtd,
-        'last_created': last_created,
-        'letter_done': letter_done,
-        'lc_timesince': lc_timesince,
-        'ld_timesince': ld_timesince,
+        'last_created_sl': last_created_sl,
+        'letter_done_sl': letter_done_sl,
+        'lc_timesince_sl': lc_timesince_sl,
+        'ld_timesince_sl': ld_timesince_sl,
+        'last_created_el': last_created_el,
+        'letter_done_el': letter_done_el,
+        'lc_timesince_el': lc_timesince_el,
+        'ld_timesince_el': ld_timesince_el,
         'count_staging_scs': count_staging_scs,
         'count_staging_ecs': count_staging_ecs,
         'count_staging_hoa': count_staging_hoa,
@@ -114,7 +145,7 @@ def accounts(request):
     users =  User.objects.filter(is_superuser=False, is_staff=False)
 
     if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
+        form = AccountsCreationForm(request.POST)
         if form.is_valid():
             form.save()
             user = form.save(commit=False)
@@ -126,7 +157,7 @@ def accounts(request):
             messages.success(request, 'Account successfully created!')
             return redirect('accounts')
     else:
-        form = CustomUserCreationForm()
+        form = AccountsCreationForm()
 
     context = {'users': users, 'form': form}
     return render(request, 'accounts/employees/accounts.html', context)
@@ -306,7 +337,7 @@ def send_sign_request(request, letter_id):
 
 
 @login_required
-@group_required(config.hoa, config.scs, config.ecs, config.prl)
+@group_required(config.hoa, config.scs, config.ecs, config.prl, config.opr)
 def generate_pdf(request, letter_id):
     letter = get_object_or_404(Students_Letter, letter_id=letter_id)
     digital_sign = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True)
