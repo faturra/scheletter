@@ -13,592 +13,599 @@
     </section>
     {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Head of Administration' or user.is_superuser %}
     <!-- e.c.s -->
-    <section id="employee_letters" class="mb-5">
-        {% if request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Employee Correspondence Staff' or user.is_superuser %}
-        <h5>Employee Letters</h5><hr>
-        {% endif %}
-        <ul class="nav nav-tabs mb-3" id="request-queue-tab" role="tablist">
+    <section class="card card-body border-0 shadow-sm mb-5">
+        <section id="employee_letters" class="mb-5">
             {% if request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Employee Correspondence Staff' or user.is_superuser %}
-            <li class="nav-item" role="request-queue-active">
-              <button class="nav-link active" id="request-queue-active" data-bs-toggle="tab" data-bs-target="#request-queue-active-pane" type="button" role="tab" aria-controls="request-queue-active-pane" aria-selected="true">Staging&nbsp;<b>Employee</b></button>
-            </li>
+            <h5>Employee Letters</h5>
+            <hr>
             {% endif %}
-            {% if request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Student Correspondence Staff' or user.is_superuser %}
-            <li class="nav-item" role="request-queue-active">
-                <a href="#student_letters" class="nav-link"><span class="bi bi-view-list"></span>&nbsp;Students</a>
-            </li>
-            {% endif %}
-            <li class="nav-item" role="request-queue-active">
-                <a href="#common_letters" class="nav-link"><span class="bi bi-view-list"></span>&nbsp;Common</a>
-            </li>
-        </ul>
-        <div class="tab-content" id="request-queue-a">
-            <div class="tab-pane fade show active" id="request-queue-active-pane" role="tabpanel" aria-labelledby="request-queue-active" tabindex="0">
-                {% if staging_ecs %}
-                <table id="tb_staging_ecs" class="table table-hover text-truncate">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
-                            <th scope="col">Action</th>
-                            {% endif %}
-                            <th scope="col">Number</th>
-                            <th scope="col">Regarding</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Rank</th>
-                            <th scope="col">L/P</th>
-                            <th scope="col">NIP/NIKKI</th>
-                            <th scope="col">Letter type</th>
-                            <th scope="col">Type sign</th>
-                            <th scope="col">Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for item in staging_ecs %}
-                        <tr>
-                            <th scope="row">{{ forloop.counter }}</th>
-                            {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
-                            <td>
-                                <a href="{% url 'send-sign-request' letter_id=item.letter_id %}" class="btn btn-sm btn-success"><span class="bi bi-arrow-90deg-right"></span>&nbsp;Request sign</a>
-                                <a href="#" class="btn btn-sm btn-light text-primary"><span class="bi bi-box-arrow-up-right"></span></a>
-                                <a href="#" class="btn btn-sm btn-light text-warning"><span class="bi bi-pen"></span></a>
-                                <a href="#" class="btn btn-sm btn-light text-danger"><span class="bi bi-trash"></span></a>
-                            </td>
-                            {% endif %}
-                            <td>{{ item.number }}</td>
-                            <td>{{ item.subject }}</td>
-                            <td>{{ item.employee_name }}</td>
-                            <td>{{ item.employee_rank }}</td>
-                            <td>{{ item.employee_gender }}</td>
-                            <td>{{ item.employee_empnumber }}</td>
-                            <td>{{ item.get_letter_type_display }}</td>
-                            <td>{{ item.get_type_sign_display }}</td>
-                            <td>{{ item.created_at }}</td>
-                        </tr>
-                        {% endfor %}
-                   </tbody>
-                </table>
-                {% else %}
-                <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="trash" tabindex="0">
-                    <div class="position-relative p-2 text-center text-muted">
-                        <i class="bi bi-layers display-5"></i>
-                        <p class="col-lg-6 mx-auto mb-4 animate__animated animate__headShake">
-                            No letter available
-                        </p>
-                    </div>
-                  </div>
+            <ul class="nav nav-tabs mb-3" id="request-queue-tab" role="tablist">
+                {% if request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Employee Correspondence Staff' or user.is_superuser %}
+                <li class="nav-item" role="request-queue-active">
+                  <button class="nav-link active" id="request-queue-active" data-bs-toggle="tab" data-bs-target="#request-queue-active-pane" type="button" role="tab" aria-controls="request-queue-active-pane" aria-selected="true">Staging&nbsp;<b>Employee</b></button>
+                </li>
                 {% endif %}
-            </div>
-        </div>
-    </section>
-    <section class="mb-5">
-        <ul class="nav nav-tabs mb-3" id="request-queue-tab" role="tablist">
-            <li class="nav-item" role="letter-pending">
-              <button class="nav-link active" id="letter-pending" data-bs-toggle="tab" data-bs-target="#letter-pending-pane" type="button" role="tab" aria-controls="letter-pending-pane" aria-selected="true">Waiting signature</button>
-            </li>
-        </ul>
-        <div class="tab-content" id="request-queue-b">
-            <div class="tab-pane fade show active" id="letter-pending-pane" role="tabpanel" aria-labelledby="letter-pending" tabindex="0">
-                {% if digital_sign_ecs %}
-                <table id="tb_waiting_sign_ecs" class="table table-hover text-truncate">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
-                            <th scope="col">Action</th>
-                            {% endif %}
-                            <th scope="col">Number</th>
-                            <th scope="col">Regarding</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Rank</th>
-                            <th scope="col">L/P</th>
-                            <th scope="col">NIP/NIKKI</th>
-                            <th scope="col">Letter type</th>
-                            <th scope="col">Type sign</th>
-                            <th scope="col">Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for item in digital_sign_ecs %}
-                        <tr>
-                            <th scope="row">{{ forloop.counter }}</th>
-                            {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
-                            <td><a href="{% url 'cancel-request-sign' letter_id=item.letter_id %}" class="btn btn-sm btn-danger">Cancel</a></td>
-                            {% endif %}
-                            <td>{{ item.number }}</td>
-                            <td>{{ item.subject }}</td>
-                            <td>{{ item.employee_name }}</td>
-                            <td>{{ item.employee_rank }}</td>
-                            <td>{{ item.employee_gender }}</td>
-                            <td>{{ item.employee_empnumber }}</td>
-                            <td>{{ item.get_letter_type_display }}</td>
-                            <td>{{ item.get_type_sign_display }}</td>
-                            <td>{{ item.created_at }}</td>
-                        </tr>
-                        {% endfor %}
-                   </tbody>
-                </table>
-                {% else %}
-                <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="trash" tabindex="0">
-                    <div class="position-relative p-2 text-center text-muted">
-                        <i class="bi bi-card-text display-5"></i>
-                        <p class="col-lg-6 mx-auto mb-4 animate__animated animate__headShake">
-                            No waiting signature yet
-                        </p>
-                    </div>
-                  </div>
+                {% if request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Student Correspondence Staff' or user.is_superuser %}
+                <li class="nav-item" role="request-queue-active">
+                    <a href="#student_letters" class="nav-link"><span class="bi bi-view-list"></span>&nbsp;Students</a>
+                </li>
                 {% endif %}
+                <li class="nav-item" role="request-queue-active">
+                    <a href="#common_letters" class="nav-link"><span class="bi bi-view-list"></span>&nbsp;Common</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="request-queue-a">
+                <div class="tab-pane fade show active" id="request-queue-active-pane" role="tabpanel" aria-labelledby="request-queue-active" tabindex="0">
+                    {% if staging_ecs %}
+                    <table id="tb_staging_ecs" class="table table-hover text-truncate">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
+                                <th scope="col">Action</th>
+                                {% endif %}
+                                <th scope="col">Number</th>
+                                <th scope="col">Regarding</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Rank</th>
+                                <th scope="col">L/P</th>
+                                <th scope="col">NIP/NIKKI</th>
+                                <th scope="col">Letter type</th>
+                                <th scope="col">Type sign</th>
+                                <th scope="col">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in staging_ecs %}
+                            <tr>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
+                                <td>
+                                    <a href="{% url 'send-sign-request' letter_id=item.letter_id %}" class="btn btn-sm btn-success"><span class="bi bi-arrow-90deg-right"></span>&nbsp;Request sign</a>
+                                    <a href="#" class="btn btn-sm btn-light text-primary"><span class="bi bi-box-arrow-up-right"></span></a>
+                                    <a href="#" class="btn btn-sm btn-light text-warning"><span class="bi bi-pen"></span></a>
+                                    <a href="#" class="btn btn-sm btn-light text-danger"><span class="bi bi-trash"></span></a>
+                                </td>
+                                {% endif %}
+                                <td>{{ item.number }}</td>
+                                <td>{{ item.subject }}</td>
+                                <td>{{ item.employee_name }}</td>
+                                <td>{{ item.employee_rank }}</td>
+                                <td>{{ item.employee_gender }}</td>
+                                <td>{{ item.employee_empnumber }}</td>
+                                <td>{{ item.get_letter_type_display }}</td>
+                                <td>{{ item.get_type_sign_display }}</td>
+                                <td>{{ item.created_at }}</td>
+                            </tr>
+                            {% endfor %}
+                       </tbody>
+                    </table>
+                    {% else %}
+                    <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="trash" tabindex="0">
+                        <div class="position-relative p-2 text-center text-muted">
+                            <i class="bi bi-layers display-5"></i>
+                            <p class="col-lg-6 mx-auto mb-4 animate__animated animate__headShake">
+                                No letter available
+                            </p>
+                        </div>
+                      </div>
+                    {% endif %}
+                </div>
             </div>
-        </div>
-    </section>
-    <section class="mb-5">
-        <ul class="nav nav-tabs mb-3" id="request-queue-tab" role="tablist">
-            <li class="nav-item" role="letter-done">
-              <button class="nav-link active" id="letter-done" data-bs-toggle="tab" data-bs-target="#letter-done-pane" type="button" role="tab" aria-controls="letter-done-pane" aria-selected="true">Done</button>
-            </li>
-        </ul>
-        <div class="tab-content" id="request-queue-c">
-            <div class="tab-pane fade show active" id="letter-done-pane" role="tabpanel" aria-labelledby="letter-done" tabindex="0">
-                {% if students_digital_sign_applied_ecs %}
-                <table id="tb_request_queue_ecs" class="table table-hover text-truncate">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col"><i class="bi bi-box-arrow-up-right"></i></th>
-                            <th scope="col">Number</th>
-                            <th scope="col">Regarding</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Class</th>
-                            <th scope="col">NISN</th>
-                            <th scope="col">Signed at</th>
-                            <th scope="col">Signed by</th>
-                            <th scope="col">Job title</th>
-                            <th scope="col">Institution</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for item in students_digital_sign_applied_ecs %}
-                        <tr>
-                            <th scope="row">{{ forloop.counter }}</th>
-                            <td><a href="{% url 'generate-pdf' letter_id=item.letter_id %}" class="btn btn-sm  btn-light text-primary" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a></td>
-                            <td>{{ item.number }}</td>
-                            <td>{{ item.subject }}</td>
-                            <td>{{ item.student_name }}</td>
-                            <td>{{ item.student_class }}</td>
-                            <td>{{ item.student_nisn }}</td>
-                            <td>{{ item.digital_sign_at }}</td>
-                            <td>{{ item.digital_sign_by_name }}</td>
-                            <td>{{ item.digital_sign_job_title }}</td>
-                            <td>{{ item.digital_sign_institution }}</td>
-                        </tr>
-                        {% endfor %}
-                   </tbody>
-                </table>
-                {% else %}
-                <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="trash" tabindex="0">
-                    <div class="position-relative p-2 text-center text-muted">
-                        <i class="bi bi-card-text display-5"></i>
-                        <p class="col-lg-6 mx-auto mb-4 animate__animated animate__headShake">
-                            No letter done yet
-                        </p>
-                    </div>
-                  </div>
-                {% endif %}
+        </section>
+        <section class="mb-5">
+            <ul class="nav nav-tabs mb-3" id="request-queue-tab" role="tablist">
+                <li class="nav-item" role="letter-pending">
+                  <button class="nav-link active" id="letter-pending" data-bs-toggle="tab" data-bs-target="#letter-pending-pane" type="button" role="tab" aria-controls="letter-pending-pane" aria-selected="true">Waiting signature</button>
+                </li>
+            </ul>
+            <div class="tab-content" id="request-queue-b">
+                <div class="tab-pane fade show active" id="letter-pending-pane" role="tabpanel" aria-labelledby="letter-pending" tabindex="0">
+                    {% if digital_sign_ecs %}
+                    <table id="tb_waiting_sign_ecs" class="table table-hover text-truncate">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
+                                <th scope="col">Action</th>
+                                {% endif %}
+                                <th scope="col">Number</th>
+                                <th scope="col">Regarding</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Rank</th>
+                                <th scope="col">L/P</th>
+                                <th scope="col">NIP/NIKKI</th>
+                                <th scope="col">Letter type</th>
+                                <th scope="col">Type sign</th>
+                                <th scope="col">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in digital_sign_ecs %}
+                            <tr>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
+                                <td><a href="{% url 'cancel-request-sign' letter_id=item.letter_id %}" class="btn btn-sm btn-danger">Cancel</a></td>
+                                {% endif %}
+                                <td>{{ item.number }}</td>
+                                <td>{{ item.subject }}</td>
+                                <td>{{ item.employee_name }}</td>
+                                <td>{{ item.employee_rank }}</td>
+                                <td>{{ item.employee_gender }}</td>
+                                <td>{{ item.employee_empnumber }}</td>
+                                <td>{{ item.get_letter_type_display }}</td>
+                                <td>{{ item.get_type_sign_display }}</td>
+                                <td>{{ item.created_at }}</td>
+                            </tr>
+                            {% endfor %}
+                       </tbody>
+                    </table>
+                    {% else %}
+                    <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="trash" tabindex="0">
+                        <div class="position-relative p-2 text-center text-muted">
+                            <i class="bi bi-card-text display-5"></i>
+                            <p class="col-lg-6 mx-auto mb-4 animate__animated animate__headShake">
+                                No waiting signature yet
+                            </p>
+                        </div>
+                      </div>
+                    {% endif %}
+                </div>
             </div>
-        </div>
+        </section>
+        <section class="mb-5">
+            <ul class="nav nav-tabs mb-3" id="request-queue-tab" role="tablist">
+                <li class="nav-item" role="letter-done">
+                  <button class="nav-link active" id="letter-done" data-bs-toggle="tab" data-bs-target="#letter-done-pane" type="button" role="tab" aria-controls="letter-done-pane" aria-selected="true">Done</button>
+                </li>
+            </ul>
+            <div class="tab-content" id="request-queue-c">
+                <div class="tab-pane fade show active" id="letter-done-pane" role="tabpanel" aria-labelledby="letter-done" tabindex="0">
+                    {% if students_digital_sign_applied_ecs %}
+                    <table id="tb_request_queue_ecs" class="table table-hover text-truncate">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col"><i class="bi bi-box-arrow-up-right"></i></th>
+                                <th scope="col">Number</th>
+                                <th scope="col">Regarding</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Class</th>
+                                <th scope="col">NISN</th>
+                                <th scope="col">Signed at</th>
+                                <th scope="col">Signed by</th>
+                                <th scope="col">Job title</th>
+                                <th scope="col">Institution</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in students_digital_sign_applied_ecs %}
+                            <tr>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td><a href="{% url 'generate-pdf' letter_id=item.letter_id %}" class="btn btn-sm  btn-light text-primary" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a></td>
+                                <td>{{ item.number }}</td>
+                                <td>{{ item.subject }}</td>
+                                <td>{{ item.student_name }}</td>
+                                <td>{{ item.student_class }}</td>
+                                <td>{{ item.student_nisn }}</td>
+                                <td>{{ item.digital_sign_at }}</td>
+                                <td>{{ item.digital_sign_by_name }}</td>
+                                <td>{{ item.digital_sign_job_title }}</td>
+                                <td>{{ item.digital_sign_institution }}</td>
+                            </tr>
+                            {% endfor %}
+                       </tbody>
+                    </table>
+                    {% else %}
+                    <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="trash" tabindex="0">
+                        <div class="position-relative p-2 text-center text-muted">
+                            <i class="bi bi-card-text display-5"></i>
+                            <p class="col-lg-6 mx-auto mb-4 animate__animated animate__headShake">
+                                No letter done yet
+                            </p>
+                        </div>
+                      </div>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+        {% endif %}
     </section>
-    {% endif %}
     {% if request.user.groups.first.name == 'Student Correspondence Staff' or request.user.groups.first.name == 'Head of Administration' or user.is_superuser %}
     <!-- s.c.s -->
-    <section id="student_letters" class="mb-5">
-        {% if request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Student Correspondence Staff' or user.is_superuser %}
-        <h5>Student Letters</h5>
-        <hr>
+    <section class="card card-body border-0 shadow-sm mb-5">
+        <section id="student_letters" class="mb-5">
+            {% if request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Student Correspondence Staff' or user.is_superuser %}
+            <h5>Student Letters</h5>
+            <hr>
+            {% endif %}
+            <ul class="nav nav-tabs mb-3" id="request-queue-tab" role="tablist">
+                {% if request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Student Correspondence Staff' or user.is_superuser %}
+                <li class="nav-item" role="request-queue-active">
+                  <button class="nav-link active" id="request-queue-active" data-bs-toggle="tab" data-bs-target="#request-queue-active-pane" type="button" role="tab" aria-controls="request-queue-active-pane" aria-selected="true">Staging&nbsp;<b>Student</b></button>
+                </li>
+                {% endif %}
+                {% if request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Employee Correspondence Staff' or user.is_superuser %}
+                <li class="nav-item" role="request-queue-active">
+                    <a href="#employee_letters" class="nav-link"><span class="bi bi-view-list"></span>&nbsp;Employees</a>
+                </li>
+                {% endif %}
+                <li class="nav-item" role="request-queue-active">
+                    <a href="#common_letters" class="nav-link"><span class="bi bi-view-list"></span>&nbsp;Common</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="request-queue-a">
+                <div class="tab-pane fade show active" id="request-queue-active-pane" role="tabpanel" aria-labelledby="request-queue-active" tabindex="0">
+                    {% if staging_scs %}
+                    <table id="tb_staging_scs" class="table table-hover text-truncate">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
+                                <th scope="col">Action</th>
+                                {% endif %}
+                                <th scope="col">Number</th>
+                                <th scope="col">Regarding</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Class</th>
+                                <th scope="col">L/P</th>
+                                <th scope="col">NISN</th>
+                                <th scope="col">Letter type</th>
+                                <th scope="col">Type sign</th>
+                                <th scope="col">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in staging_scs %}
+                            <tr>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
+                                <td>
+                                    <a href="{% url 'send-sign-request' letter_id=item.letter_id %}" class="btn btn-sm btn-success"><span class="bi bi-arrow-90deg-right"></span>&nbsp;Request sign</a>
+                                    <a href="#" class="btn btn-sm btn-light text-primary"><span class="bi bi-box-arrow-up-right"></span></a>
+                                    <a href="#" class="btn btn-sm btn-light text-warning"><span class="bi bi-pen"></span></a>
+                                    <a href="#" class="btn btn-sm btn-light text-danger"><span class="bi bi-trash"></span></a>
+                                </td>
+                                {% endif %}
+                                <td>{{ item.number }}</td>
+                                <td>{{ item.subject }}</td>
+                                <td>{{ item.student_name }}</td>
+                                <td>{{ item.student_class }}</td>
+                                <td>{{ item.student_gender }}</td>
+                                <td>{{ item.student_nisn }}</td>
+                                <td>{{ item.get_letter_type_display }}</td>
+                                <td>{{ item.get_type_sign_display }}</td>
+                                <td>{{ item.created_at }}</td>
+                            </tr>
+                            {% endfor %}
+                       </tbody>
+                    </table>
+                    {% else %}
+                    <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="trash" tabindex="0">
+                        <div class="position-relative p-2 text-center text-muted">
+                            <i class="bi bi-layers display-5"></i>
+                            <p class="col-lg-6 mx-auto mb-4 animate__animated animate__headShake">
+                                No letter available
+                            </p>
+                        </div>
+                      </div>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+        <section class="mb-5">
+            <ul class="nav nav-tabs mb-3" id="request-queue-tab" role="tablist">
+                <li class="nav-item" role="letter-pending">
+                  <button class="nav-link active" id="letter-pending" data-bs-toggle="tab" data-bs-target="#letter-pending-pane" type="button" role="tab" aria-controls="letter-pending-pane" aria-selected="true">Waiting signature</button>
+                </li>
+            </ul>
+            <div class="tab-content" id="request-queue-b">
+                <div class="tab-pane fade show active" id="letter-pending-pane" role="tabpanel" aria-labelledby="letter-pending" tabindex="0">
+                    {% if digital_sign_scs %}
+                    <table id="tb_waiting_sign_scs" class="table table-hover text-truncate">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
+                                <th scope="col">Action</th>
+                                {% endif %}
+                                <th scope="col">Number</th>
+                                <th scope="col">Regarding</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Class</th>
+                                <th scope="col">L/P</th>
+                                <th scope="col">NISN</th>
+                                <th scope="col">Letter type</th>
+                                <th scope="col">Type sign</th>
+                                <th scope="col">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in digital_sign_scs %}
+                            <tr>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
+                                <td><a href="{% url 'cancel-request-sign' letter_id=item.letter_id %}" class="btn btn-sm btn-danger">Cancel</a></td>
+                                {% endif %}
+                                <td>{{ item.number }}</td>
+                                <td>{{ item.subject }}</td>
+                                <td>{{ item.student_name }}</td>
+                                <td>{{ item.student_class }}</td>
+                                <td>{{ item.student_gender }}</td>
+                                <td>{{ item.student_nisn }}</td>
+                                <td>{{ item.get_letter_type_display }}</td>
+                                <td>{{ item.get_type_sign_display }}</td>
+                                <td>{{ item.created_at }}</td>
+                            </tr>
+                            {% endfor %}
+                       </tbody>
+                    </table>
+                    {% else %}
+                    <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="trash" tabindex="0">
+                        <div class="position-relative p-2 text-center text-muted">
+                            <i class="bi bi-card-text display-5"></i>
+                            <p class="col-lg-6 mx-auto mb-4 animate__animated animate__headShake">
+                                No waiting signature yet
+                            </p>
+                        </div>
+                      </div>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+        <section class="mb-5">
+            <ul class="nav nav-tabs mb-3" id="request-queue-tab" role="tablist">
+                <li class="nav-item" role="letter-done">
+                  <button class="nav-link active" id="letter-done" data-bs-toggle="tab" data-bs-target="#letter-done-pane" type="button" role="tab" aria-controls="letter-done-pane" aria-selected="true">Done</button>
+                </li>
+            </ul>
+            <div class="tab-content" id="request-queue-c">
+                <div class="tab-pane fade show active" id="letter-done-pane" role="tabpanel" aria-labelledby="letter-done" tabindex="0">
+                    {% if students_digital_sign_applied_scs %}
+                    <table id="tb_request_queue_scs" class="table table-hover text-truncate">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col"><i class="bi bi-box-arrow-up-right"></i></th>
+                                <th scope="col">Number</th>
+                                <th scope="col">Regarding</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Class</th>
+                                <th scope="col">NISN</th>
+                                <th scope="col">Signed at</th>
+                                <th scope="col">Signed by</th>
+                                <th scope="col">Job title</th>
+                                <th scope="col">Institution</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in students_digital_sign_applied_scs %}
+                            <tr>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td><a href="{% url 'generate-pdf' letter_id=item.letter_id %}" class="btn btn-sm  btn-light text-primary" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a></td>
+                                <td>{{ item.number }}</td>
+                                <td>{{ item.subject }}</td>
+                                <td>{{ item.student_name }}</td>
+                                <td>{{ item.student_class }}</td>
+                                <td>{{ item.student_nisn }}</td>
+                                <td>{{ item.digital_sign_at }}</td>
+                                <td>{{ item.digital_sign_by_name }}</td>
+                                <td>{{ item.digital_sign_job_title }}</td>
+                                <td>{{ item.digital_sign_institution }}</td>
+                            </tr>
+                            {% endfor %}
+                       </tbody>
+                    </table>
+                    {% else %}
+                    <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="trash" tabindex="0">
+                        <div class="position-relative p-2 text-center text-muted">
+                            <i class="bi bi-card-text display-5"></i>
+                            <p class="col-lg-6 mx-auto mb-4 animate__animated animate__headShake">
+                                No letter done yet
+                            </p>
+                        </div>
+                      </div>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
         {% endif %}
-        <ul class="nav nav-tabs mb-3" id="request-queue-tab" role="tablist">
-            {% if request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Student Correspondence Staff' or user.is_superuser %}
-            <li class="nav-item" role="request-queue-active">
-              <button class="nav-link active" id="request-queue-active" data-bs-toggle="tab" data-bs-target="#request-queue-active-pane" type="button" role="tab" aria-controls="request-queue-active-pane" aria-selected="true">Staging&nbsp;<b>Student</b></button>
-            </li>
-            {% endif %}
-            {% if request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Employee Correspondence Staff' or user.is_superuser %}
-            <li class="nav-item" role="request-queue-active">
-                <a href="#employee_letters" class="nav-link"><span class="bi bi-view-list"></span>&nbsp;Employees</a>
-            </li>
-            {% endif %}
-            <li class="nav-item" role="request-queue-active">
-                <a href="#common_letters" class="nav-link"><span class="bi bi-view-list"></span>&nbsp;Common</a>
-            </li>
-        </ul>
-        <div class="tab-content" id="request-queue-a">
-            <div class="tab-pane fade show active" id="request-queue-active-pane" role="tabpanel" aria-labelledby="request-queue-active" tabindex="0">
-                {% if staging_scs %}
-                <table id="tb_staging_scs" class="table table-hover text-truncate">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
-                            <th scope="col">Action</th>
-                            {% endif %}
-                            <th scope="col">Number</th>
-                            <th scope="col">Regarding</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Class</th>
-                            <th scope="col">L/P</th>
-                            <th scope="col">NISN</th>
-                            <th scope="col">Letter type</th>
-                            <th scope="col">Type sign</th>
-                            <th scope="col">Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for item in staging_scs %}
-                        <tr>
-                            <th scope="row">{{ forloop.counter }}</th>
-                            {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
-                            <td>
-                                <a href="{% url 'send-sign-request' letter_id=item.letter_id %}" class="btn btn-sm btn-success"><span class="bi bi-arrow-90deg-right"></span>&nbsp;Request sign</a>
-                                <a href="#" class="btn btn-sm btn-light text-primary"><span class="bi bi-box-arrow-up-right"></span></a>
-                                <a href="#" class="btn btn-sm btn-light text-warning"><span class="bi bi-pen"></span></a>
-                                <a href="#" class="btn btn-sm btn-light text-danger"><span class="bi bi-trash"></span></a>
-                            </td>
-                            {% endif %}
-                            <td>{{ item.number }}</td>
-                            <td>{{ item.subject }}</td>
-                            <td>{{ item.student_name }}</td>
-                            <td>{{ item.student_class }}</td>
-                            <td>{{ item.student_gender }}</td>
-                            <td>{{ item.student_nisn }}</td>
-                            <td>{{ item.get_letter_type_display }}</td>
-                            <td>{{ item.get_type_sign_display }}</td>
-                            <td>{{ item.created_at }}</td>
-                        </tr>
-                        {% endfor %}
-                   </tbody>
-                </table>
-                {% else %}
-                <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="trash" tabindex="0">
-                    <div class="position-relative p-2 text-center text-muted">
-                        <i class="bi bi-layers display-5"></i>
-                        <p class="col-lg-6 mx-auto mb-4 animate__animated animate__headShake">
-                            No letter available
-                        </p>
-                    </div>
-                  </div>
-                {% endif %}
-            </div>
-        </div>
     </section>
-    <section class="mb-5">
-        <ul class="nav nav-tabs mb-3" id="request-queue-tab" role="tablist">
-            <li class="nav-item" role="letter-pending">
-              <button class="nav-link active" id="letter-pending" data-bs-toggle="tab" data-bs-target="#letter-pending-pane" type="button" role="tab" aria-controls="letter-pending-pane" aria-selected="true">Waiting signature</button>
-            </li>
-        </ul>
-        <div class="tab-content" id="request-queue-b">
-            <div class="tab-pane fade show active" id="letter-pending-pane" role="tabpanel" aria-labelledby="letter-pending" tabindex="0">
-                {% if digital_sign_scs %}
-                <table id="tb_waiting_sign_scs" class="table table-hover text-truncate">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
-                            <th scope="col">Action</th>
-                            {% endif %}
-                            <th scope="col">Number</th>
-                            <th scope="col">Regarding</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Class</th>
-                            <th scope="col">L/P</th>
-                            <th scope="col">NISN</th>
-                            <th scope="col">Letter type</th>
-                            <th scope="col">Type sign</th>
-                            <th scope="col">Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for item in digital_sign_scs %}
-                        <tr>
-                            <th scope="row">{{ forloop.counter }}</th>
-                            {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
-                            <td><a href="{% url 'cancel-request-sign' letter_id=item.letter_id %}" class="btn btn-sm btn-danger">Cancel</a></td>
-                            {% endif %}
-                            <td>{{ item.number }}</td>
-                            <td>{{ item.subject }}</td>
-                            <td>{{ item.student_name }}</td>
-                            <td>{{ item.student_class }}</td>
-                            <td>{{ item.student_gender }}</td>
-                            <td>{{ item.student_nisn }}</td>
-                            <td>{{ item.get_letter_type_display }}</td>
-                            <td>{{ item.get_type_sign_display }}</td>
-                            <td>{{ item.created_at }}</td>
-                        </tr>
-                        {% endfor %}
-                   </tbody>
-                </table>
-                {% else %}
-                <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="trash" tabindex="0">
-                    <div class="position-relative p-2 text-center text-muted">
-                        <i class="bi bi-card-text display-5"></i>
-                        <p class="col-lg-6 mx-auto mb-4 animate__animated animate__headShake">
-                            No waiting signature yet
-                        </p>
-                    </div>
-                  </div>
-                {% endif %}
-            </div>
-        </div>
-    </section>
-    <section class="mb-5">
-        <ul class="nav nav-tabs mb-3" id="request-queue-tab" role="tablist">
-            <li class="nav-item" role="letter-done">
-              <button class="nav-link active" id="letter-done" data-bs-toggle="tab" data-bs-target="#letter-done-pane" type="button" role="tab" aria-controls="letter-done-pane" aria-selected="true">Done</button>
-            </li>
-        </ul>
-        <div class="tab-content" id="request-queue-c">
-            <div class="tab-pane fade show active" id="letter-done-pane" role="tabpanel" aria-labelledby="letter-done" tabindex="0">
-                {% if students_digital_sign_applied_scs %}
-                <table id="tb_request_queue_scs" class="table table-hover text-truncate">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col"><i class="bi bi-box-arrow-up-right"></i></th>
-                            <th scope="col">Number</th>
-                            <th scope="col">Regarding</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Class</th>
-                            <th scope="col">NISN</th>
-                            <th scope="col">Signed at</th>
-                            <th scope="col">Signed by</th>
-                            <th scope="col">Job title</th>
-                            <th scope="col">Institution</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for item in students_digital_sign_applied_scs %}
-                        <tr>
-                            <th scope="row">{{ forloop.counter }}</th>
-                            <td><a href="{% url 'generate-pdf' letter_id=item.letter_id %}" class="btn btn-sm  btn-light text-primary" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a></td>
-                            <td>{{ item.number }}</td>
-                            <td>{{ item.subject }}</td>
-                            <td>{{ item.student_name }}</td>
-                            <td>{{ item.student_class }}</td>
-                            <td>{{ item.student_nisn }}</td>
-                            <td>{{ item.digital_sign_at }}</td>
-                            <td>{{ item.digital_sign_by_name }}</td>
-                            <td>{{ item.digital_sign_job_title }}</td>
-                            <td>{{ item.digital_sign_institution }}</td>
-                        </tr>
-                        {% endfor %}
-                   </tbody>
-                </table>
-                {% else %}
-                <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="trash" tabindex="0">
-                    <div class="position-relative p-2 text-center text-muted">
-                        <i class="bi bi-card-text display-5"></i>
-                        <p class="col-lg-6 mx-auto mb-4 animate__animated animate__headShake">
-                            No letter done yet
-                        </p>
-                    </div>
-                  </div>
-                {% endif %}
-            </div>
-        </div>
-    </section>
-    {% endif %}
     <!-- c -->
-    <section id="common_letters" class="mb-5">
-        <h5>Common Letters</h5>
-        <hr>
-        <ul class="nav nav-tabs mb-3" id="request-queue-tab" role="tablist">
-            <li class="nav-item" role="request-queue-active">
-              <button class="nav-link active" id="request-queue-active" data-bs-toggle="tab" data-bs-target="#request-queue-active-pane" type="button" role="tab" aria-controls="request-queue-active-pane" aria-selected="true">Staging&nbsp;<b>Common</b></button>
-            </li>
-            {% if request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Employee Correspondence Staff' or user.is_superuser %}
-            <li class="nav-item" role="request-queue-active">
-                <a href="#employee_letters" class="nav-link"><span class="bi bi-view-list"></span>&nbsp;Employees</a>
-            </li>
-            {% endif %}
-            {% if request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Student Correspondence Staff' or user.is_superuser %}
-            <li class="nav-item" role="request-queue-active">
-                <a href="#student_letters" class="nav-link"><span class="bi bi-view-list"></span>&nbsp;Students</a>
-            </li>
-            {% endif %}
-        </ul>
-        <div class="tab-content" id="request-queue-a">
-            <div class="tab-pane fade show active" id="request-queue-active-pane" role="tabpanel" aria-labelledby="request-queue-active" tabindex="0">
-                {% if staging_scs %}
-                <table id="tb_staging_c" class="table table-hover text-truncate">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
-                            <th scope="col">Action</th>
-                            {% endif %}
-                            <th scope="col">Number</th>
-                            <th scope="col">Regarding</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Class</th>
-                            <th scope="col">L/P</th>
-                            <th scope="col">NISN</th>
-                            <th scope="col">Letter type</th>
-                            <th scope="col">Type sign</th>
-                            <th scope="col">Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for item in staging_scs %}
-                        <tr>
-                            <th scope="row">{{ forloop.counter }}</th>
-                            {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
-                            <td>
-                                <a href="{% url 'send-sign-request' letter_id=item.letter_id %}" class="btn btn-sm btn-success"><span class="bi bi-arrow-90deg-right"></span>&nbsp;Request sign</a>
-                                <a href="#" class="btn btn-sm btn-light text-primary"><span class="bi bi-box-arrow-up-right"></span></a>
-                                <a href="#" class="btn btn-sm btn-light text-warning"><span class="bi bi-pen"></span></a>
-                                <a href="#" class="btn btn-sm btn-light text-danger"><span class="bi bi-trash"></span></a>
-                            </td>
-                            {% endif %}
-                            <td>{{ item.number }}</td>
-                            <td>{{ item.subject }}</td>
-                            <td>{{ item.student_name }}</td>
-                            <td>{{ item.student_class }}</td>
-                            <td>{{ item.student_gender }}</td>
-                            <td>{{ item.student_nisn }}</td>
-                            <td>{{ item.get_letter_type_display }}</td>
-                            <td>{{ item.get_type_sign_display }}</td>
-                            <td>{{ item.created_at }}</td>
-                        </tr>
-                        {% endfor %}
-                   </tbody>
-                </table>
-                {% else %}
-                <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="trash" tabindex="0">
-                    <div class="position-relative p-2 text-center text-muted">
-                        <i class="bi bi-layers display-5"></i>
-                        <p class="col-lg-6 mx-auto mb-4 animate__animated animate__headShake">
-                            No letter available
-                        </p>
-                    </div>
-                  </div>
+    <section class="card card-body border-0 shadow-sm mb-5">
+        <section id="common_letters" class="mb-5">
+            <h5>Common Letters</h5>
+            <hr>
+            <ul class="nav nav-tabs mb-3" id="request-queue-tab" role="tablist">
+                <li class="nav-item" role="request-queue-active">
+                  <button class="nav-link active" id="request-queue-active" data-bs-toggle="tab" data-bs-target="#request-queue-active-pane" type="button" role="tab" aria-controls="request-queue-active-pane" aria-selected="true">Staging&nbsp;<b>Common</b></button>
+                </li>
+                {% if request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Employee Correspondence Staff' or user.is_superuser %}
+                <li class="nav-item" role="request-queue-active">
+                    <a href="#employee_letters" class="nav-link"><span class="bi bi-view-list"></span>&nbsp;Employees</a>
+                </li>
                 {% endif %}
-            </div>
-        </div>
-    </section>
-    <section class="mb-5">
-        <ul class="nav nav-tabs mb-3" id="request-queue-tab" role="tablist">
-            <li class="nav-item" role="letter-pending">
-              <button class="nav-link active" id="letter-pending" data-bs-toggle="tab" data-bs-target="#letter-pending-pane" type="button" role="tab" aria-controls="letter-pending-pane" aria-selected="true">Waiting signature</button>
-            </li>
-        </ul>
-        <div class="tab-content" id="request-queue-b">
-            <div class="tab-pane fade show active" id="letter-pending-pane" role="tabpanel" aria-labelledby="letter-pending" tabindex="0">
-                {% if digital_sign_scs %}
-                <table id="tb_waiting_sign_c" class="table table-hover text-truncate">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
-                            <th scope="col">Action</th>
-                            {% endif %}
-                            <th scope="col">Number</th>
-                            <th scope="col">Regarding</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Class</th>
-                            <th scope="col">L/P</th>
-                            <th scope="col">NISN</th>
-                            <th scope="col">Letter type</th>
-                            <th scope="col">Type sign</th>
-                            <th scope="col">Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for item in digital_sign_scs %}
-                        <tr>
-                            <th scope="row">{{ forloop.counter }}</th>
-                            {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
-                            <td><a href="{% url 'cancel-request-sign' letter_id=item.letter_id %}" class="btn btn-sm btn-danger">Cancel</a></td>
-                            {% endif %}
-                            <td>{{ item.number }}</td>
-                            <td>{{ item.subject }}</td>
-                            <td>{{ item.student_name }}</td>
-                            <td>{{ item.student_class }}</td>
-                            <td>{{ item.student_gender }}</td>
-                            <td>{{ item.student_nisn }}</td>
-                            <td>{{ item.get_letter_type_display }}</td>
-                            <td>{{ item.get_type_sign_display }}</td>
-                            <td>{{ item.created_at }}</td>
-                        </tr>
-                        {% endfor %}
-                   </tbody>
-                </table>
-                {% else %}
-                <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="trash" tabindex="0">
-                    <div class="position-relative p-2 text-center text-muted">
-                        <i class="bi bi-card-text display-5"></i>
-                        <p class="col-lg-6 mx-auto mb-4 animate__animated animate__headShake">
-                            No waiting signature yet
-                        </p>
-                    </div>
-                  </div>
+                {% if request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Student Correspondence Staff' or user.is_superuser %}
+                <li class="nav-item" role="request-queue-active">
+                    <a href="#student_letters" class="nav-link"><span class="bi bi-view-list"></span>&nbsp;Students</a>
+                </li>
                 {% endif %}
+            </ul>
+            <div class="tab-content" id="request-queue-a">
+                <div class="tab-pane fade show active" id="request-queue-active-pane" role="tabpanel" aria-labelledby="request-queue-active" tabindex="0">
+                    {% if staging_scs %}
+                    <table id="tb_staging_c" class="table table-hover text-truncate">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
+                                <th scope="col">Action</th>
+                                {% endif %}
+                                <th scope="col">Number</th>
+                                <th scope="col">Regarding</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Class</th>
+                                <th scope="col">L/P</th>
+                                <th scope="col">NISN</th>
+                                <th scope="col">Letter type</th>
+                                <th scope="col">Type sign</th>
+                                <th scope="col">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in staging_scs %}
+                            <tr>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
+                                <td>
+                                    <a href="{% url 'send-sign-request' letter_id=item.letter_id %}" class="btn btn-sm btn-success"><span class="bi bi-arrow-90deg-right"></span>&nbsp;Request sign</a>
+                                    <a href="#" class="btn btn-sm btn-light text-primary"><span class="bi bi-box-arrow-up-right"></span></a>
+                                    <a href="#" class="btn btn-sm btn-light text-warning"><span class="bi bi-pen"></span></a>
+                                    <a href="#" class="btn btn-sm btn-light text-danger"><span class="bi bi-trash"></span></a>
+                                </td>
+                                {% endif %}
+                                <td>{{ item.number }}</td>
+                                <td>{{ item.subject }}</td>
+                                <td>{{ item.student_name }}</td>
+                                <td>{{ item.student_class }}</td>
+                                <td>{{ item.student_gender }}</td>
+                                <td>{{ item.student_nisn }}</td>
+                                <td>{{ item.get_letter_type_display }}</td>
+                                <td>{{ item.get_type_sign_display }}</td>
+                                <td>{{ item.created_at }}</td>
+                            </tr>
+                            {% endfor %}
+                       </tbody>
+                    </table>
+                    {% else %}
+                    <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="trash" tabindex="0">
+                        <div class="position-relative p-2 text-center text-muted">
+                            <i class="bi bi-layers display-5"></i>
+                            <p class="col-lg-6 mx-auto mb-4 animate__animated animate__headShake">
+                                No letter available
+                            </p>
+                        </div>
+                      </div>
+                    {% endif %}
+                </div>
             </div>
-        </div>
-    </section>
-    <section class="mb-5">
-        <ul class="nav nav-tabs mb-3" id="request-queue-tab" role="tablist">
-            <li class="nav-item" role="letter-done">
-              <button class="nav-link active" id="letter-done" data-bs-toggle="tab" data-bs-target="#letter-done-pane" type="button" role="tab" aria-controls="letter-done-pane" aria-selected="true">Done</button>
-            </li>
-        </ul>
-        <div class="tab-content" id="request-queue-c">
-            <div class="tab-pane fade show active" id="letter-done-pane" role="tabpanel" aria-labelledby="letter-done" tabindex="0">
-                {% if students_digital_sign_applied_scs %}
-                <table id="tb_request_queue_c" class="table table-hover text-truncate">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col"><i class="bi bi-box-arrow-up-right"></i></th>
-                            <th scope="col">Number</th>
-                            <th scope="col">Regarding</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Class</th>
-                            <th scope="col">NISN</th>
-                            <th scope="col">Signed at</th>
-                            <th scope="col">Signed by</th>
-                            <th scope="col">Job title</th>
-                            <th scope="col">Institution</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for item in students_digital_sign_applied_scs %}
-                        <tr>
-                            <th scope="row">{{ forloop.counter }}</th>
-                            <td><a href="{% url 'generate-pdf' letter_id=item.letter_id %}" class="btn btn-sm  btn-light text-primary" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a></td>
-                            <td>{{ item.number }}</td>
-                            <td>{{ item.subject }}</td>
-                            <td>{{ item.student_name }}</td>
-                            <td>{{ item.student_class }}</td>
-                            <td>{{ item.student_nisn }}</td>
-                            <td>{{ item.digital_sign_at }}</td>
-                            <td>{{ item.digital_sign_by_name }}</td>
-                            <td>{{ item.digital_sign_job_title }}</td>
-                            <td>{{ item.digital_sign_institution }}</td>
-                        </tr>
-                        {% endfor %}
-                   </tbody>
-                </table>
-                {% else %}
-                <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="trash" tabindex="0">
-                    <div class="position-relative p-2 text-center text-muted">
-                        <i class="bi bi-card-text display-5"></i>
-                        <p class="col-lg-6 mx-auto mb-4 animate__animated animate__headShake">
-                            No letter done yet
-                        </p>
-                    </div>
-                  </div>
-                {% endif %}
+        </section>
+        <section class="mb-5">
+            <ul class="nav nav-tabs mb-3" id="request-queue-tab" role="tablist">
+                <li class="nav-item" role="letter-pending">
+                  <button class="nav-link active" id="letter-pending" data-bs-toggle="tab" data-bs-target="#letter-pending-pane" type="button" role="tab" aria-controls="letter-pending-pane" aria-selected="true">Waiting signature</button>
+                </li>
+            </ul>
+            <div class="tab-content" id="request-queue-b">
+                <div class="tab-pane fade show active" id="letter-pending-pane" role="tabpanel" aria-labelledby="letter-pending" tabindex="0">
+                    {% if digital_sign_scs %}
+                    <table id="tb_waiting_sign_c" class="table table-hover text-truncate">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
+                                <th scope="col">Action</th>
+                                {% endif %}
+                                <th scope="col">Number</th>
+                                <th scope="col">Regarding</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Class</th>
+                                <th scope="col">L/P</th>
+                                <th scope="col">NISN</th>
+                                <th scope="col">Letter type</th>
+                                <th scope="col">Type sign</th>
+                                <th scope="col">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in digital_sign_scs %}
+                            <tr>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
+                                <td><a href="{% url 'cancel-request-sign' letter_id=item.letter_id %}" class="btn btn-sm btn-danger">Cancel</a></td>
+                                {% endif %}
+                                <td>{{ item.number }}</td>
+                                <td>{{ item.subject }}</td>
+                                <td>{{ item.student_name }}</td>
+                                <td>{{ item.student_class }}</td>
+                                <td>{{ item.student_gender }}</td>
+                                <td>{{ item.student_nisn }}</td>
+                                <td>{{ item.get_letter_type_display }}</td>
+                                <td>{{ item.get_type_sign_display }}</td>
+                                <td>{{ item.created_at }}</td>
+                            </tr>
+                            {% endfor %}
+                       </tbody>
+                    </table>
+                    {% else %}
+                    <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="trash" tabindex="0">
+                        <div class="position-relative p-2 text-center text-muted">
+                            <i class="bi bi-card-text display-5"></i>
+                            <p class="col-lg-6 mx-auto mb-4 animate__animated animate__headShake">
+                                No waiting signature yet
+                            </p>
+                        </div>
+                      </div>
+                    {% endif %}
+                </div>
             </div>
-        </div>
+        </section>
+        <section class="mb-5">
+            <ul class="nav nav-tabs mb-3" id="request-queue-tab" role="tablist">
+                <li class="nav-item" role="letter-done">
+                  <button class="nav-link active" id="letter-done" data-bs-toggle="tab" data-bs-target="#letter-done-pane" type="button" role="tab" aria-controls="letter-done-pane" aria-selected="true">Done</button>
+                </li>
+            </ul>
+            <div class="tab-content" id="request-queue-c">
+                <div class="tab-pane fade show active" id="letter-done-pane" role="tabpanel" aria-labelledby="letter-done" tabindex="0">
+                    {% if students_digital_sign_applied_scs %}
+                    <table id="tb_request_queue_c" class="table table-hover text-truncate">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col"><i class="bi bi-box-arrow-up-right"></i></th>
+                                <th scope="col">Number</th>
+                                <th scope="col">Regarding</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Class</th>
+                                <th scope="col">NISN</th>
+                                <th scope="col">Signed at</th>
+                                <th scope="col">Signed by</th>
+                                <th scope="col">Job title</th>
+                                <th scope="col">Institution</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in students_digital_sign_applied_scs %}
+                            <tr>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td><a href="{% url 'generate-pdf' letter_id=item.letter_id %}" class="btn btn-sm  btn-light text-primary" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a></td>
+                                <td>{{ item.number }}</td>
+                                <td>{{ item.subject }}</td>
+                                <td>{{ item.student_name }}</td>
+                                <td>{{ item.student_class }}</td>
+                                <td>{{ item.student_nisn }}</td>
+                                <td>{{ item.digital_sign_at }}</td>
+                                <td>{{ item.digital_sign_by_name }}</td>
+                                <td>{{ item.digital_sign_job_title }}</td>
+                                <td>{{ item.digital_sign_institution }}</td>
+                            </tr>
+                            {% endfor %}
+                       </tbody>
+                    </table>
+                    {% else %}
+                    <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="trash" tabindex="0">
+                        <div class="position-relative p-2 text-center text-muted">
+                            <i class="bi bi-card-text display-5"></i>
+                            <p class="col-lg-6 mx-auto mb-4 animate__animated animate__headShake">
+                                No letter done yet
+                            </p>
+                        </div>
+                      </div>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
     </section>
 </div>
 {% endblock %}

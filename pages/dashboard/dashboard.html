@@ -13,7 +13,7 @@
                   <h1 class=""><span class="bi bi-buildings"></span>&nbsp;Welcome</h1>
                 </div>
                 <div>
-                  {% if school_info.nama %}<p class="lead">You're working in&nbsp;<span class="text-primary">{{school_info.nama|default_if_none:'Please check integration settings'}}</span></p>{% endif %}
+                  {% if school_info.nama %}<p class="lead">You're working in&nbsp;<span class="text-primary">{{school_info.nama|default_if_none:'Please check integration settings'}}{% else %}<i class="bi bi-exclamation-circle"></i>&nbsp;Integration is not set</span></p>{% endif %}
                 </div>
               </div>
             </div>
@@ -260,7 +260,7 @@
                         <tr>
                           <th scope="col">No</th>
                           <th scope="col" width="20%">Number</th>
-                          <th scope="col">Letter</th>
+                          <th scope="col">Regarding</th>
                           <th scope="col">Date</th>
                           <th scope="col">Status</th>
                         </tr>
