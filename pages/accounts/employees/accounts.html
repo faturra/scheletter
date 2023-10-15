@@ -11,56 +11,58 @@
             <p class="lead">List of accounts</p>
         </div>
     </section>
-    <section>
-        <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-3">
-            <button class="btn btn-primary me-md-2" type="button" data-bs-toggle="modal" data-bs-target="#create-account"><i class="bi bi-person-plus-fill"></i>&nbsp;Create account</button>
-        </div>
-        <table id="tb_accounts" class="table table-hover text-truncate">
-            <thead>
-                <tr>
-                    <th scope="col"><i class="bi bi-person-fill"></i></th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">Role</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Last sign in</th>
-                    <th scope="col">Date created</th>
-                    <th scope="col">Action</th>
-                </tr>
-            </thead>
-            <tbody class="fw-normal">
-            {% for item in users %}
-                <tr>
-                    <td><i class="bi bi-person-fill"></i></td>
-                    <td>{{ item.get_full_name }}</td>
-                    <td>{{ item.username }}</td>
-                    <td>{{ item.groups.first.name}}</td>
-                    <td>
-                        {% if item.is_active %}
-                        <span class="text-success"><i class="bi bi-check-circle"></i></span>
-                        {% else %}
-                        <span class="text-danger"><i class="bi bi-dash-circle"></i></span>
-                        {% endif %}
-                    </td>
-                    <td>{% if item.last_login %}{{ item.last_login|timesince}}{% else %}Hasn't signed in{% endif %}</td>
-                    <td>{{ item.date_joined|date}}</td>
-                    <td>
-                        <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                            {% if item.id == request.user.id %}
-                            <a href="#" class="btn btn-light disabled"><i class="bi bi-check-circle"></i></a>
-                            <a href="#" class="btn btn-light disabled"><i class="bi bi-dash-circle"></i></a>
-                            <a href="#" class="btn btn-light disabled"><i class="bi bi-person-x-fill"></i>&nbsp;Delete account</a>
+    <section class="card card-body border-0 shadow-sm">
+        <section>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-3">
+                <button class="btn btn-primary me-md-2" type="button" data-bs-toggle="modal" data-bs-target="#create-account"><i class="bi bi-person-plus-fill"></i>&nbsp;Create account</button>
+            </div>
+            <table id="tb_accounts" class="table table-hover text-truncate">
+                <thead>
+                    <tr>
+                        <th scope="col"><i class="bi bi-person-fill"></i></th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Role</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Last sign in</th>
+                        <th scope="col">Date created</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="fw-normal">
+                {% for item in users %}
+                    <tr>
+                        <td><i class="bi bi-person-fill"></i></td>
+                        <td>{{ item.get_full_name }}</td>
+                        <td>{{ item.username }}</td>
+                        <td>{{ item.groups.first.name}}</td>
+                        <td>
+                            {% if item.is_active %}
+                            <span class="text-success"><i class="bi bi-check-circle"></i></span>
                             {% else %}
-                            <a href="{% url 'activate-user' user_id=item.id %}" class="btn btn-light" onclick="return confirm('Are you sure you want to activate account');"><i class="bi bi-check-circle"></i></a>
-                            <a href="{% url 'deactivate-user' user_id=item.id %}" class="btn btn-light" onclick="return confirm('Are you sure you want to deactivate account');"><i class="bi bi-dash-circle"></i></a>
-                            <a href="{% url 'delete-user' user_id=item.id %}" class="btn btn-light text-danger" onclick="return confirm('Are you sure you want to delete account');"><i class="bi bi-person-x-fill"></i>&nbsp;Delete account</a>
+                            <span class="text-danger"><i class="bi bi-dash-circle"></i></span>
                             {% endif %}
-                        </div>
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+                        </td>
+                        <td>{% if item.last_login %}{{ item.last_login|timesince}}{% else %}Hasn't signed in{% endif %}</td>
+                        <td>{{ item.date_joined|date}}</td>
+                        <td>
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                {% if item.id == request.user.id %}
+                                <a href="#" class="btn btn-light disabled"><i class="bi bi-check-circle"></i></a>
+                                <a href="#" class="btn btn-light disabled"><i class="bi bi-dash-circle"></i></a>
+                                <a href="#" class="btn btn-light disabled"><i class="bi bi-person-x-fill"></i>&nbsp;Delete account</a>
+                                {% else %}
+                                <a href="{% url 'activate-user' user_id=item.id %}" class="btn btn-light" onclick="return confirm('Are you sure you want to activate account');"><i class="bi bi-check-circle"></i></a>
+                                <a href="{% url 'deactivate-user' user_id=item.id %}" class="btn btn-light" onclick="return confirm('Are you sure you want to deactivate account');"><i class="bi bi-dash-circle"></i></a>
+                                <a href="{% url 'delete-user' user_id=item.id %}" class="btn btn-light text-danger" onclick="return confirm('Are you sure you want to delete account');"><i class="bi bi-person-x-fill"></i>&nbsp;Delete account</a>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </section>
     </section>
 </div>
 {% endblock %}
