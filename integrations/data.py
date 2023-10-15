@@ -1,4 +1,4 @@
-import requests
+import requests, time
 from django.core.cache import cache
 from .models import Integrations
 
@@ -25,18 +25,27 @@ def update_api_data():
     }
 
     # Data School
+    start_time = time.time()
     dapodik_school_api = get_data_from_api(f'{base_url}getSekolah?npsn={npsn}', headers)
     if dapodik_school_api:
-        print('Dapodik School API Connection [OK].')
+        end_time = time.time()
+        processing_time = end_time - start_time
+        print('\nConnecting to dapodik school data... {0:.2f}s'.format(processing_time))
 
     # Data Employees
+    start_time = time.time()
     dapodik_employees_api = get_data_from_api(f'{base_url}getGtk?npsn={npsn}', headers)
     if dapodik_employees_api:
-        print('Dapodik Employees API Connection [OK].')
+        end_time = time.time()
+        processing_time = end_time - start_time
+        print('Connecting to dapodik employees data... {0:.2f}s'.format(processing_time))
 
     # Data Students
+    start_time = time.time()
     dapodik_students_api = get_data_from_api(f'{base_url}getPesertaDidik?npsn={npsn}', headers)
     if dapodik_students_api:
-        print('Dapodik Students API Connection [OK].\n')
+        end_time = time.time()
+        processing_time = end_time - start_time
+        print('Connecting to dapodik students data... {0:.2f}s\n'.format(processing_time))
 
     return dapodik_school_api, dapodik_employees_api, dapodik_students_api
