@@ -35,7 +35,7 @@
                     <h5 class="card-title"><i class="bi bi-card-text"></i>&nbsp;{{ item.get_letter_type_display }}</h5>
                     <p class="card-text small"><span class="card-text text-muted">{{ item.number }}</span><br>{{ item.student_name }}&nbsp;{{ item.student_class }}-{{ item.student_nisn }}</p>
                     <hr style="border-style: dashed;">
-                    <a href="{% url 'check-letter' letter_id=item.letter_id %}" class="btn btn-light text-primary"><i class="bi bi-search"></i>&nbsp;Check</a>
+                    <a href="{% url 'check-letter-student' letter_id=item.letter_id %}" class="btn btn-light text-primary"><i class="bi bi-search"></i>&nbsp;Check</a>
                     <small class="text-muted">Created on&nbsp;{{ item.created_at|date:"Y-m-d H:i" }}</small>
                   </div>
                 </div>
@@ -110,7 +110,7 @@
                     <h5 class="card-title"><i class="bi bi-card-text"></i>&nbsp;{{ item.get_letter_type_display }}</h5>
                     <p class="card-text small"><span class="card-text text-muted">{{ item.number }}</span><br>{{ item.employee_name }}&nbsp;{{ item.employee_rank }}</p>
                     <hr style="border-style: dashed;">
-                    <a href="{% url 'check-letter' letter_id=item.letter_id %}" class="btn btn-light text-primary"><i class="bi bi-search"></i>&nbsp;Check</a>
+                    <a href="{% url 'check-letter-employee' letter_id=item.letter_id %}" class="btn btn-light text-primary"><i class="bi bi-search"></i>&nbsp;Check</a>
                     <small class="text-muted">Created on&nbsp;{{ item.created_at|date:"Y-m-d H:i" }}</small>
                   </div>
                 </div>
@@ -185,7 +185,7 @@
                     <h5 class="card-title"><i class="bi bi-card-text"></i>&nbsp;{{ item.get_letter_type_display }}</h5>
                     <p class="card-text small"><span class="card-text text-muted">{{ item.number }}</span><br>{{ item.student_name }}&nbsp;{{ item.student_class }}-{{ item.student_nisn }}</p>
                     <hr style="border-style: dashed;">
-                    <a href="{% url 'check-letter' letter_id=item.letter_id %}" class="btn btn-light text-primary"><i class="bi bi-search"></i>&nbsp;Check</a>
+                    <a href="{% url 'check-letter-common' letter_id=item.letter_id %}" class="btn btn-light text-primary"><i class="bi bi-search"></i>&nbsp;Check</a>
                     <small class="text-muted">Created on&nbsp;{{ item.created_at|date:"Y-m-d H:i" }}</small>
                   </div>
                 </div>

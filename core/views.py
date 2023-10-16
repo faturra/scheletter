@@ -88,7 +88,15 @@ def dashboard(request):
 
     count_arc = count_sl_ts_m + count_el_ts_m + count_cl_ts_m
 
-    count_rs = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=False).count
+    digital_sign_sl = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=False)
+    digital_sign_el = Employees_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=False)
+    digital_sign_cl = Common_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=False)
+    
+    count_rs_sl = digital_sign_sl.count()
+    count_rs_el = digital_sign_el.count()
+    count_rs_cl = digital_sign_cl.count()
+    count_rs = count_rs_sl + count_rs_el + count_rs_cl
+
     count_rtd = Students_Letter.objects.filter(is_selected_to_destroy=True).count
 
     last_created_sl = Students_Letter.objects.order_by('-created_at')[:3]
@@ -221,13 +229,37 @@ def sign_request(request):
 
 @login_required
 @group_required(config.prl)
-def check_letter(request, letter_id):
-    letter = get_object_or_404(Students_Letter, letter_id=letter_id)
-    return render(request, 'administration/sign_request/check_letter/check_letter.html', {'letter': letter})
+def check_letter_student(request, letter_id):
+    students_letter = get_object_or_404(Students_Letter, letter_id=letter_id)
+
+    context = {
+        'students_letter': students_letter,
+        }
+    return render(request, 'administration/sign_request/check_letter/check_letter_sl.html', context)
 
 @login_required
 @group_required(config.prl)
-def apply_signature(request, letter_id):
+def check_letter_employee(request, letter_id):
+    employees_letter = get_object_or_404(Employees_Letter, letter_id=letter_id)
+
+    context = {
+        'employees_letter': employees_letter,
+        }
+    return render(request, 'administration/sign_request/check_letter/check_letter_el.html', context)
+
+@login_required
+@group_required(config.prl)
+def check_letter_common(request, letter_id):
+    common_letter = get_object_or_404(Common_Letter, letter_id=letter_id)
+
+    context = {
+        'common_letter': common_letter,
+        }
+    return render(request, 'administration/sign_request/check_letter/check_letter_cl.html', context)
+
+@login_required
+@group_required(config.prl)
+def apply_signature_sl(request, letter_id):
     start_time = time.time()
     letter = get_object_or_404(Students_Letter, letter_id=letter_id)
     letter.digital_sign_at = timezone.now()
@@ -254,6 +286,102 @@ def apply_signature(request, letter_id):
 
     letter.digital_sign_number = hashlib.sha256(str(letter_id).encode()).hexdigest()
     digital_sign_url = reverse('archives-students-letter-check', kwargs={'letter_id': letter_id})
+    letter.digital_sign_url = digital_sign_url
+
+    qr_data = 'http://faturras-m1.local:8080'+digital_sign_url
+    qr_code = qrcode.make(qr_data)
+    buffer = BytesIO()
+    qr_code.save(buffer)
+    qr_code_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
+
+    letter.qr_code_base64 = qr_code_base64
+
+    end_time = time.time()
+    processing_time = end_time - start_time
+
+    messages.success(request, 'Letter has been signed! {0:.2f}s'.format(processing_time))
+    letter.save()
+
+    return redirect('sign-request')
+
+
+@login_required
+@group_required(config.prl)
+def apply_signature_el(request, letter_id):
+    start_time = time.time()
+    letter = get_object_or_404(Employees_Letter, letter_id=letter_id)
+    letter.digital_sign_at = timezone.now()
+    letter.digital_sign_by = request.user
+    letter.digital_sign_by_name = request.user.get_full_name()
+    letter.digital_sign_job_title = request.user.groups.first().name
+    letter.digital_sign_institution = cache.get('dapodik_school')['nama']
+
+    ip_address = requests.get('https://api.ipify.org/').text
+    
+    if not ip_address:
+        ip_address = request.META.get('REMOTE_ADDR')
+
+    letter.digital_sign_ip = ip_address
+
+    handler = ipinfo.getHandler('f2ce563eb2923e') # Key owner 2019470089@student.umj.ac.id
+    details = handler.getDetails(ip_address)
+
+    if hasattr(details, 'city') and hasattr(details, 'country'):
+        location = details.city + ', ' + details.country + ', ' + details.loc
+        letter.digital_sign_location = location
+    else:
+        letter.digital_sign_location = 'Unknown'
+
+    letter.digital_sign_number = hashlib.sha256(str(letter_id).encode()).hexdigest()
+    digital_sign_url = reverse('archives-employees-letter-check', kwargs={'letter_id': letter_id})
+    letter.digital_sign_url = digital_sign_url
+
+    qr_data = 'http://faturras-m1.local:8080'+digital_sign_url
+    qr_code = qrcode.make(qr_data)
+    buffer = BytesIO()
+    qr_code.save(buffer)
+    qr_code_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
+
+    letter.qr_code_base64 = qr_code_base64
+
+    end_time = time.time()
+    processing_time = end_time - start_time
+
+    messages.success(request, 'Letter has been signed! {0:.2f}s'.format(processing_time))
+    letter.save()
+
+    return redirect('sign-request')
+
+
+@login_required
+@group_required(config.prl)
+def apply_signature_cl(request, letter_id):
+    start_time = time.time()
+    letter = get_object_or_404(Common_Letter, letter_id=letter_id)
+    letter.digital_sign_at = timezone.now()
+    letter.digital_sign_by = request.user
+    letter.digital_sign_by_name = request.user.get_full_name()
+    letter.digital_sign_job_title = request.user.groups.first().name
+    letter.digital_sign_institution = cache.get('dapodik_school')['nama']
+
+    ip_address = requests.get('https://api.ipify.org/').text
+    
+    if not ip_address:
+        ip_address = request.META.get('REMOTE_ADDR')
+
+    letter.digital_sign_ip = ip_address
+
+    handler = ipinfo.getHandler('f2ce563eb2923e') # Key owner 2019470089@student.umj.ac.id
+    details = handler.getDetails(ip_address)
+
+    if hasattr(details, 'city') and hasattr(details, 'country'):
+        location = details.city + ', ' + details.country + ', ' + details.loc
+        letter.digital_sign_location = location
+    else:
+        letter.digital_sign_location = 'Unknown'
+
+    letter.digital_sign_number = hashlib.sha256(str(letter_id).encode()).hexdigest()
+    digital_sign_url = reverse('archives-common-letter-check', kwargs={'letter_id': letter_id})
     letter.digital_sign_url = digital_sign_url
 
     qr_data = 'http://faturras-m1.local:8080'+digital_sign_url
@@ -355,7 +483,7 @@ def send_sign_request(request, letter_id):
 
 @login_required
 @group_required(config.hoa, config.scs, config.ecs, config.prl, config.opr)
-def generate_pdf(request, letter_id):
+def generate_pdf_sl(request, letter_id):
     letter = get_object_or_404(Students_Letter, letter_id=letter_id)
     digital_sign = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True)
 
@@ -363,6 +491,48 @@ def generate_pdf(request, letter_id):
         qrc.generate_qr_code()
 
     template = get_template('administration/letter/letter_templates/students_letter/surat_keterangan.html')
+    context = {'letter': letter}
+    html = template.render(context)
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'filename="{letter.get_letter_type_display}_{letter_id}.pdf"'
+
+    pisa.CreatePDF(html, dest=response)
+
+    return response
+
+
+@login_required
+@group_required(config.hoa, config.scs, config.ecs, config.prl, config.opr)
+def generate_pdf_el(request, letter_id):
+    letter = get_object_or_404(Employees_Letter, letter_id=letter_id)
+    digital_sign = Employees_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True)
+
+    for qrc in digital_sign:
+        qrc.generate_qr_code()
+
+    template = get_template('administration/letter/letter_templates/employees_letter/surat_tugas.html')
+    context = {'letter': letter}
+    html = template.render(context)
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'filename="{letter.get_letter_type_display}_{letter_id}.pdf"'
+
+    pisa.CreatePDF(html, dest=response)
+
+    return response
+
+
+@login_required
+@group_required(config.hoa, config.scs, config.ecs, config.prl, config.opr)
+def generate_pdf_cl(request, letter_id):
+    letter = get_object_or_404(Common_Letter, letter_id=letter_id)
+    digital_sign = Common_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True)
+
+    for qrc in digital_sign:
+        qrc.generate_qr_code()
+
+    template = get_template('administration/letter/letter_templates/common_letter/surat_undangan.html')
     context = {'letter': letter}
     html = template.render(context)
 
@@ -410,7 +580,17 @@ def archives(request):
 # @login_required
 def archives_students_letter_check(request, letter_id):
     letter = get_object_or_404(Students_Letter, letter_id=letter_id)
-    return render(request, 'administration/archives/archives_students_letter_check/archives_students_letter_check.html', {'letter': letter})
+    return render(request, 'administration/archives/verify/archives_students_letter_check.html', {'letter': letter})
+
+# @login_required
+def archives_employees_letter_check(request, letter_id):
+    letter = get_object_or_404(Employees_Letter, letter_id=letter_id)
+    return render(request, 'administration/archives/verify/archives_employees_letter_check.html', {'letter': letter})
+
+# @login_required
+def archives_common_letter_check(request, letter_id):
+    letter = get_object_or_404(Common_Letter, letter_id=letter_id)
+    return render(request, 'administration/archives/verify/archives_common_letter_check.html', {'letter': letter})
 
 @login_required
 @group_required(config.hoa)
