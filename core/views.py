@@ -196,10 +196,10 @@ def activate_user(request, user_id):
 @group_required(config.prl)
 def sign_request(request):
     digital_sign = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=False)
-    students_letter_archives = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False).order_by('-digital_sign_at')[:9]
+    students_digital_sign_applied = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False).order_by('-digital_sign_at')[:9]
     count_rs = digital_sign.count
 
-    context = {'digital_sign': digital_sign, 'students_letter_archives':students_letter_archives, 'count_rs': count_rs}
+    context = {'digital_sign': digital_sign, 'students_digital_sign_applied':students_digital_sign_applied, 'count_rs': count_rs}
     return render(request, 'administration/sign_request/sign_request.html', context)
 
 @login_required
@@ -379,9 +379,9 @@ def guest_and_request_form(request):
 
 @login_required
 def archives(request):
-    students_letter_archives = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False).order_by('-created_at')
-    employees_letter_archives = Employees_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True).order_by('-created_at')
-    common_letter_archives = Common_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False).order_by('-created_at')
+    students_letter_archives = Students_Letter.objects.filter(Q(type_sign='2') | (Q(type_sign='1') & ~Q(digital_sign_at__isnull=True))).order_by('-created_at')
+    employees_letter_archives = Employees_Letter.objects.filter(Q(type_sign='2') | (Q(type_sign='1') & ~Q(digital_sign_at__isnull=True))).order_by('-created_at')
+    common_letter_archives = Common_Letter.objects.filter(Q(type_sign='2') | (Q(type_sign='1') & ~Q(digital_sign_at__isnull=True))).order_by('-created_at')
 
     context = {
         'students_letter_archives': students_letter_archives,
@@ -399,7 +399,7 @@ def archives_students_letter_check(request, letter_id):
 @group_required(config.hoa)
 def trash(request):
     students_letter_archives = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False, is_selected_to_destroy=False).order_by('-digital_sign_at')
-    employees_letter_archives = Employees_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False, is_selected_to_destroy=False).order_by('-digital_sign_at')
+    employees_letter_archives = Employees_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_selected_to_destroy=False).order_by('-digital_sign_at')
     common_letter_archives = Common_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False, is_selected_to_destroy=False).order_by('-digital_sign_at')
 
     ready_to_destroy_sl = Students_Letter.objects.filter(is_selected_to_destroy=True).order_by('-digital_sign_at')
