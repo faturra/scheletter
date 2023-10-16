@@ -196,10 +196,10 @@ def activate_user(request, user_id):
 @group_required(config.prl)
 def sign_request(request):
     digital_sign = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=False)
-    students_digital_sign_applied = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False).order_by('-digital_sign_at')[:9]
+    students_letter_archives = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False).order_by('-digital_sign_at')[:9]
     count_rs = digital_sign.count
 
-    context = {'digital_sign': digital_sign, 'students_digital_sign_applied':students_digital_sign_applied, 'count_rs': count_rs}
+    context = {'digital_sign': digital_sign, 'students_letter_archives':students_letter_archives, 'count_rs': count_rs}
     return render(request, 'administration/sign_request/sign_request.html', context)
 
 @login_required
@@ -261,23 +261,23 @@ def apply_signature(request, letter_id):
 def request_queue(request):
     staging_scs = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=True).order_by('-created_at')
     digital_sign_scs = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=False).order_by('-created_at')
-    students_digital_sign_applied_scs = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False).order_by('-created_at')
+    students_letter_archives_scs = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False).order_by('-created_at')
     manual_sign_scs = Students_Letter.objects.filter(type_sign='2').order_by('-created_at')
     
     staging_ecs = Employees_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=True).order_by('-created_at')
     digital_sign_ecs = Employees_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=False).order_by('-created_at')
-    students_digital_sign_applied_ecs = Employees_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False).order_by('-created_at')
+    students_letter_archives_ecs = Employees_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False).order_by('-created_at')
     manual_sign_ecs = Employees_Letter.objects.filter(type_sign='2').order_by('-created_at')
 
     context = {
         'staging_scs': staging_scs, 
         'digital_sign_scs': digital_sign_scs, 
-        'students_digital_sign_applied_scs': students_digital_sign_applied_scs, 
+        'students_letter_archives_scs': students_letter_archives_scs, 
         'manual_sign_scs': manual_sign_scs,
         
         'staging_ecs': staging_ecs, 
         'digital_sign_ecs': digital_sign_ecs, 
-        'students_digital_sign_applied_ecs': students_digital_sign_applied_ecs, 
+        'students_letter_archives_ecs': students_letter_archives_ecs, 
         'manual_sign_ecs': manual_sign_ecs
         }
     
@@ -379,9 +379,15 @@ def guest_and_request_form(request):
 
 @login_required
 def archives(request):
-    students_digital_sign_applied = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False).order_by('-created_at')
+    students_letter_archives = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False).order_by('-created_at')
+    employees_letter_archives = Employees_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True).order_by('-created_at')
+    common_letter_archives = Common_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False).order_by('-created_at')
 
-    context = {'students_digital_sign_applied': students_digital_sign_applied}
+    context = {
+        'students_letter_archives': students_letter_archives,
+        'employees_letter_archives': employees_letter_archives,
+        'common_letter_archives': common_letter_archives,
+        }
     return render(request, 'administration/archives/archives.html', context)
 
 # @login_required
@@ -392,11 +398,23 @@ def archives_students_letter_check(request, letter_id):
 @login_required
 @group_required(config.hoa)
 def trash(request):
-    students_digital_sign_applied = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False, is_selected_to_destroy=False).order_by('-digital_sign_at')
-    ready_to_destroy = Students_Letter.objects.filter(is_selected_to_destroy=True).order_by('-digital_sign_at')
-    count_rtd = Students_Letter.objects.filter(is_selected_to_destroy=True).count
+    students_letter_archives = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False, is_selected_to_destroy=False).order_by('-digital_sign_at')
+    employees_letter_archives = Employees_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False, is_selected_to_destroy=False).order_by('-digital_sign_at')
+    common_letter_archives = Common_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False, is_selected_to_destroy=False).order_by('-digital_sign_at')
 
-    context = {'students_digital_sign_applied': students_digital_sign_applied, 'ready_to_destroy': ready_to_destroy, 'count_rtd': count_rtd}
+    ready_to_destroy_sl = Students_Letter.objects.filter(is_selected_to_destroy=True).order_by('-digital_sign_at')
+    count_sl_rtd = Students_Letter.objects.filter(is_selected_to_destroy=True).count()
+    count_el_rtd = Employees_Letter.objects.filter(is_selected_to_destroy=True).count()
+    count_cl_rtd = Common_Letter.objects.filter(is_selected_to_destroy=True).count()
+    count_rtd = count_sl_rtd + count_el_rtd + count_cl_rtd
+
+    context = {
+        'students_letter_archives': students_letter_archives,
+        'employees_letter_archives': employees_letter_archives,
+        'common_letter_archives': common_letter_archives,
+        'ready_to_destroy_sl': ready_to_destroy_sl,
+        'count_rtd': count_rtd
+        }
     return render(request, 'trash/trash.html', context)
 
 @login_required

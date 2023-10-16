@@ -1,6 +1,6 @@
 {% extends 'base/common/base.html' %}
 {% load static %}
-{% block title%}Trash{% endblock %}
+{% block title %}Trash{% endblock %}
 {% block content %}
 <div class="container">
     <section class="pt-5 mb-4">
@@ -43,9 +43,9 @@
             </li>
         </ul>
           <div class="tab-pane fade show active" id="trash-pane" role="tabpanel" aria-labelledby="trash" tabindex="0">
-            {% if ready_to_destroy %}
+            {% if ready_to_destroy_sl %}
             <div class="row mt-3">
-              {% for archive in ready_to_destroy %}
+              {% for archive in ready_to_destroy_sl %}
               <div class="col-sm-12 mb-3">
                 <div class="card border-light shadow">
                   <div class="card-body">
