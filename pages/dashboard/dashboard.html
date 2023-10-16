@@ -196,7 +196,12 @@
                         </tr>
                       </thead>
                       <tbody>
-                        {% if request.user.groups.first.name == "Student Correspondence Staff" %}
+                        {% if request.user.groups.first.name == "Student Correspondence Staff" or request.user.groups.first.name == 'Head of Administration' or user.is_superuser  %}
+                        {% if request.user.groups.first.name == 'Head of Administration' or user.is_superuser %}
+                        <tr>
+                          <td colspan="5" class="fw-semibold border-bottom">Student Letter</td>
+                        </tr>
+                        {% endif %}
                         {% for item in last_created_sl %}
                         <tr>
                           <th scope="row">{{ forloop.counter }}</th>
@@ -222,8 +227,13 @@
                         </tr>
                       </tfoot>
                       {% endif %}
-                      {% if request.user.groups.first.name == "Employee Correspondence Staff" %}
-                        {% for item in last_created_el %}
+                      {% if request.user.groups.first.name == "Employee Correspondence Staff" or request.user.groups.first.name == 'Head of Administration' or user.is_superuser %}  
+                      {% if request.user.groups.first.name == 'Head of Administration' or user.is_superuser %}
+                        <tr>
+                          <td colspan="5" class="fw-semibold border-bottom">Employee Letter</td>
+                        </tr>
+                      {% endif %}
+                      {% for item in last_created_el %}
                         <tr>
                           <th scope="row">{{ forloop.counter }}</th>
                           <td>{{ item.number }}</td>
@@ -266,7 +276,12 @@
                         </tr>
                       </thead>
                       <tbody>
-                        {% if request.user.groups.first.name == "Student Correspondence Staff" %}
+                        {% if request.user.groups.first.name == "Student Correspondence Staff" or request.user.groups.first.name == 'Head of Administration' or user.is_superuser%}
+                        {% if request.user.groups.first.name == 'Head of Administration' or user.is_superuser %}
+                        <tr>
+                          <td colspan="5" class="fw-semibold border-bottom">Student Letter</td>
+                        </tr>
+                        {% endif %}
                         {% if letter_done_sl %}
                         {% for item in letter_done_sl %}
                         <tr>
@@ -289,7 +304,12 @@
                         </tr>
                       </tfoot>
                       {% endif %}
-                        {% if request.user.groups.first.name == "Employee Correspondence Staff" %}
+                        {% if request.user.groups.first.name == "Employee Correspondence Staff" or request.user.groups.first.name == 'Head of Administration' or user.is_superuser %}
+                        {% if request.user.groups.first.name == 'Head of Administration' or user.is_superuser %}
+                        <tr>
+                          <td colspan="5" class="fw-semibold border-bottom">Employee Letter</td>
+                        </tr>
+                        {% endif %}
                         {% if letter_done_el %}
                         {% for item in letter_done_el %}
                         <tr>
