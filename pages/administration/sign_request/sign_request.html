@@ -11,75 +11,230 @@
             <p class="lead">List of digital sign request</p>
         </div>
     </section>
-    <section class="mb-5">
-      <ul class="nav nav-tabs" id="sign-request-tab" role="tablist">
-        <li class="nav-item" role="sign-request">
-          <button class="nav-link active" id="sign-request" data-bs-toggle="tab" data-bs-target="#sign-request-pane" type="button" role="tab" aria-controls="sign-request-pane" aria-selected="true">Request{% if count_rs %}&nbsp;<span class="badge bg-primary">{{ count_rs }}</span>{% else %}{% endif %}</button>
-        </li>
-        <li class="nav-item" role="signed">
-          <button class="nav-link" id="signed" data-bs-toggle="tab" data-bs-target="#signed-pane"-pane" type="button" role="tab" aria-controls="signed-pane" aria-selected="true">Signed letter</button>
-        </li>
-      </ul>
-      <div class="tab-content" id="sign-request">
-        <div class="tab-pane fade show active" id="sign-request-pane" role="tabpanel" aria-labelledby="sign-request" tabindex="0">
-          <div class="row mt-3">
-            {% if digital_sign %}
-            {% for item in digital_sign %}
-            <div class="col-sm-4 mb-3">
-              <div class="card border-light shadow">
-                <div class="card-body">
-                  <h5 class="card-title"><i class="bi bi-card-text"></i>&nbsp;{{ item.get_letter_type_display }}</h5>
-                  <p class="card-text small"><span class="card-text text-muted">{{ item.number }}</span><br>{{ item.student_name }}&nbsp;{{ item.student_class }}-{{ item.student_nisn }}</p>
-                  <hr style="border-style: dashed;">
-                  <a href="{% url 'check-letter' letter_id=item.letter_id %}" class="btn btn-light text-primary"><i class="bi bi-search"></i>&nbsp;Check</a>
-                  <small class="text-muted">Created on&nbsp;{{ item.created_at|date:"Y-m-d H:i" }}</small>
+    <!-- s.c.s -->
+    <!-- <section class="card card-body border-0 shadow-sm mb-5"> -->
+      <section class="mb-5">
+        <h5>Student Letters</h5>
+        <hr>
+        <ul class="nav nav-tabs" id="sign-request-sl-tab" role="tablist">
+          <li class="nav-item" role="sign-request-sl">
+            <button class="nav-link active" id="sign-request-sl" data-bs-toggle="tab" data-bs-target="#sign-request-sl-pane" type="button" role="tab" aria-controls="sign-request-sl-pane" aria-selected="true">Request{% if count_rs_sl %}&nbsp;<span class="badge bg-primary">{{ count_rs_sl }}</span>{% else %}{% endif %}</button>
+          </li>
+          <li class="nav-item" role="signed-sl">
+            <button class="nav-link" id="signed-sl" data-bs-toggle="tab" data-bs-target="#signed-sl-pane" type="button" role="tab" aria-controls="signed-sl-pane" aria-selected="true">Signed letter</button>
+          </li>
+        </ul>
+        <div class="tab-content" id="sign-request-sl">
+          <div class="tab-pane fade show active" id="sign-request-sl-pane" role="tabpanel" aria-labelledby="sign-request-sl" tabindex="0">
+            <div class="row mt-3">
+              {% if digital_sign_sl %}
+              {% for item in digital_sign_sl %}
+              <div class="col-sm-4 mb-3">
+                <div class="card border-0 shadow">
+                  <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-card-text"></i>&nbsp;{{ item.get_letter_type_display }}</h5>
+                    <p class="card-text small"><span class="card-text text-muted">{{ item.number }}</span><br>{{ item.student_name }}&nbsp;{{ item.student_class }}-{{ item.student_nisn }}</p>
+                    <hr style="border-style: dashed;">
+                    <a href="{% url 'check-letter' letter_id=item.letter_id %}" class="btn btn-light text-primary"><i class="bi bi-search"></i>&nbsp;Check</a>
+                    <small class="text-muted">Created on&nbsp;{{ item.created_at|date:"Y-m-d H:i" }}</small>
+                  </div>
                 </div>
               </div>
+              {% endfor %}
+              {% else %}
+              <div class="position-relative p-5 text-center text-muted">
+                <i class="bi bi-layers display-3"></i>
+                <p class="col-lg-6 mx-auto mb-4 animate__animated animate__headShake">
+                    No letter available to sign
+                </p>
+              </div>
+              {% endif %}
             </div>
-            {% endfor %}
-            {% else %}
-            <div class="position-relative p-5 text-center text-muted">
-              <i class="bi bi-layers display-3"></i>
-              <p class="col-lg-6 mx-auto mb-4 animate__animated animate__headShake">
-                  No letter available to sign
-              </p>
-            </div>
-            {% endif %}
+          </div>
+          <div class="tab-pane fade" id="signed-sl-pane" role="tabpanel" aria-labelledby="signed-sl" tabindex="0">
+            <div class="row mt-3">
+              {% if students_digital_sign_applied %}
+              {% for item in students_digital_sign_applied %}
+              <div class="col-sm-4 mb-3">
+                <div class="card border-0 shadow">
+                  <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-card-text"></i>&nbsp;{{ item.get_letter_type_display }}</h5>
+                    <p class="card-text small"><span class="card-text text-muted">{{ item.number }}</span><br>{{ item.student_name }}&nbsp;{{ item.student_class }}-{{ item.student_nisn }}</p>
+                    <hr style="border-style: dashed;">
+                    <a href="{% url 'generate-pdf' letter_id=item.letter_id %}" class="btn btn-light text-primary" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a>
+                    <small class="text-muted">Signed on {{ item.digital_sign_at|date:"Y-m-d H:i" }}&nbsp;<i class="bi bi-check-circle-fill text-success"></i></small>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+              {% else %}
+              <div class="position-relative p-5 text-center text-muted">
+                <i class="bi bi-layers display-3"></i>
+                <p class="col-lg-6 mx-auto mb-4 animate__animated animate__headShake">
+                    No letter signed yet
+                </p>
+              </div>
+              {% endif %}
+              {% if students_digital_sign_applied %}
+              <div class="position-relative p-3 text-center text-muted">
+                <div class="col-lg-6 mx-auto mb-4">
+                    <a href="{% url 'archives' %}" class="">See more letter in archives...</a>
+                </div>
+              </div>
+              {% endif %}
           </div>
         </div>
-        <div class="tab-pane fade" id="signed-pane" role="tabpanel" aria-labelledby="signed" tabindex="0">
-          <div class="row mt-3">
-            {% if students_digital_sign_applied %}
-            {% for item in students_digital_sign_applied %}
-            <div class="col-sm-4 mb-3">
-              <div class="card border-light shadow">
-                <div class="card-body">
-                  <h5 class="card-title"><i class="bi bi-card-text"></i>&nbsp;{{ item.get_letter_type_display }}</h5>
-                  <p class="card-text small"><span class="card-text text-muted">{{ item.number }}</span><br>{{ item.student_name }}&nbsp;{{ item.student_class }}-{{ item.student_nisn }}</p>
-                  <hr style="border-style: dashed;">
-                  <a href="{% url 'generate-pdf' letter_id=item.letter_id %}" class="btn btn-light text-primary" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a>
-                  <small class="text-muted">Signed on {{ item.digital_sign_at|date:"Y-m-d H:i" }}&nbsp;<i class="bi bi-check-circle-fill text-success"></i></small>
+      </section>
+    <!-- </section> -->
+    <!-- e.c.s -->
+    <!-- <section class="card card-body border-0 shadow-sm mb-5"> -->
+      <section class="mb-5">
+        <h5>Employee Letters</h5>
+        <hr>
+        <ul class="nav nav-tabs" id="sign-request-el-tab" role="tablist">
+          <li class="nav-item" role="sign-request-el">
+            <button class="nav-link active" id="sign-request-el" data-bs-toggle="tab" data-bs-target="#sign-request-el-pane" type="button" role="tab" aria-controls="sign-request-el-pane" aria-selected="true">Request{% if count_rs_el %}&nbsp;<span class="badge bg-primary">{{ count_rs_el }}</span>{% else %}{% endif %}</button>
+          </li>
+          <li class="nav-item" role="signed-el">
+            <button class="nav-link" id="signed-el" data-bs-toggle="tab" data-bs-target="#signed-el-pane" type="button" role="tab" aria-controls="signed-el-pane" aria-selected="true">Signed letter</button>
+          </li>
+        </ul>
+        <div class="tab-content" id="sign-request-el">
+          <div class="tab-pane fade show active" id="sign-request-el-pane" role="tabpanel" aria-labelledby="sign-request-el" tabindex="0">
+            <div class="row mt-3">
+              {% if digital_sign_el %}
+              {% for item in digital_sign_el %}
+              <div class="col-sm-4 mb-3">
+                <div class="card border-0 shadow">
+                  <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-card-text"></i>&nbsp;{{ item.get_letter_type_display }}</h5>
+                    <p class="card-text small"><span class="card-text text-muted">{{ item.number }}</span><br>{{ item.employee_name }}&nbsp;{{ item.employee_rank }}</p>
+                    <hr style="border-style: dashed;">
+                    <a href="{% url 'check-letter' letter_id=item.letter_id %}" class="btn btn-light text-primary"><i class="bi bi-search"></i>&nbsp;Check</a>
+                    <small class="text-muted">Created on&nbsp;{{ item.created_at|date:"Y-m-d H:i" }}</small>
+                  </div>
                 </div>
               </div>
-            </div>
-            {% endfor %}
-            {% else %}
-            <div class="position-relative p-5 text-center text-muted">
-              <i class="bi bi-layers display-3"></i>
-              <p class="col-lg-6 mx-auto mb-4 animate__animated animate__headShake">
-                  No letter signed yet
-              </p>
-            </div>
-            {% endif %}
-            {% if students_digital_sign_applied %}
-            <div class="position-relative p-3 text-center text-muted">
-              <div class="col-lg-6 mx-auto mb-4">
-                  <a href="{% url 'archives' %}" class="">See more letter in archives...</a>
+              {% endfor %}
+              {% else %}
+              <div class="position-relative p-5 text-center text-muted">
+                <i class="bi bi-layers display-3"></i>
+                <p class="col-lg-6 mx-auto mb-4 animate__animated animate__headShake">
+                    No letter available to sign
+                </p>
               </div>
+              {% endif %}
             </div>
-            {% endif %}
+          </div>
+          <div class="tab-pane fade" id="signed-el-pane" role="tabpanel" aria-labelledby="signed-el" tabindex="0">
+            <div class="row mt-3">
+              {% if employeess_digital_sign_applied %}
+              {% for item in employees_digital_sign_applied %}
+              <div class="col-sm-4 mb-3">
+                <div class="card border-0 shadow">
+                  <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-card-text"></i>&nbsp;{{ item.get_letter_type_display }}</h5>
+                    <p class="card-text small"><span class="card-text text-muted">{{ item.number }}</span><br>{{ item.employee_name }}&nbsp;{{ item.employee_rank }}</p>
+                    <hr style="border-style: dashed;">
+                    <a href="{% url 'generate-pdf' letter_id=item.letter_id %}" class="btn btn-light text-primary" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a>
+                    <small class="text-muted">Signed on {{ item.digital_sign_at|date:"Y-m-d H:i" }}&nbsp;<i class="bi bi-check-circle-fill text-success"></i></small>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+              {% else %}
+              <div class="position-relative p-5 text-center text-muted">
+                <i class="bi bi-layers display-3"></i>
+                <p class="col-lg-6 mx-auto mb-4 animate__animated animate__headShake">
+                    No letter signed yet
+                </p>
+              </div>
+              {% endif %}
+              {% if employees_digital_sign_applied %}
+              <div class="position-relative p-3 text-center text-muted">
+                <div class="col-lg-6 mx-auto mb-4">
+                    <a href="{% url 'archives' %}" class="">See more letter in archives...</a>
+                </div>
+              </div>
+              {% endif %}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    <!-- </section> -->
+    <!-- c -->
+    <!-- <section class="card card-body border-0 shadow-sm mb-5"> -->
+      <section class="mb-5">
+        <h5>Common Letters</h5>
+        <hr>
+        <ul class="nav nav-tabs" id="sign-request-cl-tab" role="tablist">
+          <li class="nav-item" role="sign-request-cl">
+            <button class="nav-link active" id="sign-request-cl" data-bs-toggle="tab" data-bs-target="#sign-request-cl-pane" type="button" role="tab" aria-controls="sign-request-cl-pane" aria-selected="true">Request{% if count_rs_cl %}&nbsp;<span class="badge bg-primary">{{ count_rs_cl }}</span>{% else %}{% endif %}</button>
+          </li>
+          <li class="nav-item" role="signed-cl">
+            <button class="nav-link" id="signed-cl" data-bs-toggle="tab" data-bs-target="#signed-cl-pane" type="button" role="tab" aria-controls="signed-cl-pane" aria-selected="true">Signed letter</button>
+          </li>
+        </ul>
+        <div class="tab-content" id="sign-request-cl">
+          <div class="tab-pane fade show active" id="sign-request-cl-pane" role="tabpanel" aria-labelledby="sign-request-cl" tabindex="0">
+            <div class="row mt-3">
+              {% if digital_sign_cl %}
+              {% for item in digital_sign_cl %}
+              <div class="col-sm-4 mb-3">
+                <div class="card border-0 shadow">
+                  <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-card-text"></i>&nbsp;{{ item.get_letter_type_display }}</h5>
+                    <p class="card-text small"><span class="card-text text-muted">{{ item.number }}</span><br>{{ item.student_name }}&nbsp;{{ item.student_class }}-{{ item.student_nisn }}</p>
+                    <hr style="border-style: dashed;">
+                    <a href="{% url 'check-letter' letter_id=item.letter_id %}" class="btn btn-light text-primary"><i class="bi bi-search"></i>&nbsp;Check</a>
+                    <small class="text-muted">Created on&nbsp;{{ item.created_at|date:"Y-m-d H:i" }}</small>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+              {% else %}
+              <div class="position-relative p-5 text-center text-muted">
+                <i class="bi bi-layers display-3"></i>
+                <p class="col-lg-6 mx-auto mb-4 animate__animated animate__headShake">
+                    No letter available to sign
+                </p>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="tab-pane fade" id="signed-cl-pane" role="tabpanel" aria-labelledby="signed-cl" tabindex="0">
+            <div class="row mt-3">
+              {% if common_digital_sign_applied %}
+              {% for item in common_digital_sign_applied %}
+              <div class="col-sm-4 mb-3">
+                <div class="card border-0 shadow">
+                  <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-card-text"></i>&nbsp;{{ item.get_letter_type_display }}</h5>
+                    <p class="card-text small"><span class="card-text text-muted">{{ item.number }}</span><br>{{ item.employee_name }}&nbsp;{{ item.employee_rank }}</p>
+                    <hr style="border-style: dashed;">
+                    <a href="{% url 'generate-pdf' letter_id=item.letter_id %}" class="btn btn-light text-primary" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a>
+                    <small class="text-muted">Signed on {{ item.digital_sign_at|date:"Y-m-d H:i" }}&nbsp;<i class="bi bi-check-circle-fill text-success"></i></small>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+              {% else %}
+              <div class="position-relative p-5 text-center text-muted">
+                <i class="bi bi-layers display-3"></i>
+                <p class="col-lg-6 mx-auto mb-4 animate__animated animate__headShake">
+                    No letter signed yet
+                </p>
+              </div>
+              {% endif %}
+              {% if common_digital_sign_applied %}
+              <div class="position-relative p-3 text-center text-muted">
+                <div class="col-lg-6 mx-auto mb-4">
+                    <a href="{% url 'archives' %}" class="">See more letter in archives...</a>
+                </div>
+              </div>
+              {% endif %}
+          </div>
+        </div>
+      </section>
+    <!-- </section> -->
 </div>
 {% endblock %}

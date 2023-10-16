@@ -195,11 +195,28 @@ def activate_user(request, user_id):
 @login_required
 @group_required(config.prl)
 def sign_request(request):
-    digital_sign = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=False)
+    digital_sign_sl = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=False)
+    digital_sign_el = Employees_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=False)
+    digital_sign_cl = Common_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=False)
     students_digital_sign_applied = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False).order_by('-digital_sign_at')[:9]
-    count_rs = digital_sign.count
+    employees_digital_sign_applied = Employees_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False).order_by('-digital_sign_at')[:9]
+    common_digital_sign_applied = Common_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False).order_by('-digital_sign_at')[:9]
+    
+    count_rs_sl = digital_sign_sl.count
+    count_rs_el = digital_sign_el.count
+    count_rs_cl = digital_sign_cl.count
 
-    context = {'digital_sign': digital_sign, 'students_digital_sign_applied':students_digital_sign_applied, 'count_rs': count_rs}
+    context = {
+        'digital_sign_sl': digital_sign_sl,
+        'digital_sign_el': digital_sign_el,
+        'digital_sign_cl': digital_sign_cl,
+        'students_digital_sign_applied':students_digital_sign_applied,
+        'employees_digital_sign_applied':employees_digital_sign_applied,
+        'common_digital_sign_applied':common_digital_sign_applied,
+        'count_rs_sl': count_rs_sl,
+        'count_rs_el': count_rs_el,
+        'count_rs_cl': count_rs_cl,
+        }
     return render(request, 'administration/sign_request/sign_request.html', context)
 
 @login_required
