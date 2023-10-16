@@ -37,7 +37,7 @@
             <div class="tab-content" id="request-queue-a">
                 <div class="tab-pane fade show active" id="request-queue-active-pane" role="tabpanel" aria-labelledby="request-queue-active" tabindex="0">
                     {% if staging_ecs %}
-                    <table id="tb_staging_ecs" class="table table-striped table-hover text-truncate">
+                    <table id="tb_staging_ecs" class="table table-borderless table-borderless table-hover text-truncate">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
@@ -102,7 +102,7 @@
             <div class="tab-content" id="request-queue-b">
                 <div class="tab-pane fade show active" id="letter-pending-pane" role="tabpanel" aria-labelledby="letter-pending" tabindex="0">
                     {% if digital_sign_ecs %}
-                    <table id="tb_waiting_sign_ecs" class="table table-striped table-hover text-truncate">
+                    <table id="tb_waiting_sign_ecs" class="table table-borderless table-borderless table-hover text-truncate">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
@@ -161,41 +161,46 @@
             </ul>
             <div class="tab-content" id="request-queue-c">
                 <div class="tab-pane fade show active" id="letter-done-pane" role="tabpanel" aria-labelledby="letter-done" tabindex="0">
-                    {% if students_digital_sign_applied_ecs %}
-                    <table id="tb_request_queue_ecs" class="table table-striped table-hover text-truncate">
+                    {% if employees_digital_sign_applied_ecs %}
+                    <table id="tb_request_queue_ecs" class="table table-borderless table-borderless table-hover text-truncate">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col"><i class="bi bi-box-arrow-up-right"></i></th>
+                                <th scope="col">Check</th>
                                 <th scope="col">Number</th>
                                 <th scope="col">Regarding</th>
                                 <th scope="col">Name</th>
-                                <th scope="col">Class</th>
-                                <th scope="col">NISN</th>
-                                <th scope="col">Signed at</th>
-                                <th scope="col">Signed by</th>
-                                <th scope="col">Job title</th>
-                                <th scope="col">Institution</th>
+                                <th scope="col">Rank</th>
+                                <th scope="col">L/P</th>
+                                <th scope="col">NIP/NIKKI</th>
+                                <th scope="col">Letter type</th>
+                                <th scope="col">Type sign</th>
+                                <th scope="col">Date</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for item in students_digital_sign_applied_ecs %}
+                            {% for item in employees_digital_sign_applied_ecs %}
                             <tr>
                                 <th scope="row">{{ forloop.counter }}</th>
-                                <td><a href="{% url 'generate-pdf' letter_id=item.letter_id %}" class="btn btn-sm  btn-light text-primary" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a></td>
+                                <td><a href="{% url 'generate-pdf-el' letter_id=item.letter_id %}" class="btn btn-sm  btn-light text-primary" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a></td>
                                 <td>{{ item.number }}</td>
                                 <td>{{ item.subject }}</td>
-                                <td>{{ item.student_name }}</td>
-                                <td>{{ item.student_class }}</td>
-                                <td>{{ item.student_nisn }}</td>
-                                <td>{{ item.digital_sign_at }}</td>
-                                <td>{{ item.digital_sign_by_name }}</td>
-                                <td>{{ item.digital_sign_job_title }}</td>
-                                <td>{{ item.digital_sign_institution }}</td>
+                                <td>{{ item.employee_name }}</td>
+                                <td>{{ item.employee_rank }}</td>
+                                <td>{{ item.employee_gender }}</td>
+                                <td>{{ item.employee_empnumber }}</td>
+                                <td>{{ item.get_letter_type_display }}</td>
+                                <td>{{ item.get_type_sign_display }}</td>
+                                <td>{{ item.created_at }}</td>
                             </tr>
                             {% endfor %}
                        </tbody>
                     </table>
+                    <div class="position-relative text-center text-muted">
+                        <div class="col-lg-6 mx-auto">
+                            <a href="{% url 'archives' %}" class="">See more letter in archives...</a>
+                        </div>
+                    </div>
                     {% else %}
                     <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="trash" tabindex="0">
                         <div class="position-relative p-2 text-center text-muted">
@@ -237,7 +242,7 @@
             <div class="tab-content" id="request-queue-a">
                 <div class="tab-pane fade show active" id="request-queue-active-pane" role="tabpanel" aria-labelledby="request-queue-active" tabindex="0">
                     {% if staging_scs %}
-                    <table id="tb_staging_scs" class="table table-striped table-hover text-truncate">
+                    <table id="tb_staging_scs" class="table table-borderless table-borderless table-hover text-truncate">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
@@ -302,7 +307,7 @@
             <div class="tab-content" id="request-queue-b">
                 <div class="tab-pane fade show active" id="letter-pending-pane" role="tabpanel" aria-labelledby="letter-pending" tabindex="0">
                     {% if digital_sign_scs %}
-                    <table id="tb_waiting_sign_scs" class="table table-striped table-hover text-truncate">
+                    <table id="tb_waiting_sign_scs" class="table table-borderless table-borderless table-hover text-truncate">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
@@ -361,8 +366,8 @@
             </ul>
             <div class="tab-content" id="request-queue-c">
                 <div class="tab-pane fade show active" id="letter-done-pane" role="tabpanel" aria-labelledby="letter-done" tabindex="0">
-                    {% if students_digital_sign_applied_scs %}
-                    <table id="tb_request_queue_scs" class="table table-striped table-hover text-truncate">
+                    {% if students_letter_archives_scs %}
+                    <table id="tb_request_queue_scs" class="table table-borderless table-borderless table-hover text-truncate">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
@@ -379,23 +384,28 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for item in students_digital_sign_applied_scs %}
+                            {% for item in students_letter_archives_scs %}
                             <tr>
                                 <th scope="row">{{ forloop.counter }}</th>
-                                <td><a href="{% url 'generate-pdf' letter_id=item.letter_id %}" class="btn btn-sm  btn-light text-primary" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a></td>
+                                <td><a href="{% url 'generate-pdf-sl' letter_id=item.letter_id %}" class="btn btn-sm  btn-light text-primary" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a></td>
                                 <td>{{ item.number }}</td>
                                 <td>{{ item.subject }}</td>
                                 <td>{{ item.student_name }}</td>
                                 <td>{{ item.student_class }}</td>
                                 <td>{{ item.student_nisn }}</td>
-                                <td>{{ item.digital_sign_at }}</td>
-                                <td>{{ item.digital_sign_by_name }}</td>
-                                <td>{{ item.digital_sign_job_title }}</td>
-                                <td>{{ item.digital_sign_institution }}</td>
+                                <td>{{ item.digital_sign_at|default:'n/a' }}</td>
+                                <td>{{ item.digital_sign_by_name|default:'n/a' }}</td>
+                                <td>{{ item.digital_sign_job_title|default:'n/a' }}</td>
+                                <td>{{ item.digital_sign_institution|default:'n/a' }}</td>
                             </tr>
                             {% endfor %}
-                       </tbody>
+                        </tbody>
                     </table>
+                    <div class="position-relative text-center text-muted">
+                        <div class="col-lg-6 mx-auto">
+                            <a href="{% url 'archives' %}" class="">See more letter in archives...</a>
+                        </div>
+                    </div>
                     {% else %}
                     <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="trash" tabindex="0">
                         <div class="position-relative p-2 text-center text-muted">
@@ -434,7 +444,7 @@
             <div class="tab-content" id="request-queue-a">
                 <div class="tab-pane fade show active" id="request-queue-active-pane" role="tabpanel" aria-labelledby="request-queue-active" tabindex="0">
                     {% if staging_scs %}
-                    <table id="tb_staging_c" class="table table-striped table-hover text-truncate">
+                    <table id="tb_staging_c" class="table table-borderless table-borderless table-hover text-truncate">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
@@ -499,7 +509,7 @@
             <div class="tab-content" id="request-queue-b">
                 <div class="tab-pane fade show active" id="letter-pending-pane" role="tabpanel" aria-labelledby="letter-pending" tabindex="0">
                     {% if digital_sign_scs %}
-                    <table id="tb_waiting_sign_c" class="table table-striped table-hover text-truncate">
+                    <table id="tb_waiting_sign_c" class="table table-borderless table-borderless table-hover text-truncate">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
@@ -559,7 +569,7 @@
             <div class="tab-content" id="request-queue-c">
                 <div class="tab-pane fade show active" id="letter-done-pane" role="tabpanel" aria-labelledby="letter-done" tabindex="0">
                     {% if students_digital_sign_applied_scs %}
-                    <table id="tb_request_queue_c" class="table table-striped table-hover text-truncate">
+                    <table id="tb_request_queue_c" class="table table-borderless table-borderless table-hover text-truncate">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
@@ -579,7 +589,7 @@
                             {% for item in students_digital_sign_applied_scs %}
                             <tr>
                                 <th scope="row">{{ forloop.counter }}</th>
-                                <td><a href="{% url 'generate-pdf' letter_id=item.letter_id %}" class="btn btn-sm  btn-light text-primary" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a></td>
+                                <td><a href="{% url 'generate-pdf-cl' letter_id=item.letter_id %}" class="btn btn-sm  btn-light text-primary" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a></td>
                                 <td>{{ item.number }}</td>
                                 <td>{{ item.subject }}</td>
                                 <td>{{ item.student_name }}</td>
@@ -593,6 +603,11 @@
                             {% endfor %}
                        </tbody>
                     </table>
+                    <div class="position-relative text-center text-muted">
+                        <div class="col-lg-6 mx-auto">
+                            <a href="{% url 'archives' %}" class="">See more letter in archives...</a>
+                        </div>
+                    </div>
                     {% else %}
                     <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="trash" tabindex="0">
                         <div class="position-relative p-2 text-center text-muted">

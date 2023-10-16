@@ -31,7 +31,7 @@
                       {% for item in commons_letter_archives %}
                       <tr>
                           <th scope="row">{{ forloop.counter }}</th>
-                          <td><a href="{% url 'generate-pdf' letter_id=item.letter_id %}" class="btn btn-sm btn-light" target="_blank"><i class="bi bi-box-arrow-up-right"></i>&nbsp;Check</a></td>
+                          <td><a href="{% url 'generate-pdf-cl' letter_id=item.letter_id %}" class="btn btn-sm btn-light" target="_blank"><i class="bi bi-box-arrow-up-right"></i>&nbsp;Check</a></td>
                           <td>{{ item.number }}</td>
                           <td>{{ item.subject }}</td>
                           <td>{{ item.student_name }}</td>
@@ -87,7 +87,7 @@
                     {% for item in employees_letter_archives %}
                     <tr>
                         <th scope="row">{{ forloop.counter }}</th>
-                        <td><a href="{% url 'generate-pdf' letter_id=item.letter_id %}"class="btn btn-sm btn-light" target="_blank"><i class="bi bi-box-arrow-up-right"></i>&nbsp;Check</a></td>
+                        <td><a href="{% url 'generate-pdf-el' letter_id=item.letter_id %}"class="btn btn-sm btn-light" target="_blank"><i class="bi bi-box-arrow-up-right"></i>&nbsp;Check</a></td>
                         <td>{{ item.number }}</td>
                         <td>{{ item.subject }}</td>
                         <td>{{ item.employee_name }}</td>
@@ -155,7 +155,7 @@
                         <td><a href="{% url 'process-sl-to-destroy-list' sl_arc_id=item.letter_id %}" class="btn btn-sm btn-warning" onclick="return confirm('Are you sure you want to add the archive:\n\n[{{item.get_letter_type_display}}]\n{{item.student_name}} {{item.student_nisn}}\n{{item.number}}');"><i class="bi bi-plus-circle"></i>&nbsp;Add</a></td>
                         {% endif %}
                         {% endif %}
-                        <td><a href="{% url 'generate-pdf' letter_id=item.letter_id %}"class="btn btn-sm btn-light" target="_blank"><i class="bi bi-box-arrow-up-right"></i>&nbsp;Check</a></td>
+                        <td><a href="{% url 'generate-pdf-sl' letter_id=item.letter_id %}"class="btn btn-sm btn-light" target="_blank"><i class="bi bi-box-arrow-up-right"></i>&nbsp;Check</a></td>
                         <td>{{ item.number }}</td>
                         <td>{{ item.subject }}</td>
                         <td>{{ item.student_name }}</td>

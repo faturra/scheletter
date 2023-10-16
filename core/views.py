@@ -406,13 +406,19 @@ def apply_signature_cl(request, letter_id):
 def request_queue(request):
     staging_scs = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=True).order_by('-created_at')
     digital_sign_scs = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=False).order_by('-created_at')
-    students_letter_archives_scs = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False).order_by('-created_at')
+    students_letter_archives_scs = Students_Letter.objects.filter(Q(type_sign='2') | (Q(type_sign='1') & ~Q(digital_sign_at__isnull=True))).order_by('-created_at')[:5]
     manual_sign_scs = Students_Letter.objects.filter(type_sign='2').order_by('-created_at')
     
     staging_ecs = Employees_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=True).order_by('-created_at')
     digital_sign_ecs = Employees_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=False).order_by('-created_at')
-    students_letter_archives_ecs = Employees_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False).order_by('-created_at')
+    employees_letter_archives_ecs = Employees_Letter.objects.filter(Q(type_sign='2') | (Q(type_sign='1') & ~Q(digital_sign_at__isnull=True))).order_by('-created_at')[:5]
     manual_sign_ecs = Employees_Letter.objects.filter(type_sign='2').order_by('-created_at')
+
+
+    staging_c = Common_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=True).order_by('-created_at')
+    digital_sign_c = Common_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=False).order_by('-created_at')
+    employees_letter_archives_c = Common_Letter.objects.filter(Q(type_sign='2') | (Q(type_sign='1') & ~Q(digital_sign_at__isnull=True))).order_by('-created_at')[:5]
+    manual_sign_c = Common_Letter.objects.filter(type_sign='2').order_by('-created_at')
 
     context = {
         'staging_scs': staging_scs, 
@@ -422,8 +428,13 @@ def request_queue(request):
         
         'staging_ecs': staging_ecs, 
         'digital_sign_ecs': digital_sign_ecs, 
-        'students_letter_archives_ecs': students_letter_archives_ecs, 
-        'manual_sign_ecs': manual_sign_ecs
+        'employees_letter_archives_ecs': employees_letter_archives_ecs, 
+        'manual_sign_ecs': manual_sign_ecs,
+
+        'staging_c': staging_c,
+        'digital_sign_c': digital_sign_c,
+        'employees_letter_archives_c': employees_letter_archives_c,
+        'manual_sign_c': manual_sign_c,
         }
     
     return render(request, 'administration/request_queue/request_queue.html', context)
