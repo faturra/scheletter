@@ -56,7 +56,7 @@
                       {% csrf_token %}
                       <div class="d-grid gap-2 d-md-flex justify-content-md-between">
                         <a href="{% url 'cancel-destroy-process-sl' archive_id=archive.letter_id %}" class="btn btn-dark" onclick="return confirm('Are you sure you want to cancel the archive:\n\n[{{archive.get_letter_type_display}}]\n{{archive.student_name}} {{archive.student_nisn}}\n{{archive.number}}');">Cancel</a>
-                        <a href="{% url 'generate-pdf' letter_id=archive.letter_id %}" class="btn btn-light text-primary" target="_blank"><i class="bi bi-box-arrow-up-right"></i>&nbsp;Check</a>
+                        <a href="{% url 'generate-pdf-sl' letter_id=archive.letter_id %}" class="btn btn-light text-primary" target="_blank"><i class="bi bi-box-arrow-up-right"></i>&nbsp;Check</a>
                         <a href="#" class="btn btn-danger btn-destroy" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-archive-number="{{ archive.number }}" data-bs-target="#staticBackdrop">Destroy</a>
                       </div>
                     </form>
