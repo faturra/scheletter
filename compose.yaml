@@ -1,8 +1,0 @@
-services:
-  web:
-    container_name: scheletter
-    build: .
-    volumes:
-      - .:/app
-    ports: 
-      - 8080:8080

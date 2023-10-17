@@ -1,9 +1,0 @@
-Django==3.2.6
-requests==2.26.0
-django-crispy-forms
-crispy-bootstrap5
-django-bootstrap-datepicker-plus
-xhtml2pdf
-geocoder
-ipinfo
-qrcode[pil]
