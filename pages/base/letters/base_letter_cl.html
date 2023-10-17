@@ -1,0 +1,182 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+  <head>
+    <!-- Custom Style -->
+    <style>
+      h1 {
+        text-align: center;
+        }
+      h2 {
+        text-align: center;
+        }
+      h3 {
+        text-align: center;
+        }
+      h1.small {
+        line-height: 1.5;
+        }
+      h2.small {
+        line-height: 1.5;
+        }
+      h3.small {
+        line-height: 1.5;
+        }
+      p.small1 {
+        line-height: 1.5;
+        }
+      p.small2 {
+        line-height: 2.0;
+        }
+      p.small3 {
+        line-height: 3.0;
+        }
+      p.center {
+        text-align: center;
+      }
+      p.tab1{
+        padding-left:5.7em
+      }
+      p.tab2{
+        padding-left:10em
+      }
+      p.tab3{
+        padding-left:15em
+      }
+      p.tab4{
+        padding-left:20em
+      }
+      p.tab5{
+        padding-left:25em
+      }
+      .behind-text{
+        position: relative;
+        text-align: left;
+        color: white;
+      }
+      .fs-12{
+        font-size: 12pt;
+      }
+      .fs-14{
+        font-size: 14pt;
+      }
+      .mt-0{
+        margin-top: 0px;
+      }
+      .mt-1{
+        margin-top: 10px;
+      }
+      .mt-1s{
+        margin-top: 15px;
+      }
+      .mt-2{
+        margin-top: 20px;
+      }
+      .mt-3{
+        margin-top: 30px;
+      }
+      .mt-4{
+        margin-top: 40px;
+      }
+      .mb-0{
+        margin-bottom: 0px;
+      }
+      .mb-1{
+        margin-bottom: 10px;
+      }
+      .mb-2{
+        margin-bottom: 20px;
+      }
+      .mb-3{
+        margin-bottom: 30px;
+      }
+      .mb-4{
+        margin-bottom: 40px;
+      }
+      .lh-normal{
+        line-height: normal;
+      }
+      .lh-1{
+        line-height: 1.0;
+      }
+      .lh-2{
+        line-height: 2.0;
+      }
+      .text-center{
+        text-align: center;
+      }
+      #jayaraya_logo {
+        position: absolute;
+        width: 75px;
+        height: 86px;
+      }
+      #signature {
+        position: absolute;
+        width: 52px;
+        height: 52px;
+        padding: 60px;
+      }
+      #details_kop {
+        margin-top: -500px;
+        font-size: larger;
+      }
+      #header_kop{
+        margin-bottom: 0px;
+        margin-top: 10pt;
+        font-size: 13pt;
+      }
+      #footer_cipta{
+        margin-top: 128px;
+      }
+      #title_surat{
+        margin-top: 25px;
+      }
+      #table_jadwal{
+        border: 0.5px solid black;
+        height: 50px;
+        border-collapse: collapse;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      #tb_signator{
+        margin-top: 0px;
+        margin-bottom: 10px;
+      }
+      #tb_student{
+        margin-top: 0px;
+        margin-bottom: 10px;
+      }
+    </style>
+    
+    {% block title %}{% endblock title %}
+  </head>
+  <br>
+  <table>
+    <tr>
+      <td>
+      </td>
+      <td width=80%>
+        <div class="small1">
+          <h1>
+            <img id="jayaraya_logo" src="static/assets/letters/img/jaya_raya_bw.png">
+            <div class="lh-normal fs-12 mt-2">{{ letter.digital_sign_institution }}</div>
+            <div class="mb-1 fs-12">DINAS PENDIDIKAN PROVINSI DAERAH KHUSUS IBUKOTA JAKARTA</div>
+            <div class="lh-normal fs-14">SURAT UNDANGAN</div>
+          </h1>
+          <div class="lh-normal fs-12 mt-2 text-center">NOMOR {{ letter.number }}</div>
+          <div class="lh-normal fs-12 mt-1s text-center">TENTANG</div>
+          <div class="fs-12 mt-1s text-center">{{ letter.subject|upper }}</div>
+        </div> 
+      </td>
+      <td></td>
+    </tr>
+  </table>
+  <body>
+    <div>
+      {% block content %}
+      {% endblock %}
+    </div>
+    {% block footer %}
+    {% endblock %}
+  </body>
+</html>

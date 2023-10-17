@@ -1,87 +1,82 @@
-{% extends "base/letters/base_letter.html" %}
+{% extends "base/letters/base_letter_el.html" %}
 {% block title %}
-<title>Surat Keterangan</title>
+<title>Surat Tugas</title>
 {% endblock %}
 {% block content %}
 <br>
-<p class="tab2 lh-normal fs-12">Yang bertanda tangan di bawah ini :</p>
-<table id="tb_signator" class="fs-12">
+<table>
+    <td width="13%"></td>
+    <td><p class="lh-1s fs-12">{{ letter.body_opening }}</p></td>
+    <td width="13%"></td>
+</table>
+<p class="text-center fs-12">MENUGASKAN:</p>
+<table id="tb_employee" class="fs-12">
     <tr>
         <td width=13%></td>
-        <td>Nama</td>
+        <td width="20%">Kepada</td>
         <td width=1%>:</td>
-        <td>{{ letter.digital_sign_by_name|upper }}</td>
+        <td>{{ letter.employee_name|upper }}</td>
     </tr>
     <tr>
         <td></td>
-        <td>NIP</td>
-        <td width=1%>:</td>
-        <td> _nip</td>
     </tr>
     <tr>
         <td></td>
-        <td width=20%>Jabatan</td>
-        <td width=1%>:</td>
-        <td>{% if letter.digital_sign_job_title == 'Principal' %}Kepala Sekolah{% endif %}</td>
     </tr>
     <tr>
         <td></td>
-        <td>Unit Kejra</td>
+        <td>Untuk</td>
         <td width=1%>:</td>
-        <td>{{ letter.digital_sign_institution }}</td>
+        <td></td>
     </tr>
 </table>
-<p class="tab1 lh-normal fs-12 mb-2">dengan ini menerangkan bahwa :</p>
-<table id="tb_student" class="fs-12">
-    <tr>
-        <td width=13%></td>
-        <td>Nama</td>
-        <td width=1%>:</td>
-        <td>{{ letter.student_name }}</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Jenis Kelamin</td>
-        <td width=1%>:</td>
-        <td>
-            {% if letter.student_gender == 'L' or letter.student_gender == '1' %}
-            Laki-laki
-            {% elif letter.student_gender == 'P' or letter.student_gender == '2' %}
-            Perempuan
-            {% else %}
-            -
-            {% endif %}
-        </td>
-    </tr>
-    <tr>
-        <td></td>
-        <td width=20%>Tempat, tgl lahir</td>
-        <td width=1%>:</td>
-        <td>{{ letter.student_place_of_birth }}, {{ letter.student_date_of_birth|date:"d F Y" }}</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>NISN</td>
-        <td width=1%>:</td>
-        <td>{{ letter.student_nisn }}</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Rombel</td>
-        <td width=1%>:</td>
-        <td>{{ letter.student_class }}</td>
-    </tr>
-</table>
-<p class="tab1 lh-normal fs-12">{{ letter.body }}</p>
 <br>
-<p class="tab2 lh-normal fs-12">Keterangan ini dibuat untuk dipergunakan sebagaimana mestinya.</p>
+<table>
+    <td width="13%"></td>
+    <td><p class="lh-1s fs-12">{{ letter.body_purpose }}</p></td>
+    <td width="13%"></td>
+</table>
+<br>
+<table id="tb_event" class="fs-12">
+    <tr>
+        <td width=13%></td>
+        <td>Hari</td>
+        <td width=1%>:</td>
+        <td>{{ letter.date_start|date:"D" }} s.d. {{ letter.date_end|date:"D" }}</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>Tanggal</td>
+        <td width=1%>:</td>
+        <td>{{ letter.date_start|date:"d F" }} s.d. {{ letter.date_end|date:"d F Y" }}</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>Waktu</td>
+        <td width=1%>:</td>
+        <td>Pukul {{ letter.time_start }} s.d. {{ letter_time_end }} WIB</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td width=20%>Tempat</td>
+        <td width=1%>:</td>
+        <td>{{ letter.place_address }}</td>
+    </tr>
+</table>
+<br>
+<table>
+    <td width="13%"></td>
+    <td><p class="lh-1s fs-12">{{ letter.body_purpose }}</p></td>
+    <td width="13%"></td>
+</table>
 <br>
 <table>
     <tr>
         <td></td>
         <td width=20%></td>
         <td class="fs-12">
-            <div class="lh-normal">Jakarta, {{ letter.digital_sign_at|date:"d F Y" }}</div>
+            <div class="lh-1s">Dikeluarkan di <i>Jakarta</i></div>
+            <div class="lh-1s">Pada tanggal {{ letter.digital_sign_at|date:"d F Y" }}</div>
             <div>Kepala {{ letter.digital_sign_institution }}</div>
             {% if letter.qr_code_base64 %}
             <img src="data:image/png;base64,{{ letter.qr_code_base64 }}" width="90px" height="90px" alt="QR Code {{ letter.number }}">
