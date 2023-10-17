@@ -1,7 +1,7 @@
 {% load static %}
 {% if messages %}
 {% for message in messages %}
-<div class="fixed-bottom container-fluid mb-4">
+<div class="fixed-bottom container-fluid px-4 mb-4">
   <div class="alert alert-{% if message.tags == 'error' %}danger{% elif message.tags == 'info' %}primary{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show d-flex align-items-center shadow animate__animated animate__bounceInUp" role="alert">
       <i class="bi-check-circle-fill"></i>
       <div>
@@ -26,7 +26,7 @@ setTimeout(function() {
 {% endfor %}
 {% endif %}
 <div class="bg-white">
-  <footer class="container fixed-bottom">
+  <footer class="container-fluid fixed-bottom">
     <div class="d-flex">
       <div><span class="small text-muted">&copy;&nbsp;{% now "Y" %}&nbsp;faturrachmanmochammad.id</span></div>
       <div class="ms-auto small text-muted">v.1.0.0</div>

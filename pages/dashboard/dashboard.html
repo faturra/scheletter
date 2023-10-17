@@ -218,6 +218,7 @@
                         </tr>
                       </tbody>
                     </table>
+                    <span class="ms-2"><small>Data Version: {{ data_version }}</small>&nbsp;<i class="bi bi-check2-circle text-primary"></i></span>
                   </div>
                 </div>
               </div>
@@ -344,12 +345,12 @@
                         </tr>
                       </thead>
                       <tbody>
-                        {% if request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Principal' or user.is_superuser %}
+                        {% if request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Principal' or request.user.groups.first.name == 'Operator' or user.is_superuser %}
                         <tr>
                           <td colspan="5" class="fw-semibold border-bottom">Student Letter&nbsp;<span class="text-muted fw-normal">Last created&nbsp;{% for ts in lc_timesince_sl %}{{ ts.created_at|timesince }}&nbsp;ago{% endfor %}</span></td>
                         </tr>
                         {% endif %}
-                        {% if request.user.groups.first.name == "Student Correspondence Staff" or request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Principal' or user.is_superuser  %}
+                        {% if request.user.groups.first.name == "Student Correspondence Staff" or request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Principal' or request.user.groups.first.name == 'Operator' or user.is_superuser  %}
                         {% for item in last_created_sl %}
                         <tr>
                           <th scope="row">{{ forloop.counter }}</th>
@@ -378,8 +379,8 @@
                         </tr>
                       </tfoot>
                       {% endif %}
-                      {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Principal' or user.is_superuser %}  
-                      {% if request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Principal' or user.is_superuser %}
+                      {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Principal' or request.user.groups.first.name == 'Operator' or user.is_superuser %}  
+                      {% if request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Principal' or request.user.groups.first.name == 'Operator' or user.is_superuser %}
                         <tr>
                           <td colspan="5" class="fw-semibold border-bottom">Employee Letter&nbsp;<span class="text-muted fw-normal">Last created&nbsp;{% for ts in lc_timesince_el %}{{ ts.created_at|timesince }}&nbsp;ago{% endfor %}</span></td>
                         </tr>
@@ -428,8 +429,8 @@
                         </tr>
                       </thead>
                       <tbody>
-                        {% if request.user.groups.first.name == "Student Correspondence Staff" or request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Principal' or user.is_superuser%}
-                        {% if request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Principal' or user.is_superuser %}
+                        {% if request.user.groups.first.name == "Student Correspondence Staff" or request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Principal' or request.user.groups.first.name == 'Operator' or user.is_superuser%}
+                        {% if request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Principal' or request.user.groups.first.name == 'Operator' or user.is_superuser %}
                         <tr>
                           <td colspan="5" class="fw-semibold border-bottom">Student Letter&nbsp;<span class="text-muted fw-normal">Last signed&nbsp;{% for ts in ld_timesince_sl %}{{ ts.digital_sign_at|timesince }}&nbsp;ago{% endfor %}</span></td>
                         </tr>
@@ -458,8 +459,8 @@
                       </tfoot>
                       {% endif %}
                       {% endif %}
-                        {% if request.user.groups.first.name == "Employee Correspondence Staff" or request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Principal' or user.is_superuser %}
-                        {% if request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Principal' or user.is_superuser %}
+                        {% if request.user.groups.first.name == "Employee Correspondence Staff" or request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Principal' or request.user.groups.first.name == 'Operator' or user.is_superuser %}
+                        {% if request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Principal' or request.user.groups.first.name == 'Operator' or user.is_superuser %}
                         <tr>
                           <td colspan="5" class="fw-semibold border-bottom">Employee Letter&nbsp;<span  class="text-muted fw-normal">Last signed&nbsp;{% for ts in ld_timesince_el %}{{ ts.digital_sign_at|timesince }}&nbsp;ago{% endfor %}</span></td>
                         </tr>

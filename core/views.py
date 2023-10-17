@@ -17,7 +17,7 @@ from django.core.cache import cache
 from django.template.loader import get_template
 from django.utils import timezone
 from xhtml2pdf import pisa
-# from integrations.data import cache.get('dapodik_school'), cache.get('dapodik_employees'), cache.get('dapodik_students')
+from integrations.models import Integrations
 from letter.models import Students_Letter, Employees_Letter, Common_Letter
 from core import config
 from datetime import datetime
@@ -121,6 +121,8 @@ def dashboard(request):
     count_staging_ecs = staging_ecs.count()
     count_staging_hoa = count_staging_scs + count_staging_ecs
 
+    data_version = Integrations.objects.get().updated_at
+
     context = {
         'school_info': school_info, 
         'count_emp': count_emp, 
@@ -144,6 +146,7 @@ def dashboard(request):
         'count_staging_scs': count_staging_scs,
         'count_staging_ecs': count_staging_ecs,
         'count_staging_hoa': count_staging_hoa,
+        'data_version': data_version,
         }
     return render(request, 'dashboard/dashboard.html', context)
 

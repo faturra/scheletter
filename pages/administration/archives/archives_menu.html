@@ -5,30 +5,30 @@
         <div class="accordion-item">
           <h2 class="accordion-header">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                <span class="bi bi-folder"></span>&nbsp;Commons
+                <span class="bi bi-folder"></span>&nbsp;Common
             </button>
           </h2>
           <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
             <div class="accordion-body">
-                {% if commons_letter_archives %}
-              <table id="tb_employee_archives" class="table table-hover text-truncate">
+                {% if common_letter_archives %}
+              <table id="tb_common_archives" class="table table-hover text-truncate">
                   <thead>
-                      <tr>
-                          <th scope="col">#</th>
-                          <th scope="col"><i class="bi bi-box-arrow-up-right"></i></th>
-                          <th scope="col">Number</th>
-                          <th scope="col">Regarding</th>
-                          <th scope="col">Name</th>
-                          <th scope="col">Class</th>
-                          <th scope="col">NISN</th>
-                          <th scope="col">Signed at</th>
-                          <th scope="col">Signed by</th>
-                          <th scope="col">Job title</th>
-                          <th scope="col">Institution</th>
-                      </tr>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">&nbsp;&nbsp;<i class="bi bi-printer"></i></th>
+                        <th scope="col">Number</th>
+                        <th scope="col">Regarding</th>
+                        <th scope="col">Event Name</th>
+                        <th scope="col">Place</th>
+                        <th scope="col">Invitation</th>
+                        <th scope="col">Signed at</th>
+                        <th scope="col">Signed by</th>
+                        <th scope="col">Job title</th>
+                        <th scope="col">Institution</th>
+                    </tr>
                   </thead>
                   <tbody>
-                      {% for item in commons_letter_archives %}
+                      {% for item in common_letter_archives %}
                       <tr>
                           <th scope="row">{{ forloop.counter }}</th>
                           <td><a href="{% url 'generate-pdf-cl' letter_id=item.letter_id %}" class="btn btn-sm btn-light" target="_blank"><i class="bi bi-box-arrow-up-right"></i>&nbsp;Check</a></td>
