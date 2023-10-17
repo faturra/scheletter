@@ -99,18 +99,18 @@ def dashboard(request):
 
     count_rtd = Students_Letter.objects.filter(is_selected_to_destroy=True).count
 
-    last_created_sl = Students_Letter.objects.order_by('-created_at')[:3]
-    letter_done_sl = Students_Letter.objects.exclude(digital_sign_at__isnull=True).order_by('-digital_sign_at')[:3]
+    last_created_sl = Students_Letter.objects.filter(digital_sign_at__isnull=True).order_by('-created_at')[:3]
+    letter_done_sl = Students_Letter.objects.filter(digital_sign_at__isnull=False).order_by('-digital_sign_at')[:3]
     lc_timesince_sl = Students_Letter.objects.order_by('-created_at')[:1]
     ld_timesince_sl = Students_Letter.objects.order_by('-digital_sign_at')[:1]
 
-    last_created_el = Employees_Letter.objects.order_by('-created_at')[:3]
-    letter_done_el = Employees_Letter.objects.exclude(digital_sign_at__isnull=True).order_by('-digital_sign_at')[:3]
+    last_created_el = Employees_Letter.objects.filter(digital_sign_at__isnull=True).order_by('-created_at')[:3]
+    letter_done_el = Employees_Letter.objects.filter(digital_sign_at__isnull=False).order_by('-digital_sign_at')[:3]
     lc_timesince_el = Employees_Letter.objects.order_by('-created_at')[:1]
     ld_timesince_el = Employees_Letter.objects.order_by('-digital_sign_at')[:1]
 
     last_created_cl = Common_Letter.objects.order_by('-created_at')[:3]
-    letter_done_cl = Common_Letter.objects.exclude(digital_sign_at__isnull=True).order_by('-digital_sign_at')[:3]
+    letter_done_cl = Common_Letter.objects.filter(digital_sign_at__isnull=False).order_by('-digital_sign_at')[:3]
     lc_timesince_cl = Common_Letter.objects.order_by('-created_at')[:1]
     ld_timesince_cl = Common_Letter.objects.order_by('-digital_sign_at')[:1]
 
