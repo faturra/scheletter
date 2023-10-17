@@ -182,7 +182,7 @@
                             {% for item in employees_digital_sign_applied_ecs %}
                             <tr>
                                 <th scope="row">{{ forloop.counter }}</th>
-                                <td><a href="{% url 'generate-pdf-el' letter_id=item.letter_id %}" class="btn btn-sm  btn-light text-primary" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a></td>
+                                <td><a href="{% url 'generate-pdf-el' letter_id=item.letter_id %}" class="btn btn-sm  btn-light text-primary" target="_blank"><i class="bi bi-printer"></i></a></td>
                                 <td>{{ item.number }}</td>
                                 <td>{{ item.subject }}</td>
                                 <td>{{ item.employee_name }}</td>
@@ -371,7 +371,7 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col"><i class="bi bi-box-arrow-up-right"></i></th>
+                                <th scope="col">&nbsp;&nbsp;<i class="bi bi-printer"></i></th>
                                 <th scope="col">Number</th>
                                 <th scope="col">Regarding</th>
                                 <th scope="col">Name</th>
@@ -387,7 +387,7 @@
                             {% for item in students_letter_archives_scs %}
                             <tr>
                                 <th scope="row">{{ forloop.counter }}</th>
-                                <td><a href="{% url 'generate-pdf-sl' letter_id=item.letter_id %}" class="btn btn-sm  btn-light text-primary" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a></td>
+                                <td><a href="{% url 'generate-pdf-sl' letter_id=item.letter_id %}" class="btn btn-sm  btn-light text-primary" target="_blank"><i class="bi bi-printer"></i></a></td>
                                 <td>{{ item.number }}</td>
                                 <td>{{ item.subject }}</td>
                                 <td>{{ item.student_name }}</td>
@@ -573,7 +573,7 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col"><i class="bi bi-box-arrow-up-right"></i></th>
+                                <th scope="col">&nbsp;&nbsp;<i class="bi bi-printer"></i></th>
                                 <th scope="col">Number</th>
                                 <th scope="col">Regarding</th>
                                 <th scope="col">Name</th>
@@ -589,7 +589,7 @@
                             {% for item in students_digital_sign_applied_scs %}
                             <tr>
                                 <th scope="row">{{ forloop.counter }}</th>
-                                <td><a href="{% url 'generate-pdf-cl' letter_id=item.letter_id %}" class="btn btn-sm  btn-light text-primary" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a></td>
+                                <td><a href="{% url 'generate-pdf-cl' letter_id=item.letter_id %}" class="btn btn-sm  btn-light text-primary" target="_blank"><i class="bi bi-printer"></i></a></td>
                                 <td>{{ item.number }}</td>
                                 <td>{{ item.subject }}</td>
                                 <td>{{ item.student_name }}</td>

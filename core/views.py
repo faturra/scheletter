@@ -109,8 +109,14 @@ def dashboard(request):
     lc_timesince_el = Employees_Letter.objects.order_by('-created_at')[:1]
     ld_timesince_el = Employees_Letter.objects.order_by('-digital_sign_at')[:1]
 
+    last_created_cl = Common_Letter.objects.order_by('-created_at')[:3]
+    letter_done_cl = Common_Letter.objects.exclude(digital_sign_at__isnull=True).order_by('-digital_sign_at')[:3]
+    lc_timesince_cl = Common_Letter.objects.order_by('-created_at')[:1]
+    ld_timesince_cl = Common_Letter.objects.order_by('-digital_sign_at')[:1]
+
     staging_scs = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=True).order_by('-created_at')
     staging_ecs = Employees_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=True).order_by('-created_at')
+    staging_c = Common_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=True).order_by('-created_at')
     count_staging_scs = staging_scs.count()
     count_staging_ecs = staging_ecs.count()
     count_staging_hoa = count_staging_scs + count_staging_ecs
@@ -131,6 +137,10 @@ def dashboard(request):
         'letter_done_el': letter_done_el,
         'lc_timesince_el': lc_timesince_el,
         'ld_timesince_el': ld_timesince_el,
+        'last_created_cl': last_created_cl,
+        'letter_done_cl': letter_done_cl,
+        'lc_timesince_cl': lc_timesince_cl,
+        'ld_timesince_cl': ld_timesince_cl,
         'count_staging_scs': count_staging_scs,
         'count_staging_ecs': count_staging_ecs,
         'count_staging_hoa': count_staging_hoa,
