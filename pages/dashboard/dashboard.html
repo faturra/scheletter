@@ -177,6 +177,46 @@
                   </div>
                 </div>
               </div>
+              {% if school_info.nama %}
+              <div class="card border border-0 mb-3">
+                <div class="card-body-none">
+                  <div class="mb-3">
+                    <h4 class="fw-normal">Institution Information</h4>
+                    <!-- <h5 class="fw-light text-muted"><span class="bi "></span>&nbsp;Administration</h5> -->
+                  </div>
+                  <div class="mb-3">
+                  </div>
+                  <div class="card card-body border-0 shadow-sm">
+                    <table class="table">
+                      <tbody>
+                        <tr>
+                          <td class="fw-semibold">Name</td>
+                          <td>{{ school_info.nama|default_if_none:'Please check integration settings' }}</td>
+                        </tr>
+                          <td class="fw-semibold">NSS / NPSN</td>
+                          <td>{{ school_info.nss|default:"" }} / {{ school_info.npsn|default_if_none:'Please check integration settings' }}</td>
+                        </tr>
+                          <td class="fw-semibold">Address</td>
+                          <td>{{ school_info.alamat_jalan|default_if_none:'Please check integration settings' }}</td>
+                        </tr>
+                          <td class="fw-semibold">District / Sub</td>
+                          <td>{{ school_info.kecamatan|default_if_none:'' }} / Kel. {{ school_info.desa_kelurahan|default_if_none:'Please check integration settings' }}</td>
+                        </tr>
+                          <td class="fw-semibold">Level</td>
+                          <td>{{ school_info.bentuk_pendidikan_id_str|default_if_none:'Please check integration settings' }}</td>
+                        </tr>
+                          <td class="fw-semibold">Status</td>
+                          <td>{{ school_info.status_sekolah_str|default_if_none:'Please check integration settings' }}</td>
+                        </tr>
+                          <td class="fw-semibold">Province</td>
+                          <td>{{ school_info.provinsi|default_if_none:'Please check integration settings' }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              {% endif %}
             </div>
             <div class="col-sm-6">
               <div class="card border border-0 mb-3">
