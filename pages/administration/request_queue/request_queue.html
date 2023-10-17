@@ -443,7 +443,7 @@
             </ul>
             <div class="tab-content" id="request-queue-a">
                 <div class="tab-pane fade show active" id="request-queue-active-pane" role="tabpanel" aria-labelledby="request-queue-active" tabindex="0">
-                    {% if staging_scs %}
+                    {% if staging_c %}
                     <table id="tb_staging_c" class="table table-borderless table-borderless table-hover text-truncate">
                         <thead>
                             <tr>
@@ -453,17 +453,18 @@
                                 {% endif %}
                                 <th scope="col">Number</th>
                                 <th scope="col">Regarding</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Class</th>
-                                <th scope="col">L/P</th>
-                                <th scope="col">NISN</th>
+                                <th scope="col">Event Name</th>
+                                <th scope="col">Place</th>
+                                <th scope="col">Invitation</th>
+                                <th scope="col">Date Start/End</th>
+                                <th scope="col">Time Start/End</th>
                                 <th scope="col">Letter type</th>
                                 <th scope="col">Type sign</th>
                                 <th scope="col">Date</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for item in staging_scs %}
+                            {% for item in staging_c %}
                             <tr>
                                 <th scope="row">{{ forloop.counter }}</th>
                                 {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
@@ -476,10 +477,11 @@
                                 {% endif %}
                                 <td>{{ item.number }}</td>
                                 <td>{{ item.subject }}</td>
-                                <td>{{ item.student_name }}</td>
-                                <td>{{ item.student_class }}</td>
-                                <td>{{ item.student_gender }}</td>
-                                <td>{{ item.student_nisn }}</td>
+                                <td>{{ item.event_name }}</td>
+                                <td>{{ item.place_address }}</td>
+                                <td>{{ item.dear_invitation }}</td>
+                                <td>{{ item.date_start }} - {{ item.date_end }}</td>
+                                <td>{{ item.time_start }} - {{ item.time_end }}</td>
                                 <td>{{ item.get_letter_type_display }}</td>
                                 <td>{{ item.get_type_sign_display }}</td>
                                 <td>{{ item.created_at }}</td>
@@ -508,7 +510,7 @@
             </ul>
             <div class="tab-content" id="request-queue-b">
                 <div class="tab-pane fade show active" id="letter-pending-pane" role="tabpanel" aria-labelledby="letter-pending" tabindex="0">
-                    {% if digital_sign_scs %}
+                    {% if digital_sign_c %}
                     <table id="tb_waiting_sign_c" class="table table-borderless table-borderless table-hover text-truncate">
                         <thead>
                             <tr>
@@ -518,17 +520,18 @@
                                 {% endif %}
                                 <th scope="col">Number</th>
                                 <th scope="col">Regarding</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Class</th>
-                                <th scope="col">L/P</th>
-                                <th scope="col">NISN</th>
+                                <th scope="col">Event Name</th>
+                                <th scope="col">Place</th>
+                                <th scope="col">Invitation</th>
+                                <th scope="col">Date Start/End</th>
+                                <th scope="col">Time Start/End</th>
                                 <th scope="col">Letter type</th>
                                 <th scope="col">Type sign</th>
                                 <th scope="col">Date</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for item in digital_sign_scs %}
+                            {% for item in digital_sign_c %}
                             <tr>
                                 <th scope="row">{{ forloop.counter }}</th>
                                 {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
@@ -536,10 +539,11 @@
                                 {% endif %}
                                 <td>{{ item.number }}</td>
                                 <td>{{ item.subject }}</td>
-                                <td>{{ item.student_name }}</td>
-                                <td>{{ item.student_class }}</td>
-                                <td>{{ item.student_gender }}</td>
-                                <td>{{ item.student_nisn }}</td>
+                                <td>{{ item.event_name }}</td>
+                                <td>{{ item.place_address }}</td>
+                                <td>{{ item.dear_invitation }}</td>
+                                <td>{{ item.date_start }} - {{ item.date_end }}</td>
+                                <td>{{ item.time_start }} - {{ item.time_end }}</td>
                                 <td>{{ item.get_letter_type_display }}</td>
                                 <td>{{ item.get_type_sign_display }}</td>
                                 <td>{{ item.created_at }}</td>
@@ -568,7 +572,7 @@
             </ul>
             <div class="tab-content" id="request-queue-c">
                 <div class="tab-pane fade show active" id="letter-done-pane" role="tabpanel" aria-labelledby="letter-done" tabindex="0">
-                    {% if students_digital_sign_applied_scs %}
+                    {% if employees_letter_archives_c %}
                     <table id="tb_request_queue_c" class="table table-borderless table-borderless table-hover text-truncate">
                         <thead>
                             <tr>
@@ -576,9 +580,9 @@
                                 <th scope="col">&nbsp;&nbsp;<i class="bi bi-printer"></i></th>
                                 <th scope="col">Number</th>
                                 <th scope="col">Regarding</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Class</th>
-                                <th scope="col">NISN</th>
+                                <th scope="col">Event Name</th>
+                                <th scope="col">Place</th>
+                                <th scope="col">Invitation</th>
                                 <th scope="col">Signed at</th>
                                 <th scope="col">Signed by</th>
                                 <th scope="col">Job title</th>
@@ -586,15 +590,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for item in students_digital_sign_applied_scs %}
+                            {% for item in employees_letter_archives_c %}
                             <tr>
                                 <th scope="row">{{ forloop.counter }}</th>
                                 <td><a href="{% url 'generate-pdf-cl' letter_id=item.letter_id %}" class="btn btn-sm  btn-light text-primary" target="_blank"><i class="bi bi-printer"></i></a></td>
                                 <td>{{ item.number }}</td>
                                 <td>{{ item.subject }}</td>
-                                <td>{{ item.student_name }}</td>
-                                <td>{{ item.student_class }}</td>
-                                <td>{{ item.student_nisn }}</td>
+                                <td>{{ item.event_name }}</td>
+                                <td>{{ item.place_address }}</td>
+                                <td>{{ item.dear_invitation }}</td>
                                 <td>{{ item.digital_sign_at }}</td>
                                 <td>{{ item.digital_sign_by_name }}</td>
                                 <td>{{ item.digital_sign_job_title }}</td>
