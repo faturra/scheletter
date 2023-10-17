@@ -1,0 +1,119 @@
+/* Background-image */
+.index-bg {
+    background-image: url('/static/assets/img/index/index_bg.jpeg');
+    background-repeat: no-repeat; 
+    background-attachment: fixed; 
+    background-position: left;
+
+}
+.index-bg-01 {
+    background-image: url('https://spontaneousorder.in/wp-content/uploads/2020/08/education-illustrations-10.png'); 
+    background-repeat: no-repeat; 
+    background-attachment: fixed; 
+    background-position: top;
+}
+.index-bg-02 {
+    background-image: url('https://www.creativefabrica.com/wp-content/uploads/2020/07/10/Elearning-online-education-at-home-Graphics-4584517-1.jpg'); 
+    background-repeat: no-repeat; 
+    background-attachment: fixed; 
+    background-position: top;
+}
+.index-bg-03 {
+    background-image: url('https://www.creativefabrica.com/wp-content/uploads/2020/07/10/Elearning-online-education-at-home-Graphics-4584492-1.jpg'); 
+    background-repeat: no-repeat; 
+    background-attachment: fixed; 
+    background-position: top;
+}
+.index-bg-04 {
+    background-image: url('https://www.creativefabrica.com/wp-content/uploads/2020/07/10/Elearning-online-education-at-home-Graphics-4584493-1.jpg'); 
+    background-repeat: no-repeat; 
+    background-attachment: fixed; 
+    background-position: top;
+}
+.index-bg-05 {
+    background-image: url('https://static.vecteezy.com/system/resources/previews/013/374/238/original/modern-colorful-wavy-line-background-design-white-wave-curve-abstract-background-for-business-landing-page-flyers-and-website-vector.jpg'); 
+    background-repeat: no-repeat; 
+    background-attachment: fixed; 
+    background-position: top;
+}
+
+.bg-sch-01 {
+    background-image: url('https://i.pinimg.com/originals/ae/5a/e1/ae5ae16a1f8bdad663c96a699d91e646.jpg'); 
+    background-repeat: no-repeat; 
+    background-attachment: fixed; 
+    background-position: right;
+}
+
+
+/* Background-color */
+.bg-wiretap {
+    background: #8A2387;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #F27121, #E94057, #8A2387);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #F27121, #E94057, #8A2387); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.bg-scooter {
+    background: #36D1DC;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #5B86E5, #36D1DC);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #5B86E5, #36D1DC); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.bg-asteroid {
+    background: #0F2027;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #2C5364, #203A43, #0F2027); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.bg-dancetf {
+    background: #FF4E50;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #F9D423, #FF4E50);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #F9D423, #FF4E50); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */    
+}
+
+.bg-turboscent {
+    background: #F1F2B5;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #135058, #F1F2B5);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #135058, #F1F2B5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.bg-moss {
+    background: #134E5E;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #71B280, #134E5E);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #71B280, #134E5E); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+
+/* Loading Bar */
+/* #loading-bar {
+    width: 0;
+    height: 3px;
+    background: #8A2387;
+    background: -webkit-linear-gradient(to right, #F27121, #E94057, #8A2387);
+    background: linear-gradient(to right, #F27121, #E94057, #8A2387);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    transition: width 0.2s ease;
+  }
+  
+  .loaded {
+    width: 100%;
+    transition: width 0.2s ease, opacity 0.5s ease-out;
+    opacity: 0;
+    pointer-events: none;
+  }
+   */
+
+   #loading-bar {
+    width: 100%;
+    height: 3px;
+    background: #8A2387;
+    background: -webkit-linear-gradient(to right, #F27121, #E94057, #8A2387);
+    background: linear-gradient(to right, #F27121, #E94057, #8A2387);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    display: none; /* sembunyikan loading bar secara default */
+}

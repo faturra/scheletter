@@ -1,0 +1,19 @@
+{% extends 'base/common/base.html' %}
+{% block title%}Access denied{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <section class="pt-5 mb-4">
+        <div class="my-3">
+            <div class="position-relative text-center">
+                <h1 class=""><span class="bi bi-x-circle-fill"></span>&nbsp;Access denied</h1>
+                <p class="col-lg-6 mx-auto mb-4">
+                    You don't have permission to access this page
+                </p>
+                <a href="{% url 'dashboard' %}" class="btn btn-dark mb-5">
+                    Go to dashboard
+                </a>
+            </div>
+          </div>
+    </section>
+</div>
+{% endblock %}

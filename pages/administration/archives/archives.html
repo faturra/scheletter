@@ -1,0 +1,18 @@
+{% extends 'base/common/base.html' %}
+{% load static %}
+{% block title%}Archives{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <section class="pt-5 mb-4">
+        <div class="mb-3">
+            <h1 class=""><span class="bi bi-archive"></span>&nbsp;Archives</h1>
+        </div>
+        <div>
+            <p class="lead">List of letter archives</p>
+        </div>
+    </section>
+    <section class="card p-2 border-0 shadow-sm">
+        {% include 'administration/archives/archives_menu.html' %}
+    </section>
+</div>
+{% endblock %}

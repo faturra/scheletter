@@ -1,0 +1,352 @@
+{% extends 'base/common/base.html' %}
+{% load static %}
+{% block title%}Dashboard{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <section class="pt-5 mb-4">
+      <div class="mb-3">
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="card border border-0">
+              <div class="card-body-none">
+                <div class="mb-3">
+                  <h1 class=""><span class="bi bi-buildings"></span>&nbsp;Welcome</h1>
+                </div>
+                <div>
+                  {% if school_info.nama %}<p class="lead">You're working in&nbsp;<span class="text-primary">{{school_info.nama|default_if_none:'Please check integration settings'}}{% else %}<i class="bi bi-exclamation-circle"></i>&nbsp;Integration is not set</span></p>{% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="card border border-0">
+              <div class="card-body-none">
+                <h1><span class="bi bi-person-check text-white"></span></h1>
+                <p class="lead"><i class="bi bi-person-fill"></i>&nbsp;{{ request.user.get_full_name}}&nbsp;<span class="badge bg-primary">{% if request.user.groups.first.name %}{{ request.user.groups.first.name }}{% else %}Undefined Role{% endif %}{% if user.is_superuser %}&nbsp;-&nbsp;Super User{% endif %}</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="mb-5">
+      <div class="row row-cols-1 row-cols-md-4 g-4 mb-4">
+        <div class="col">
+          <div class="card bg-wiretap border-0 rounded-3 shadow">
+            <div class="card-body">
+              <h5 class="card-title text-white">Students</h5>
+              <!-- <hr class="text-white" style="border-style: dashed; border-width: 1px;;"> -->
+              <p class="animate__animated animate__fadeInUp card-text display-5 text-white"><i class="bi bi bi-emoji-smile">&nbsp;</i>{{count_std|default_if_none:'0'}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card bg-scooter border-0 rounded-3 shadow">
+            <div class="card-body">
+              <h5 class="card-title text-white">Employees</h5>
+              <!-- <hr class="text-white" style="border-style: dashed; border-width: 1px;;"> -->
+              <p class="animate__animated animate__fadeInUp card-text display-5 text-white"><i class="bi bi-people">&nbsp;</i>{{count_emp|default_if_none:'0'}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card bg-asteroid border-0 rounded-3 shadow">
+            <div class="card-body">
+              <h5 class="card-title text-white">Letters</h5>
+              <!-- <hr class="text-white" style="border-style: dashed; border-width: 1px;;"> -->
+              <p class="animate__animated animate__fadeInUp card-text display-5 text-white"><i class="bi bi-file-earmark-text">&nbsp;</i>{{count_ltr|default_if_none:'0'}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card bg-turboscent border-0 rounded-3 shadow">
+            <div class="card-body">
+              <h5 class="card-title text-white">Archives</h5>
+              <!-- <hr class="text-white" style="border-style: dashed; border-width: 1px;"> -->
+              <p class="animate__animated animate__fadeInUp card-text display-5 text-white"><i class="bi bi-archive">&nbsp;</i>{{count_arc|default_if_none:'0'}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="mb-4">
+      <div class="mb-3">
+          <div class="row">
+            <div class="col-sm-6 mb-4">
+              <div class="card border border-0">
+                <div class="card-body-none">
+                  <div class="mb-3">
+                    <h4 class="fw-normal">Quick access</h4>
+                    <!-- <h5 class="fw-light text-muted"><span class="bi "></span>&nbsp;Administration</h5> -->
+                  </div>
+                  <div class="mb-3">
+                  </div>
+                  <div class="row">
+                    {% if request.user.groups.first.name == 'Operator' or user.is_superuser %}
+                    <div class="col-sm-6 mb-3">
+                      <a href="{% url 'setup-integration' %}" class="text-decoration-none">
+                        <div class="card btn btn-light border-0 shadow-sm">
+                          <div class="card-body">
+                            <h5 class="card-title">System Check</h5>
+                            <p class="card-text text-muted">Setup integration info</p>
+                          </div>
+                        </div>
+                      </a> 
+                    </div>
+                    <div class="col-sm-6 mb-3">
+                      <a href="{% url 'accounts' %}" class="text-decoration-none">
+                        <div class="card btn btn-light border-0 shadow-sm">
+                          <div class="card-body">
+                            <h5 class="card-title">Accounts</h5>
+                            <p class="card-text text-muted">User management</p>
+                          </div>
+                        </div>
+                      </a> 
+                    </div>
+                    {% endif %}
+                    {% if request.user.groups.first.name == 'Student Correspondence Staff' or request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Head of Administration' or user.is_superuser %}
+                    <div class="col-sm-6 mb-3">
+                      <a href="{% url 'letter' %}" class="text-decoration-none">
+                        <div class="card btn btn-light border-0 shadow-sm">
+                          <div class="card-body">
+                            <h5 class="card-title">Create Letter</h5>
+                            <p class="card-text text-muted">Blank letter</p>
+                          </div>
+                        </div>
+                      </a> 
+                    </div>
+                    <div class="col-sm-6 mb-3">
+                      <a href="{% url 'request-queue' %}" class="text-decoration-none">
+                        <div class="card btn btn-light border-0 shadow-sm">
+                          <div class="card-body">
+                            <h5 class="card-title">Request Queue
+                              {% if request.user.groups.first.name == 'Student Correspondence Staff' %}{% if count_staging_scs %}&nbsp;<span class="animate__animated animate__bounce animate__infinite infinite badge rounded-pill bg-primary">{{ count_staging_scs }}</span>{% endif %}{% endif %}
+                              {% if request.user.groups.first.name == 'Employee Correspondence Staff' %}{% if count_staging_ecs %}&nbsp;<span class="animate__animated animate__bounce animate__infinite infinite badge rounded-pill bg-primary">{{ count_staging_ecs }}</span>{% endif %}{% endif %}
+                              {% if request.user.groups.first.name == 'Head of Administration' or user.is_superuser%}{% if count_staging_hoa %}&nbsp;<span class="animate__animated animate__bounce animate__infinite infinite badge rounded-pill bg-primary">{{ count_staging_hoa }}</span>{% endif %}{% endif %}
+                            </h5>
+                            <p class="card-text text-muted">Digital signature</p>
+                          </div>
+                        </div>
+                      </a> 
+                    </div>
+                    {% endif %}
+                    {% if request.user.groups.first.name == 'Principal' or user.is_superuser %}
+                    <div class="col-sm-6 mb-3">
+                      <a href="{% url 'sign-request' %}" class="text-decoration-none">
+                        <div class="card btn btn-light border-0 shadow-sm">
+                          <div class="card-body">
+                            <h5 class="card-title">Sign Request&nbsp;{% if count_rs %}<span class="animate__animated animate__bounce animate__infinite infinite badge rounded-pill bg-primary">{{ count_rs }}</span>{% endif %}</h5>
+                            <p class="card-text text-muted">Digital signature</p>
+                          </div>
+                        </div>
+                      </a> 
+                    </div>
+                    {% endif %}
+                    <div class="col-sm-6 mb-3">
+                      <a href="{% url 'guest-book' %}" class="text-decoration-none">
+                        <div class="card btn btn-light border-0 shadow-sm">
+                          <div class="card-body">
+                            <h5 class="card-title">Guest Book</h5>
+                            <p class="card-text text-muted">List of administration guest</p>
+                          </div>
+                        </div>
+                      </a> 
+                    </div>
+                    <div class="col-sm-6 mb-3">
+                      <a href="{% url 'archives' %}" class="text-decoration-none">
+                        <div class="card btn btn-light border-0 shadow-sm">
+                          <div class="card-body">
+                            <h5 class="card-title">Archives</h5>
+                            <p class="card-text text-muted">List of archives</p>
+                          </div>
+                        </div>
+                      </a> 
+                    </div>
+                    {% if request.user.groups.first.name == 'Head of Administration' or user.is_superuser %}
+                    <div class="col-sm-6 mb-3">
+                      <a href="{% url 'trash' %}" class="text-decoration-none">
+                        <div class="card btn btn-light border-0 shadow-sm">
+                          <div class="card-body">
+                            <h5 class="card-title">Trash&nbsp;{% if count_rtd %}<span class="animate__animated animate__bounce animate__infinite infinite badge rounded-pill bg-warning">{{ count_rtd }}</span>{% endif %}</h5>
+                            <p class="card-text text-muted">Destruction of archives</p>
+                          </div>
+                        </div>
+                      </a> 
+                    </div>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="card border border-0 mb-3">
+                <div class="card-body-none">
+                  <div class="mb-3">
+                    <h4 class="fw-normal">Letters</h4>
+                  </div>
+                  <div class="table-responsive card border-0 shadow-sm">
+                    <table class="table table-borderless table-hover">
+                      <thead class="bg-light">
+                        <tr>
+                          <th scope="col">No</th>
+                          <th scope="col" width="20%">Number</th>
+                          <th scope="col">Regarding</th>
+                          <th scope="col">Date</th>
+                          <th scope="col">Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% if request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Principal' or user.is_superuser %}
+                        <tr>
+                          <td colspan="5" class="fw-semibold border-bottom">Student Letter&nbsp;<span class="text-muted fw-normal">Last created&nbsp;{% for ts in lc_timesince_sl %}{{ ts.created_at|timesince }}&nbsp;ago{% endfor %}</span></td>
+                        </tr>
+                        {% endif %}
+                        {% if request.user.groups.first.name == "Student Correspondence Staff" or request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Principal' or user.is_superuser  %}
+                        {% for item in last_created_sl %}
+                        <tr>
+                          <th scope="row">{{ forloop.counter }}</th>
+                          <td>{{ item.number }}</td>
+                          <td>{{ item.subject}}</td>
+                          <td>{{ item.created_at }}</td>
+                          <td class="text-center">
+                            {% if item.digital_sign_at %}
+                            <span class="text-success bi-check-circle-fill" data-bs-toggle="tooltip" data-bs-title="Signed on {{ item.digital_sign_at }}"></span>
+                            {% elif item.digital_sign_at is None and item.type_sign == '1' and item.is_in_staging == False %}
+                            <span class="text-warning bi-clock-fill" data-bs-toggle="tooltip" data-bs-title="Waiting signature"></span>
+                            {% elif item.digital_sign_at is None and item.type_sign == '1' and item.is_in_staging == True %}
+                            <span class="text-secondary bi-exclamation-circle" data-bs-toggle="tooltip" data-bs-title="Need action"></span>
+                            {% elif item.type_sign == '2' %}
+                            <span class="text-dark bi-record-circle-fill" data-bs-toggle="tooltip" data-bs-title="Manual sign"></span>
+                            {% endif %}
+                          </td>
+                        </tr>
+                        {% endfor %}
+                        {% endif %}
+                      </tbody>
+                      {% if request.user.groups.first.name == 'Student Correspondence Staff' %}
+                      <tfoot>
+                        <tr>
+                          <td colspan="5" class="text-muted">Last created&nbsp;{% for ts in lc_timesince_sl %}{{ ts.created_at|timesince }}&nbsp;ago{% endfor %}</td>
+                        </tr>
+                      </tfoot>
+                      {% endif %}
+                      {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Principal' or user.is_superuser %}  
+                      {% if request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Principal' or user.is_superuser %}
+                        <tr>
+                          <td colspan="5" class="fw-semibold border-bottom">Employee Letter&nbsp;<span class="text-muted fw-normal">Last created&nbsp;{% for ts in lc_timesince_el %}{{ ts.created_at|timesince }}&nbsp;ago{% endfor %}</span></td>
+                        </tr>
+                      {% endif %}
+                      {% for item in last_created_el %}
+                        <tr>
+                          <th scope="row">{{ forloop.counter }}</th>
+                          <td>{{ item.number }}</td>
+                          <td>{{ item.subject}}</td>
+                          <td>{{ item.created_at }}</td>
+                          <td class="text-center">
+                            {% if item.digital_sign_at is None and item.type_sign == '1' and item.is_in_staging == False %}
+                            <span class="text-warning bi-clock-fill" data-bs-toggle="tooltip" data-bs-title="Waiting signature"></span>
+                            {% elif item.digital_sign_at is None and item.type_sign == '1' and item.is_in_staging == True %}
+                            <span class="text-secondary bi-exclamation-circle" data-bs-toggle="tooltip" data-bs-title="Need action"></span>
+                            {% elif item.type_sign == '2' %}
+                            <span class="text-dark bi-record-circle-fill" data-bs-toggle="tooltip" data-bs-title="Manual sign"></span>
+                            {% endif %}
+                          </td>
+                        </tr>
+                        {% endfor %}
+                        {% endif %}
+                      </tbody>
+                      {% if request.user.groups.first.name == 'Employee Correspondence Staff' %}
+                      <tfoot>
+                        <tr>
+                          <td colspan="5" class="text-muted">Last created&nbsp;{% for ts in lc_timesince_el %}{{ ts.created_at|timesince }}&nbsp;ago{% endfor %}</td>
+                        </tr>
+                      </tfoot>
+                      {% endif %}
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="card border border-0 mb-3">
+                <div class="card-body-none">
+                  <div class="table-responsive card border-0 shadow-sm">
+                    <table class="table table-borderless table-hover">
+                      <thead class="bg-light">
+                        <tr>
+                          <th scope="col">No</th>
+                          <th scope="col" width="20%">Number</th>
+                          <th scope="col">Regarding</th>
+                          <th scope="col">Date</th>
+                          <th scope="col">Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% if request.user.groups.first.name == "Student Correspondence Staff" or request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Principal' or user.is_superuser%}
+                        {% if request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Principal' or user.is_superuser %}
+                        <tr>
+                          <td colspan="5" class="fw-semibold border-bottom">Student Letter&nbsp;<span class="text-muted fw-normal">Last signed&nbsp;{% for ts in ld_timesince_sl %}{{ ts.digital_sign_at|timesince }}&nbsp;ago{% endfor %}</span></td>
+                        </tr>
+                        {% endif %}
+                        {% if letter_done_sl %}
+                        {% for item in letter_done_sl %}
+                        <tr>
+                          <th scope="row">{{ forloop.counter }}</th>
+                          <td>{{ item.number }}</td>
+                          <td>{{ item.subject }}</td>
+                          <td>{{ item.digital_sign_at }}</td>
+                          <td class="text-center"><span class="text-success bi-check-circle-fill" data-bs-toggle="tooltip" data-bs-title="Signed on {{ item.digital_sign_at }}"></span></td>
+                        </tr>
+                        {% endfor %}
+                        {% else %}
+                        <tr>
+                        	<td colspan="5" class="text-muted text-center animate__animated animate__headShake"><small>No data available</small></td>
+                        </tr>
+                        {% endif %}
+                      </tbody>
+                      {% if request.user.groups.first.name == 'Student Correspondence Staff' %}
+                      <tfoot>
+                        <tr>
+                          <td colspan="5" class="text-muted">Last signed&nbsp;{% for ts in ld_timesince_sl %}{{ ts.digital_sign_at|timesince }}&nbsp;ago{% endfor %}</td>
+                        </tr>
+                      </tfoot>
+                      {% endif %}
+                      {% endif %}
+                        {% if request.user.groups.first.name == "Employee Correspondence Staff" or request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Principal' or user.is_superuser %}
+                        {% if request.user.groups.first.name == 'Head of Administration' or request.user.groups.first.name == 'Principal' or user.is_superuser %}
+                        <tr>
+                          <td colspan="5" class="fw-semibold border-bottom">Employee Letter&nbsp;<span  class="text-muted fw-normal">Last signed&nbsp;{% for ts in ld_timesince_el %}{{ ts.digital_sign_at|timesince }}&nbsp;ago{% endfor %}</span></td>
+                        </tr>
+                        {% endif %}
+                        {% if letter_done_el %}
+                        {% for item in letter_done_el %}
+                        <tr>
+                          <th scope="row">{{ forloop.counter }}</th>
+                          <td>{{ item.number }}</td>
+                          <td>{{ item.subject }}</td>
+                          <td>{{ item.digital_sign_at }}</td>
+                          <td class="text-center"><span class="text-success bi-check-circle-fill" data-bs-toggle="tooltip" data-bs-title="Signed on {{ item.digital_sign_at }}"></span></td>
+                        </tr>
+                        {% endfor %}
+                        {% else %}
+                        <tr>
+                        	<td colspan="5" class="text-muted text-center animate__animated animate__headShake"><small>No data available</small></td>
+                        </tr>
+                        {% endif %}
+                      </tbody>
+                      {% if request.user.groups.first.name == 'Employee Correspondence Staff' %}
+                      <tfoot>
+                        <tr>
+                          <td colspan="5" class="text-muted">Last signed&nbsp;{% for ts in ld_timesince_el %}{{ ts.digital_sign_at|timesince }}&nbsp;ago{% endfor %}</td>
+                        </tr>
+                      </tfoot>
+                      {% endif %}
+                      {% endif %}
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+  </section>
+</div>
+{% endblock %}

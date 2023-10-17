@@ -1,0 +1,79 @@
+{% extends 'base/common/base.html' %}
+{% load static %}
+{% block title %}Trash{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <section class="pt-5 mb-4">
+        <div class="mb-3">
+            <h1 class=""><span class="bi bi-trash3"></span>&nbsp;Trash</h1>
+        </div>
+        <div>
+            <p class="lead">Destruction of archives</p>
+        </div>
+    </section>
+    <section class="mb-5">
+        <ul class="nav nav-tabs" id="trash-tab" role="tablist">
+            <li class="nav-item" role="trash">
+              <button class="nav-link active" id="trash" data-bs-toggle="tab" data-bs-target="#trash-pane" type="button" role="tab" aria-controls="trash-pane" aria-selected="true">Add archive</button>
+            </li>
+        </ul>
+          <div class="tab-pane fade show active" id="trash-pane" role="tabpanel" aria-labelledby="trash" tabindex="0">
+            <div class="my-3">
+                <div class="position-relative p-5 text-center text-muted bg-body border border-dashed rounded-5">
+                  <h1 class="text-body-emphasis">Destruction of Electronic Archives</h1>
+                  <p class="col-lg-6 mx-auto mb-4">
+                    Referred to in Article 25 letter b is carried out through the following process:
+                    <div class="form-text">
+                        <i>a. destroy the physical and electronic archive information as well metadata;</i>
+                        <i>b. destruction of Electronic Archives must be implemented while maintaining the confidentiality of information; And</i>
+                        <i>c. destruction is carried out on all archived copies including security copies, preservation and backups.</i>
+                    </div>
+                  </p>
+                  <a href="#" class="px-5 mb-5" data-bs-toggle="modal" data-bs-target="#add_archive">
+                    <span class="bi bi-plus-circle-dotted display-1"></span>
+                  </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <ul class="nav nav-tabs" id="trash-ready-tab" role="tablist">
+            <li class="nav-item" role="trash">
+              <button class="nav-link active" id="trash-ready" data-bs-toggle="tab" data-bs-target="#trash-ready-pane" type="button" role="tab" aria-controls="trash-ready-pane" aria-selected="true">Ready to destroy&nbsp;{% if count_rtd %}<span class="badge bg-warning">{{ count_rtd }}</span>{% endif %}</button>
+            </li>
+        </ul>
+          <div class="tab-pane fade show active" id="trash-pane" role="tabpanel" aria-labelledby="trash" tabindex="0">
+            {% if ready_to_destroy_sl %}
+            <div class="row mt-3">
+              {% for archive in ready_to_destroy_sl %}
+              <div class="col-sm-12 mb-3">
+                <div class="card border-light shadow">
+                  <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-card-text"></i>&nbsp;{{ archive.get_letter_type_display }}</h5>
+                    <p class="card-text small"><span class="card-text text-muted">{{ archive.number }}</span><br>{{ archive.student_name }}&nbsp;{{ archive.student_class }}-{{ archive.student_nisn }}</p>
+                    <hr style="border-style: dashed;">
+                    <form id="destroy_confirmation" method="post" action="{% url 'process-destroy-sl' archive_id=archive.letter_id %}">
+                      {% csrf_token %}
+                      <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+                        <a href="{% url 'cancel-destroy-process-sl' archive_id=archive.letter_id %}" class="btn btn-dark" onclick="return confirm('Are you sure you want to cancel the archive:\n\n[{{archive.get_letter_type_display}}]\n{{archive.student_name}} {{archive.student_nisn}}\n{{archive.number}}');">Cancel</a>
+                        <a href="{% url 'generate-pdf' letter_id=archive.letter_id %}" class="btn btn-light text-primary" target="_blank"><i class="bi bi-box-arrow-up-right"></i>&nbsp;Check</a>
+                        <a href="#" class="btn btn-danger btn-destroy" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-archive-number="{{ archive.number }}" data-bs-target="#staticBackdrop">Destroy</a>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+              {% else %}
+              <div class="position-relative p-5 text-center text-muted">
+                <i class="bi bi-folder2-open display-5"></i>
+                  <p class="col-lg-6 mx-auto mb-4 animate__animated animate__headShake">
+                      No archive available to destroy
+                  </p>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+    </section>
+</div>
+{% endblock %}

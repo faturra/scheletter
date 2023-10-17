@@ -1,0 +1,78 @@
+{% extends 'base/common/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title%}Student Letter{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <section class="pt-5 mb-4">
+        <div class="mb-3">
+            <h1 class=""><span><i class="bi bi-file-earmark-text"></i></span>&nbsp;Student Letter</h1>
+        </div>
+        <div>
+            <p class="lead">Create blank letter</p>
+        </div>
+    </section>
+    <section class="mb-5">
+        <div class="row g-3">
+            <div class="col-sm-3 mb-3">
+                <div class="card bg-white shadow-lg">
+                    <img src="https://www.creativefabrica.com/wp-content/uploads/2019/02/Letter-icon-by-ahlangraphic-2.jpg" class="card-img-top" alt="..." draggable="false">
+                    <div class="card-body mb-4">
+                      <h5 class="card-title">Student letter</h5>
+                      <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt odio fugiat architecto laborum?</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-9">
+                <div class="card card-body p-4 shadow-lg">
+                  <div>
+                    <form method="POST" class="row g-2" id="student-letter-form">
+                        {% csrf_token %}
+                        {{ form.media }}
+                        {{ form|crispy }}
+                        <button type="submit" class="btn btn-primary" onclick="return confirm('Are you sure you want to create the letter?');">Create</button>
+                    </form>
+                  </div>
+                </div>
+            </div>
+          </div>
+    </section>
+</div>
+<script>
+$(document).ready(function() {
+    $("#id_student_name").change(function() {
+        var selectedStudent = $(this).val();
+        
+        if (selectedStudent) {
+            var csrfToken = $('[name=csrfmiddlewaretoken]').val();
+            $.ajax({
+                url: '/letter/get-student-info',
+                data: {
+                    'selected_student': selectedStudent,
+                    'csrfmiddlewaretoken': csrfToken
+                },
+                type: 'post',
+                dataType: 'json',
+                success: function(data) {
+                    if (data.success) {
+                        $("#id_student_class").val(data.nama_rombel).prop('readonly', true);
+                        $("#id_student_place_of_birth").val(data.tempat_lahir).prop('readonly', true);
+                        $("#id_student_gender").val(data.jenis_kelamin).prop('readonly', true);
+                        $("#id_student_date_of_birth").val(data.tanggal_lahir);
+                        $("#id_student_nisn").val(data.nisn).prop('readonly', true);
+                    } else {
+                        alert("Student not found!");
+                    }
+                }
+            });
+        } else {
+            $("#id_student_class").val('').prop('readonly', false);
+            $("#id_student_place_of_birth").val('').prop('readonly', false);
+            $("#id_student_gender").val('').prop('readonly', false);
+            $("#id_student_date_of_birth").val('');
+            $("#id_student_nisn").val('').prop('readonly', false);
+        }
+    });
+});
+</script>
+{% endblock %}

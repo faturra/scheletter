@@ -1,0 +1,50 @@
+<!-- Modal -->
+<div class="modal fade" id="confirmationModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmationModalLabel">Confirmation</h5>
+      </div>
+      <div class="modal-body">
+        <p>To confirm, type "<span class="fw-semibold" id="archiveNumberValue">{{ archive.number }}</span>" in the box below</p>
+        <input type="text" id="confirmationInput" class="form-control" placeholder="Type to confirm" required="true" autofocus>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Close</button>
+        <button type="button" class="btn btn-danger" id="confirmButton">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function confirmCancelArchive() {
+    var confirmationInput = document.getElementById('confirmationInput').value;
+    var archiveNumber = document.getElementById('archiveNumberValue').textContent;
+
+    if (confirmationInput.trim() === archiveNumber.trim()) {
+            document.getElementById('destroy_confirmation').submit();
+    } else {
+      alert('Please type the confirmation box correctly.');
+    }
+
+    var modal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+    modal.hide();
+  }
+
+  document.getElementById('confirmButton').addEventListener('click', function() {
+    confirmCancelArchive();
+  });
+
+  var destroyButton = document.querySelector('.btn-destroy');
+  destroyButton.addEventListener('click', function() {
+    var archiveNumber = this.getAttribute('data-archive-number');
+    document.getElementById('archiveNumberValue').textContent = archiveNumber;
+    document.getElementById('confirmationInput').value = '';
+  });
+
+  var confirmationModal = document.getElementById('confirmationModal');
+  confirmationModal.addEventListener('shown.bs.modal', function() {
+    document.getElementById('confirmationInput').focus();
+  });
+</script>

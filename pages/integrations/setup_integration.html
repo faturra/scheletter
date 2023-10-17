@@ -1,0 +1,245 @@
+{% extends 'base/common/base.html' %}
+{% load static %}
+{% block title%}Setup Integration{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <section class="pt-5 mb-4">
+      <div class="mb-3">
+        <h1 class=""><span class="bi bi-shuffle"></span>&nbsp;Setup Integration</h1>
+      </div>
+      <div>
+        <p class="lead">Dapodik data integration settings{% if dapodik_status == '1' and integration_connection_status.nama is None %}&nbsp;<span class="text-warning animate__animated animate__fadeIn animate__delay-2s">Check your setup</span>{% elif dapodik_status == '1' and integration_connection_status.nama %}{% endif %}</p>
+      </div>
+    </section>
+    <section class="mb-5">
+      <div class="accordion" id="accordionPanelsStayOpenExample">
+        <div class="accordion-item text-center">
+          <h2 class="accordion-header">
+            <button class="accordion-button bg-light text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne"><i class="bi bi-ui-checks"></i>&nbsp;System Check</button>
+          </h2>
+          <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+            <div class="accordion-body">
+              <div class="row mt-3">
+                <div class="col-lg-4 animate__animated animate__bounceIn animate__delay-1s">
+                  {% if dapodik_status == '1' %}
+                  <h2><span class="bi bi-check-circle-fill text-success"></span></h2>
+                  <h2 class="fw-normal">Dapodik</h2>
+                  <p class="text-success">Ready</p>
+                  {% else %}
+                  <h2><span class="bi bi-x-circle-fill text-danger"></span></h2>
+                  <h2 class="fw-normal">Dapodik</h2>
+                  <p class="text-danger">Service is not running</p>
+                  {% endif %}
+                </div>
+                <div class="col-lg-4 animate__animated animate__bounceIn animate__delay-2s">
+                  {% if dapodik_status == '1' and integration_connection_status.nama %}
+                  <h2><span class="bi bi-check-circle-fill text-success"></span></h2>
+                  <h2 class="fw-normal">Setup Integration</h2>
+                  <p class="text-success">({{total_data}}) data is available!</p>
+                  {% elif dapodik_status == '1' %}
+                  <h2><span class="bi bi-record-circle-fill text-warning"></span></h2>
+                  <h2 class="fw-normal">Setup Integration</h2>
+                  <p class="text-warning">({{total_data}}) no data available</p>
+                  {% else %}
+                  <h2><span class="bi bi-x-circle-fill text-danger"></span></h2>
+                  <h2 class="fw-normal">Setup Integration</h2>
+                  <p class="text-danger">Dapodik is not ready</p>
+                  {% endif %}
+                </div>
+                <div class="col-lg-4 animate__animated animate__bounceIn animate__delay-4s">
+                  {% if integration_connection_status.nama %}
+                  <h2><span class="bi bi-check-circle-fill text-success"></span></h2>
+                  <h2 class="fw-normal">Integration</h2>
+                  <p class="text-success">Connected</p>
+                  {% else %}
+                  <h2><span class="bi bi-x-circle-fill text-danger"></span></h2>
+                  <h2 class="fw-normal">Integration</h2>
+                  <p class="text-danger">Disconnected</p>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% if dapodik_status == '1' or user.is_superuser %}
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button {% if integration_info %}collapsed{% else %}{% endif %} bg-light text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="{% if request.user.integrations %}false{% else %}true{% endif %}" aria-controls="panelsStayOpen-collapseTwo">
+              <i class="bi bi-gear-wide-connected"></i>&nbsp;Setup Integration
+            </button>
+          </h2>
+          <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse {% if integration_info %}{% else %}show{% endif %}">
+            <div class="accordion-body">
+              <div class="mb-3 mt-3">
+                <h4 class="fw-normal">Setup Integration</h4>
+              </div>
+              <form class="mb-3" method="POST" action="{% url 'setup-integration' %}">
+                {% csrf_token %}
+                  <div class="row g-2">
+                    <div class="col-md mb-2">
+                      <div class="form-floating">
+                        <input type="text" class="form-control text-muted" id="server_address" name="server_address" value="{{integration_info.server_address}}" placeholder="01234327" required>
+                        <label for="server_address">Server Address</label>
+                        <div id="server_address" class="form-text">
+                          Enter the Dapodik server address hostname or IP address
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md mb-2">
+                      <div class="form-floating">
+                        <input type="text" class="form-control text-muted" id="npsn" name="npsn"  value="{{integration_info.npsn}}" placeholder="01234327" required>
+                        <label for="floatingInputGrid">NPSN</label>
+                        <div id="npsn" class="form-text">
+                          Enter the school national number
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md">
+                        <div class="form-floating">
+                          <input type="password" class="form-control text-muted" id="token" name="token" value="{{integration_info.token}}" placeholder="AaBb1234" required>
+                          <label for="token">Token</label>
+                          <div class="form-text">
+                            Enter the token from Dapodik web service
+                          </div>
+                        </div>
+                    </div>
+                </div>
+                <button id="submitButton" class="btn btn-primary mt-4" onclick="return confirm('Are you sure you want to change the settings');">
+                  <span class="bi bi-shuffle"></span>
+                  <span class="spinner-border spinner-border-sm" role="status" style="display: none;"></span>
+                  &nbsp;<span id="buttonText">Connect</span>
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </section>
+    {% if user.is_superuser %}
+    <section class="mb-5">
+      <div class="card">
+        <div class="card-header">
+          Data API (from dj cache)
+        </div>
+        <div class="card-body">
+          <button id="getDataButton" class="btn btn-dark">Get Data</button>
+          <hr>
+          <div id="dataContainer" class="font-monospace">
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="mb-5">
+      <div class="card">
+        <div class="card-header">
+          Data API (from ajax)
+        </div>
+        <div class="card-body">
+          <button id="getApiInfoFromServer" class="btn btn-dark">Get Data</button>
+          <hr>
+          <div id="apiInfoContainer">
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="mb-5">
+      <div class="card">
+        <div class="card-header">
+          System Control
+        </div>
+        <div class="card-body">
+          <a href="{% url 'reload-server' %}" class="btn btn-danger" onclick="return confirm('Are you sure you want to restart the server');"><span class="bi bi-arrow-clockwise"></span>&nbsp;Restart</a>
+        </div>
+      </div>
+    </section>
+  {% endif %}
+    <section class="mb-5">
+</div>
+{% if user.is_superuser %}
+<script>
+  $(document).ready(function() {
+      function getDataFromAPI() {
+          $.ajax({
+              url: 'get-data-api-now',
+              method: 'GET',
+              success: function(response) {
+                  $('#dataContainer').html(response);
+              },
+              error: function(error) {
+                  console.error('Error:', error);
+              }
+          });
+      }
+
+      $('#getDataButton').on('click', function() {
+          getDataFromAPI();
+      });
+  });
+  </script>
+<script>
+  $(document).ready(function() {
+      function getApiInfoFromServer() {
+          $.ajax({
+              url: 'get-api-data-new/',
+              method: 'GET',
+              success: function(apiInfo) {
+                  for (var i = 0; i < apiInfo.length; i++) {
+                      var apiName = apiInfo[i].server_address;
+                      var apiUrl = apiInfo[i].server_address; 
+                      var apiToken = apiInfo[i].token;
+
+                      $.ajax({
+                          url: apiUrl,
+                          method: 'GET',
+                          headers: {
+                              'Authorization': 'Bearer ' + apiToken,
+                          },
+                          success: function(response) {
+                              var responseDataHtml = '<p>Response from ' + apiName + ':</p>';
+                              responseDataHtml += '<pre>' + JSON.stringify(response, null, 2) + '</pre>';
+                              $('#apiInfoContainer').append(responseDataHtml);
+                          },
+                          error: function(error) {
+                              console.error('Error:', error);
+                          }
+                      });
+                  }
+              },
+              error: function(error) {
+                  console.error('Error:', error);
+              }
+          });
+      }
+
+      getApiInfoFromServer();
+
+      $('#getApiInfoFromServer').on('click', function() {
+          $('#apiInfoContainer').empty();
+          getApiInfoFromServer();
+      });
+  });
+</script>
+{% endif %}
+<script>
+  document.querySelector('#submitButton').addEventListener('click', function(event) {
+    event.preventDefault();
+
+    var button = this;
+    var buttonText = button.querySelector('#buttonText');
+    var spinner = button.querySelector('.spinner-border');
+    var shuffleIcon = button.querySelector('.bi-shuffle');
+
+    buttonText.innerText = 'Loading...';
+
+    spinner.style.display = 'inline-block';
+
+    button.disabled = true;
+
+    shuffleIcon.style.display = 'none';
+
+    var form = button.closest('form');
+    form.submit();
+  });
+</script>
+{% endblock %}

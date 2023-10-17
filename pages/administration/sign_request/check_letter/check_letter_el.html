@@ -1,0 +1,100 @@
+{% extends 'base/common/base.html' %}
+{% load static %}
+{% block title%}Check letter - {{ employees_letter.employee_name }}&nbsp;{{ employees_letter.employee_rank }}{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <section class="pt-5 mb-4">
+        <div class="mb-3">
+            <h1 class=""><span><i class="bi bi-search"></i></span>&nbsp;Check letter</h1>
+        </div>
+        <div>
+            <p class="lead"></p>
+        </div>
+    </section>
+    <section class="mb-5">
+        <div class="row g-3">
+            <div class="col-sm-12">
+                <div class="card card-body shadow text-center">
+                    <h4 class="text-center">{{ employees_letter.get_letter_type_display }}</h4>
+                    <div class="text-center">{{ employees_letter.number }}</div>
+                    <hr>
+                    <table class="table table-borderless">
+                        <thead>
+                          <tr>
+                            <th scope="col">Employee name</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>{{ employees_letter.employee_name }}</td>
+                          </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-borderless">
+                        <thead>
+                          <tr>
+                            <th scope="col">Employee Rank</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>{{ employees_letter.employee_rank }}</td>
+                          </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-borderless">
+                        <thead>
+                          <tr>
+                            <th scope="col">NIP/NIKKI</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>{{ employees_letter.employee_empnumber }}</td>
+                          </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-borderless">
+                        <thead>
+                          <tr>
+                            <th scope="col">Regarding</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>{{ employees_letter.subject }}</td>
+                          </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-borderless">
+                        <thead>
+                          <tr>
+                            <th scope="col">Reduction</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>{{ employees_letter.body }}</td>
+                          </tr>
+                        </tbody>
+                    </table>
+                    <br><br>
+                    <hr>
+                </div>
+                <div class="fixed-bottom">
+                    <div class="mb-5 justify-content-md-center text-center">
+                        <form method="post" action="{% url 'apply-signature-el' letter_id=employees_letter.letter_id %}">
+                          {% csrf_token %}
+                          <a href="{% url 'sign-request' %}" class="btn btn-secondary shadow">Back</a>
+                          {% if employees_letter.digital_sign_at and employees_letter.is_in_staging is False and request.user.groups.first.name == "Principal" %}
+                          {% elif employees_letter.digital_sign_at is None and employees_letter.is_in_staging is False  and request.user.groups.first.name == "Principal" %}
+                          <a href="{% url 'apply-signature-el' letter_id=employees_letter.letter_id %}" class="btn btn-primary shadow" onclick="return confirm('Are you sure you want to sign the letter:\n\n[{{employees_letter.get_letter_type_display}}]\n{{employees_letter.employee_name}} {{employees_letter.employee_nisn}}\n{{employees_letter.number}}');"><i class="bi bi-fingerprint"></i>&nbsp;Sign the letter</a>
+                          {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+          </div>
+    </section>
+</div>
+{% endblock %}
