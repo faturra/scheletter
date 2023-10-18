@@ -161,7 +161,7 @@
             </ul>
             <div class="tab-content" id="request-queue-c">
                 <div class="tab-pane fade show active" id="letter-done-pane" role="tabpanel" aria-labelledby="letter-done" tabindex="0">
-                    {% if employees_digital_sign_applied_ecs %}
+                    {% if employees_letter_archives_ecs %}
                     <table id="tb_request_queue_ecs" class="table table-borderless table-borderless table-hover text-truncate">
                         <thead>
                             <tr>
@@ -179,7 +179,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for item in employees_digital_sign_applied_ecs %}
+                            {% for item in employees_letter_archives_ecs %}
                             <tr>
                                 <th scope="row">{{ forloop.counter }}</th>
                                 <td><a href="{% url 'generate-pdf-el' letter_id=item.letter_id %}" class="btn btn-sm  btn-light text-primary" target="_blank"><i class="bi bi-printer"></i></a></td>
@@ -572,7 +572,7 @@
             </ul>
             <div class="tab-content" id="request-queue-c">
                 <div class="tab-pane fade show active" id="letter-done-pane" role="tabpanel" aria-labelledby="letter-done" tabindex="0">
-                    {% if employees_letter_archives_c %}
+                    {% if common_letter_archives_c %}
                     <table id="tb_request_queue_c" class="table table-borderless table-borderless table-hover text-truncate">
                         <thead>
                             <tr>
@@ -590,7 +590,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for item in employees_letter_archives_c %}
+                            {% for item in common_letter_archives_c %}
                             <tr>
                                 <th scope="row">{{ forloop.counter }}</th>
                                 <td><a href="{% url 'generate-pdf-cl' letter_id=item.letter_id %}" class="btn btn-sm  btn-light text-primary" target="_blank"><i class="bi bi-printer"></i></a></td>
