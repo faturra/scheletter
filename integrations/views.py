@@ -56,9 +56,9 @@ def setup_integration(request):
 
             dapodik_school_api, dapodik_employees_api, dapodik_students_api = update_api_data()
 
-            cache.set('dapodik_school', dapodik_school_api, 60*60*24*7)
-            cache.set('dapodik_employees', dapodik_employees_api, 60*60*24*7)
-            cache.set('dapodik_students', dapodik_students_api, 60*60*24*7)
+            cache.set('dapodik_school', dapodik_school_api)
+            cache.set('dapodik_employees', dapodik_employees_api)
+            cache.set('dapodik_students', dapodik_students_api)
 
             if not (dapodik_school_api and dapodik_employees_api and dapodik_students_api):
                 messages.warning(request, 'No data available, make sure the source information is correctly!')

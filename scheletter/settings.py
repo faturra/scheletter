@@ -101,12 +101,13 @@ DATABASES = {
 }
 
 # CACHES
-# CACHES = {
-#     'default': {
-#         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-#         'LOCATION': 'scheletter-unique-snowflake',
-#     }
-# }
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'scheletter-unique-snowflake',
+        'TIMEOUT': 60 * 60 * 24 * 14,
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
