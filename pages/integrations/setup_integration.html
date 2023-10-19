@@ -8,7 +8,7 @@
         <h1 class=""><span class="bi bi-shuffle"></span>&nbsp;Setup Integration</h1>
       </div>
       <div>
-        <p class="lead">Dapodik data integration settings{% if dapodik_status == '1' and integration_connection_status.nama is None %}&nbsp;<span class="text-warning animate__animated animate__fadeIn animate__delay-2s">Check your setup</span>{% elif dapodik_status == '1' and integration_connection_status.nama %}{% endif %}</p>
+        <p class="lead">Dapodik data integration settings&nbsp;{% if connection_status == '0' %}<span class="text-danger animate__animated animate__fadeIn">You're Offline</span>{% elif dapodik_status == '1' and integration_connection_status.nama is None %}&nbsp;<span class="text-warning animate__animated animate__fadeIn animate__delay-2s">Check your setup</span>{% elif dapodik_status == '1' and integration_connection_status.nama %}{% endif %}</p>
       </div>
     </section>
     <section class="mb-5">
@@ -24,7 +24,7 @@
                   {% if dapodik_status == '1' %}
                   <h2><span class="bi bi-check-circle-fill text-success"></span></h2>
                   <h2 class="fw-normal">Dapodik</h2>
-                  <p class="text-success">Ready</p>
+                  <p class="text-success">Online</p>
                   {% else %}
                   <h2><span class="bi bi-x-circle-fill text-danger"></span></h2>
                   <h2 class="fw-normal">Dapodik</h2>
@@ -47,10 +47,15 @@
                   {% endif %}
                 </div>
                 <div class="col-lg-4 animate__animated animate__bounceIn animate__delay-4s">
-                  {% if integration_connection_status.nama %}
+                  {% if connection_status == '1' and integration_connection_status.nama %}
                   <h2><span class="bi bi-check-circle-fill text-success"></span></h2>
                   <h2 class="fw-normal">Integration</h2>
                   <p class="text-success">Connected</p>
+                  {% elif connection_status == '0' and integration_connection_status.nama %}
+                  <h2><span class="bi bi-house-check-fill text-primary"></span></h2>
+                  <h2 class="fw-normal">Integration</h2>
+                  <p class="text-success">Data is still available</p>
+                  <small class="text-muted">Last updated {{ integration_info.updated_at }}</small>
                   {% else %}
                   <h2><span class="bi bi-x-circle-fill text-danger"></span></h2>
                   <h2 class="fw-normal">Integration</h2>

@@ -15,13 +15,28 @@ from .system_check import dapodik_connection_status, check_telnet_connection
 
 # Create your views here.
 def setup_integration(request):
+    def check_internet_connection():
+        try:
+            response = requests.get("http://www.google.com", timeout=5)
+            if response.status_code == 200:
+                return "1"
+            else:
+                return "0"
+        except requests.RequestException:
+            return "0"
+
+    connection_status = check_internet_connection()
+
     def check_telnet_connection(host, port):
         try:
             with socket.create_connection((host, port), timeout=5) as sock:
-                return "1"
+                return '1'
         except (socket.timeout, ConnectionRefusedError):
-            return "0"
-
+            return '0'
+        except socket.gaierror as e:
+            print(f"Error: {e}")
+            return '0'
+        
     dapodik_connection_status = check_telnet_connection('api.smpn162jakarta.sch.id', 1162)
 
     integration_info = Integrations.objects.first()
@@ -84,6 +99,7 @@ def setup_integration(request):
         'integration_connection_status': integration_connection_status,
         'dapodik_status': dapodik_status,
         'total_data': total_data,
+        'connection_status': connection_status
     }
     return render(request, 'integrations/setup_integration.html', context)
 
