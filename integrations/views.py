@@ -118,14 +118,3 @@ def get_data_from_api_testing(request):
     response = HttpResponse(data_text, content_type='text/plain')
 
     return response
-
-@login_required
-@group_required(config.opr)
-def get_api_info(request):
-    api_source = [
-        {
-            'server_address': 'http://api.smpn162jakarta.sch.id:1162/WebService/getSekolah?npsn=20100766',
-            'token': 'ktuhMNbHJVY76ug',
-        }
-    ]
-    return JsonResponse(api_source, safe=False)
