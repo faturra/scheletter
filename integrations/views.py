@@ -7,13 +7,15 @@ from django.shortcuts import render, redirect
 from django.core.cache import cache
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from core import config, decorators
+from core.decorators import config, group_required
 from .forms import IntegrationsForm
 from .models import Integrations
 from .data import update_api_data
 from .system_check import dapodik_connection_status, check_telnet_connection
 
 # Create your views here.
+@login_required
+@group_required(config.opr)
 def setup_integration(request):
     def check_internet_connection():
         try:
@@ -109,14 +111,16 @@ class ReloadServerView(View):
         restart_with_reloader()
         return redirect('setup-integration')
     
-
+@login_required
+@group_required(config.opr)
 def get_data_from_api_testing(request):
     data_text = str(cache.get('dapodik_school'))
     response = HttpResponse(data_text, content_type='text/plain')
 
     return response
 
-
+@login_required
+@group_required(config.opr)
 def get_api_info(request):
     api_source = [
         {
