@@ -1,9 +1,10 @@
 Django==3.2.6
 requests==2.26.0
-django-crispy-forms
-crispy-bootstrap5
-django-bootstrap-datepicker-plus
-xhtml2pdf
-geocoder
-ipinfo
+django-environ==0.11.2
+django-crispy-forms==2.0
+crispy-bootstrap5==0.7
+django-bootstrap-datepicker-plus==5.0.4
+xhtml2pdf==0.2.11
+geocoder==1.38.1
+ipinfo==4.4.3
 qrcode[pil]

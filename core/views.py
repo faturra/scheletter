@@ -4,6 +4,7 @@ import hashlib
 import base64
 import time
 import qrcode
+from scheletter.settings import env
 from io import BytesIO
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -336,7 +337,7 @@ def apply_signature_el(request, letter_id):
 
     letter.digital_sign_ip = ip_address
 
-    handler = ipinfo.getHandler('f2ce563eb2923e') # Key owner 2019470089@student.umj.ac.id
+    handler = ipinfo.getHandler(env('IPINFO_KEY'))
     details = handler.getDetails(ip_address)
 
     if hasattr(details, 'city') and hasattr(details, 'country'):
@@ -384,7 +385,7 @@ def apply_signature_cl(request, letter_id):
 
     letter.digital_sign_ip = ip_address
 
-    handler = ipinfo.getHandler('f2ce563eb2923e') # Key owner 2019470089@student.umj.ac.id
+    handler = ipinfo.getHandler(env('IPINFO_KEY'))
     details = handler.getDetails(ip_address)
 
     if hasattr(details, 'city') and hasattr(details, 'country'):
