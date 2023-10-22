@@ -289,7 +289,7 @@ def apply_signature_sl(request, letter_id):
 
     letter.digital_sign_ip = ip_address
 
-    handler = ipinfo.getHandler('f2ce563eb2923e') # Key owner 2019470089@student.umj.ac.id
+    handler = ipinfo.getHandler(env('IPINFO_KEY'))
     details = handler.getDetails(ip_address)
 
     if hasattr(details, 'city') and hasattr(details, 'country'):
