@@ -50,7 +50,7 @@
                   {% if connection_status == '1' and integration_connection_status.nama %}
                   <h2><span class="bi bi-check-circle-fill text-success"></span></h2>
                   <h2 class="fw-normal">Integration</h2>
-                  <p class="text-success">Connected</p>
+                  <p class="text-success">Last sync {{ integration_info.updated_at }}</p>
                   {% elif connection_status == '0' and integration_connection_status.nama %}
                   <h2><span class="bi bi-house-check-fill text-primary"></span></h2>
                   <h2 class="fw-normal">Integration</h2>
@@ -59,7 +59,7 @@
                   {% else %}
                   <h2><span class="bi bi-x-circle-fill text-danger"></span></h2>
                   <h2 class="fw-normal">Integration</h2>
-                  <p class="text-danger">Disconnected</p>
+                  <p class="text-danger">Failed</p>
                   {% endif %}
                 </div>
               </div>
@@ -109,10 +109,10 @@
                         </div>
                     </div>
                 </div>
-                <button id="submitButton" class="btn btn-primary mt-4" onclick="return confirm('Are you sure you want to change the settings');">
+                <button id="submitButton" class="btn {% if connection_status == '1' and integration_connection_status.nama %}btn-secondary{% else %}btn-primary{% endif %} mt-4" onclick="return confirm('Are you sure you want to change the settings');">
                   <span class="bi bi-shuffle"></span>
                   <span class="spinner-border spinner-border-sm" role="status" style="display: none;"></span>
-                  &nbsp;<span id="buttonText">{% if connection_status == '1' and integration_connection_status.nama %}Reload{% else %}Connect{% endif %}</span>
+                  &nbsp;<span id="buttonText">{% if connection_status == '1' and integration_connection_status.nama %}Update{% else %}Synchronize{% endif %}</span>
                 </button>
               </form>
             </div>
