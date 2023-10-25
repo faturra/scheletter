@@ -39,7 +39,7 @@ def setup_integration(request):
             print(f"Error: {e}")
             return '0'
         
-    dapodik_connection_status = check_telnet_connection('api.smpn162jakarta.sch.id', 1162)
+    dapodik_connection_status = check_telnet_connection('dapodik.smpn162jakarta.sch.id', 1162)
 
     integration_info = Integrations.objects.first()
     try:

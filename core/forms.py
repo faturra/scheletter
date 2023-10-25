@@ -53,9 +53,6 @@ class AccountsCreationForm(UserCreationForm):
         fields = UserCreationForm.Meta.fields + ('first_name', 'group')
 
 
-from django import forms
-from django.contrib.auth.forms import UserCreationForm
-
 class StarterForm(UserCreationForm):
     username = forms.EmailField(
         widget=forms.EmailInput(attrs={'placeholder': 'email@example.com'}),
