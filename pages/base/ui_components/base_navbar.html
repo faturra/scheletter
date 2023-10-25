@@ -47,8 +47,10 @@
                   <span><i class="bi bi-card-list">&nbsp;</i></span>Administration
                 </a>
                 <ul class="dropdown-menu border-0">
-                  {% if request.user.groups.first.name == 'Student Correspondence Staff' or request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Head of Administration' or user.is_superuser %}
+                  {% if request.user.groups.first.name == 'Student Correspondence Staff' or request.user.groups.first.name == 'Employee Correspondence Staff' or user.is_superuser %}
                   <li><a class="dropdown-item" href="{% url 'letter' %}"><span><i class="bi bi-file-earmark-text">&nbsp;</i></span>Create Letter</a></li>
+                  {% endif %}
+                  {% if request.user.groups.first.name == 'Student Correspondence Staff' or request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Head of Administration' or user.is_superuser %}
                   <li><a class="dropdown-item" href="{% url 'request-queue' %}"><span><i class="bi bi-list-ol">&nbsp;</i></span>Request Queue&nbsp;<span class="badge bg-primary">2</span></a></li>
                   {% endif %}
                   {% if request.user.groups.first.name == 'Principal' or user.is_superuser %}

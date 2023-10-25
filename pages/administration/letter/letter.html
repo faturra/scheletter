@@ -18,6 +18,7 @@
         </div>
       </div>
       <div class="row">
+        {% if request.user.groups.first.name == 'Student Correspondence Staff' or request.user.groups.first.name == 'Employee Correspondence Staff' or user.is_superuser %}
         <div class="col-sm-6 mb-3">
             <a class="card btn btn-light mb-1" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
               <div class="card-body">
@@ -80,6 +81,7 @@
               </div>
             </div>
           </div>
+          {% endif %}
         <div class="col-sm-6">
           <a href="{% url 'request-queue' %}" class="card btn btn-light">
             <div class="card-body">

@@ -253,7 +253,7 @@
                       </a>
                     </div>
                     {% endif %}
-                    {% if request.user.groups.first.name == 'Student Correspondence Staff' or request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Head of Administration' or user.is_superuser %}
+                    {% if request.user.groups.first.name == 'Student Correspondence Staff' or request.user.groups.first.name == 'Employee Correspondence Staff' or user.is_superuser %}
                     <div class="col-sm-6 mb-3">
                       <a href="{% url 'letter' %}" class="text-decoration-none">
                         <div class="card btn btn-light border-0 shadow-sm">
@@ -264,6 +264,8 @@
                         </div>
                       </a> 
                     </div>
+                    {% endif %}
+                    {% if request.user.groups.first.name == 'Student Correspondence Staff' or request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Head of Administration' or user.is_superuser %}
                     <div class="col-sm-6 mb-3">
                       <a href="{% url 'request-queue' %}" class="text-decoration-none">
                         <div class="card btn btn-light border-0 shadow-sm">

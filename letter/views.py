@@ -42,7 +42,7 @@ def letter(request):
 
 
 @login_required
-@decorators.group_required(config.hoa, config.scs)
+@decorators.group_required(config.scs)
 def student_letter(request):
     if request.method == 'POST':
         form = StudentsLetterForm(request.POST)
@@ -66,7 +66,7 @@ def student_letter(request):
 
 
 @login_required
-@decorators.group_required(config.hoa, config.scs)
+@decorators.group_required(config.scs)
 def get_student_info(request):
     student_list = cache.get('dapodik_students')
 
@@ -99,7 +99,7 @@ def get_student_info(request):
 
 
 @login_required
-@decorators.group_required(config.hoa, config.ecs)
+@decorators.group_required(config.ecs)
 def employee_letter(request):
     if request.method == 'POST':
         form = EmployeesLetterForm(request.POST)
@@ -117,7 +117,7 @@ def employee_letter(request):
     return render(request, 'administration/letter/create_letter/employee_letter.html', context)
 
 @login_required
-@decorators.group_required(config.hoa, config.ecs)
+@decorators.group_required(config.ecs)
 def get_employee_info(request):
     employee_list = cache.get('dapodik_employees')
 
@@ -149,7 +149,7 @@ def get_employee_info(request):
 
 
 @login_required
-@decorators.group_required(config.hoa, config.scs, config.ecs)
+@decorators.group_required(config.scs, config.ecs)
 def common_letter(request):
     if request.method == 'POST':
         form = CommonLetterForm(request.POST)
