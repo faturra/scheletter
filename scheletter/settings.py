@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'bootstrap_datepicker_plus',
     'crispy_forms',
     'crispy_bootstrap5',
+    'django_extensions',
 ]
 
 

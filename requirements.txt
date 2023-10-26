@@ -8,3 +8,4 @@ xhtml2pdf==0.2.11
 geocoder==1.38.1
 ipinfo==4.4.3
 qrcode[pil]
+django-extensions==3.2.3
