@@ -1,6 +1,6 @@
 {% extends 'base/common/base.html' %}
 {% load static %}
-{% block title%}Check letter - {{ letter.student_name }}&nbsp;{{ letter.student_class }}{% endblock %}
+{% block title%}Check letter - {{ letter.subject }}&nbsp;{{ letter.event_name }}{% endblock %}
 {% block content %}
 <div class="container-fluid">
   <br>
@@ -34,12 +34,12 @@
                                 <table class="table table-borderless">
                                     <thead>
                                       <tr>
-                                        <th scope="col">Student name</th>
+                                        <th scope="col">Event Name</th>
                                       </tr>
                                     </thead>
                                     <tbody>
                                       <tr>
-                                        <td>{{ letter.student_name }}</td>
+                                        <td>{{ letter.event_name }}</td>
                                       </tr>
                                     </tbody>
                                 </table>

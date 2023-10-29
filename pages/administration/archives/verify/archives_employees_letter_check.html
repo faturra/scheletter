@@ -1,6 +1,6 @@
 {% extends 'base/common/base.html' %}
 {% load static %}
-{% block title%}Check letter - {{ letter.student_name }}&nbsp;{{ letter.student_class }}{% endblock %}
+{% block title%}Check letter - {{ letter.employee_name }}&nbsp;{{ letter.employee_empnumber }}{% endblock %}
 {% block content %}
 <div class="container-fluid">
   <br>
@@ -34,12 +34,12 @@
                                 <table class="table table-borderless">
                                     <thead>
                                       <tr>
-                                        <th scope="col">Student name</th>
+                                        <th scope="col">Employee name</th>
                                       </tr>
                                     </thead>
                                     <tbody>
                                       <tr>
-                                        <td>{{ letter.student_name }}</td>
+                                        <td>{{ letter.employee_name }}</td>
                                       </tr>
                                     </tbody>
                                 </table>
