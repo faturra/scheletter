@@ -551,6 +551,7 @@ def generate_pdf_el(request, letter_id):
 @login_required
 @group_required(config.hoa, config.scs, config.ecs, config.prl, config.opr)
 def generate_pdf_cl(request, letter_id):
+    school_info = cache.get('dapodik_school')
     letter = get_object_or_404(Common_Letter, letter_id=letter_id)
     digital_sign = Common_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True)
 
@@ -558,7 +559,7 @@ def generate_pdf_cl(request, letter_id):
         qrc.generate_qr_code()
 
     template = get_template('administration/letter/letter_templates/common_letter/surat_undangan.html')
-    context = {'letter': letter}
+    context = {'letter': letter, 'school_info': school_info}
     html = template.render(context)
 
     response = HttpResponse(content_type='application/pdf')

@@ -1,38 +1,54 @@
 {% extends "base/letters/base_letter_cl.html" %}
 {% block title %}
-<title>Surat Keterangan</title>
+<title>Surat Undangan</title>
 {% endblock %}
 {% block content %}
 <br>
-<p class="tab2 lh-normal fs-12">Yang bertanda tangan di bawah ini :</p>
-<table id="tb_signator" class="fs-12">
+<table id="tb_signator" class="fs-12 lh-1s">
     <tr>
-        <td width=13%></td>
-        <td>Nama</td>
-        <td width=1%>:</td>
-        <td>{{ letter.digital_sign_by_name|upper }}</td>
+        <td width=12%>Nomor</td>
+        <td width=2%>:</td>
+        <td width=55%>{{ letter.number }}</td>
+        <td>{{ letter.date|date:"d F Y" }}</td>
     </tr>
     <tr>
-        <td></td>
-        <td>NIP</td>
-        <td width=1%>:</td>
-        <td> _nip</td>
+        <td width=12%>Sifat</td>
+        <td width=2%>:</td>
+        <td width=55%>{{ letter.get_letter_category_display }}</td>
     </tr>
     <tr>
-        <td></td>
-        <td width=20%>Jabatan</td>
-        <td width=1%>:</td>
-        <td>{% if letter.digital_sign_job_title == 'Principal' %}Kepala Sekolah{% endif %}</td>
+        <td width=12%>Lampiran</td>
+        <td width=2%>:</td>
+        <td width=55%>{{ letter.attachment }}</td>
     </tr>
     <tr>
-        <td></td>
-        <td>Unit Kejra</td>
-        <td width=1%>:</td>
-        <td>{{ letter.digital_sign_institution }}</td>
+        <td width=12%>Hal</td>
+        <td width=2%>:</td>
+        <td width=55%>{{ letter.subject }}</td>
+        <td>Kepada</td>
     </tr>
 </table>
-<p class="tab1 lh-normal fs-12 mb-2">dengan ini menerangkan bahwa :</p>
-<table id="tb_student" class="fs-12">
+<table id="tb_signator" class="fs-12 lh-1s">
+    <tr>
+        <td width=64%></td>
+        <td width=5%>Yth.</td>
+        <td>{{ letter.dear_invitation }}</td>
+    </tr>
+    <tr>
+        <td width=64%></td>
+        <td width=5%></td>
+        <td>di</td>
+    </tr>
+</table>
+<table id="tb_signator" class="fs-12 lh-1s">
+    <tr>
+        <td width=64%></td>
+        <td width=8%></td>
+        <td>Jakarta</td>
+    </tr>
+</table>
+<p class="tab1 lh-normal fs-12 mb-2">{{ letter.body_opening }}</p>
+<table id="tb_event" class="fs-12">
     <tr>
         <td width=13%></td>
         <td>Nama</td>
@@ -81,7 +97,7 @@
         <td></td>
         <td width=20%></td>
         <td class="fs-12">
-            <div class="lh-normal">Jakarta, {{ letter.digital_sign_at|date:"d F Y" }}</div>
+            <div class="lh-1s">Jakarta, {{ letter.digital_sign_at|date:"d F Y" }}</div>
             <div>Kepala {{ letter.digital_sign_institution }}</div>
             {% if letter.qr_code_base64 %}
             <img src="data:image/png;base64,{{ letter.qr_code_base64 }}" width="90px" height="90px" alt="QR Code {{ letter.number }}">

@@ -57,8 +57,32 @@
         text-align: left;
         color: white;
       }
+      .text-center{
+        text-align: center;
+      }
+      .text-right{
+        text-align: right;
+      }
+      .tab { 
+        margin-left: 40px; 
+      }
+      .fw-bold{
+        font-weight: bold;
+      }
+      .fw-semi-bold{
+        font-weight: 600;
+      }
+      .fw-normal{
+        font-weight: normal;
+      }
+      .fs-10{
+        font-size: 10pt;
+      }
       .fs-12{
         font-size: 12pt;
+      }
+      .fs-13{
+        font-size: 13pt;
       }
       .fs-14{
         font-size: 14pt;
@@ -102,6 +126,9 @@
       .lh-1{
         line-height: 1.0;
       }
+      .lh-1s{
+        line-height: 1.3;
+      }
       .lh-2{
         line-height: 2.0;
       }
@@ -143,9 +170,8 @@
       }
       #tb_signator{
         margin-top: 0px;
-        margin-bottom: 10px;
       }
-      #tb_student{
+      #tb_event{
         margin-top: 0px;
         margin-bottom: 10px;
       }
@@ -157,23 +183,26 @@
   <table>
     <tr>
       <td>
+        <img id="jayaraya_logo" src="static/assets/letters/img/jaya_raya_bw.png">
       </td>
       <td width=80%>
         <div class="small1">
           <h1>
-            <img id="jayaraya_logo" src="static/assets/letters/img/jaya_raya_bw.png">
-            <div class="lh-normal fs-12 mt-2">{{ letter.digital_sign_institution }}</div>
-            <div class="mb-1 fs-12">DINAS PENDIDIKAN PROVINSI DAERAH KHUSUS IBUKOTA JAKARTA</div>
-            <div class="lh-normal fs-14">SURAT UNDANGAN</div>
-          </h1>
-          <div class="lh-normal fs-12 mt-2 text-center">NOMOR {{ letter.number }}</div>
-          <div class="lh-normal fs-12 mt-1s text-center">TENTANG</div>
-          <div class="fs-12 mt-1s text-center">{{ letter.subject|upper }}</div>
-        </div> 
+            <div class="lh-1s fs-12 fw-normal">PEMERINTAH PROVINSI DAERAH KHUSUS IBUKOTA JAKARTA
+              <br><span class="fs-13 fw-normal">DINAS PENDIDIKAN</span>
+              <br><span class="fs-14 fw-semi-bold">{{ letter.digital_sign_institution }}</span>
+              <br><span class="fw-normal fs-10">{{ school_info.alamat_jalan }}-{{ school_info.kecamatan }} Telepon: 021-{{ school_info.nomor_telepon }}</span>
+              <br><span class="fw-normal fs-10">Website: {{ school_info.website|slice:"7:" }} E-mail: {{ school_info.email }}</span>
+            </div>
+        </div>
       </td>
       <td></td>
     </tr>
   </table>
+  <div class="lh-normal text-right">
+    <span class="fw-normal fs-10">Kode Pos:{{ school_info.kode_pos }}</span>
+    <span class="mt-1"><hr></span>
+  </div>
   <body>
     <div>
       {% block content %} 
