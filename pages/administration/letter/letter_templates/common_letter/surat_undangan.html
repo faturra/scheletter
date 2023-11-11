@@ -47,17 +47,19 @@
         <td>Jakarta</td>
     </tr>
 </table>
+<br>
+<br>
 <p class="tab1 lh-normal fs-12 mb-2">{{ letter.body_opening }}</p>
 <table id="tb_event" class="fs-12">
     <tr>
         <td width=13%></td>
-        <td>Nama</td>
+        <td>Hari</td>
         <td width=1%>:</td>
         <td>{{ letter.student_name }}</td>
     </tr>
     <tr>
         <td></td>
-        <td>Jenis Kelamin</td>
+        <td>Tanggal</td>
         <td width=1%>:</td>
         <td>
             {% if letter.student_gender == 'L' or letter.student_gender == '1' %}
@@ -71,25 +73,24 @@
     </tr>
     <tr>
         <td></td>
-        <td width=20%>Tempat, tgl lahir</td>
+        <td width=20%>Waktu</td>
         <td width=1%>:</td>
         <td>{{ letter.student_place_of_birth }}, {{ letter.student_date_of_birth|date:"d F Y" }}</td>
     </tr>
     <tr>
         <td></td>
-        <td>NISN</td>
+        <td>Tempat</td>
         <td width=1%>:</td>
         <td>{{ letter.student_nisn }}</td>
     </tr>
     <tr>
         <td></td>
-        <td>Rombel</td>
+        <td>Acara</td>
         <td width=1%>:</td>
         <td>{{ letter.student_class }}</td>
     </tr>
 </table>
-<p class="tab1 lh-normal fs-12">{{ letter.body }}</p>
-<br>
+<p class="tab1 lh-normal fs-12 mb-2">{{ letter.body_closing }}</p>
 <p class="tab2 lh-normal fs-12">Keterangan ini dibuat untuk dipergunakan sebagaimana mestinya.</p>
 <br>
 <table>
