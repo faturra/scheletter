@@ -81,7 +81,7 @@
         <td></td>
         <td width=20%></td>
         <td class="fs-12">
-            <div class="lh-normal">Jakarta, {{ letter.digital_sign_at|date:"d F Y" }}</div>
+            <div class="lh-1s">Jakarta, {{ letter.digital_sign_at|date:"d F Y" }}</div>
             <div>Kepala {{ letter.digital_sign_institution }}</div>
             {% if letter.qr_code_base64 %}
             <img src="data:image/png;base64,{{ letter.qr_code_base64 }}" width="90px" height="90px" alt="QR Code {{ letter.number }}">
