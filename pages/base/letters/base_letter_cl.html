@@ -190,9 +190,9 @@
           <h1>
             <div class="lh-1s fs-12 fw-normal">PEMERINTAH PROVINSI DAERAH KHUSUS IBUKOTA JAKARTA
               <br><span class="fs-13 fw-normal">DINAS PENDIDIKAN</span>
-              <br><span class="fs-14 fw-semi-bold">{{ letter.digital_sign_institution }}</span>
+              <br><span class="fs-14 fw-semi-bold">{% if letter.digital_sign_institution %}SEKOLAH MENENGAH PERTAMA{{ letter.digital_sign_institution|cut:"SMP" }}{% endif %}</span>
               <br><span class="fw-normal fs-10">{{ school_info.alamat_jalan }}&nbsp;{{ school_info.desa_kelurahan }}&nbsp;{{ school_info.kecamatan }} Telepon: 021-{{ school_info.nomor_telepon }}</span>
-              <br><span class="fw-normal fs-10">Website: {{ school_info.website|cut:"http://" }} E-mail: {{ school_info.email }}</span>
+              <br><span class="fw-normal fs-10">Website: {{ school_info.website|default_if_none:""|cut:"http://"|cut:"https://" }} E-mail: {{ school_info.email }}</span>
             </div>
         </div>
       </td>
