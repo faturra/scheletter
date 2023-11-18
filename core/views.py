@@ -670,3 +670,65 @@ def process_destroy_sl(request, archive_id):
 
     messages.error(request, 'Archive has been permanently destroyed!')
     return redirect('trash')
+
+@login_required
+@group_required(config.hoa)
+def process_cl_to_destroy_list(request, cl_arc_id):
+    common_letter = Common_Letter.objects.get(pk=cl_arc_id)
+    common_letter.is_selected_to_destroy = True
+    common_letter.updated_by = request.user
+    common_letter.save()
+
+    messages.warning(request, 'Archive has been added to list!')
+    return redirect('trash')
+
+@login_required
+@group_required(config.hoa)
+def cancel_destroy_process_cl(request, archive_id):
+    common_letter = Common_Letter.objects.get(pk=archive_id)
+    common_letter.is_selected_to_destroy = False
+    common_letter.updated_by = request.user
+    common_letter.save()
+
+    messages.info(request, 'Archive has been cancelled!')
+    return redirect('trash')
+
+@login_required
+@group_required(config.hoa)
+def process_destroy_cl(request, archive_id):
+    common_letter = Common_Letter.objects.get(pk=archive_id)
+    common_letter.delete()
+
+    messages.error(request, 'Archive has been permanently destroyed!')
+    return redirect('trash')
+
+@login_required
+@group_required(config.hoa)
+def process_el_to_destroy_list(request, el_arc_id):
+    employees_letter = Employees_Letter.objects.get(pk=el_arc_id)
+    employees_letter.is_selected_to_destroy = True
+    employees_letter.updated_by = request.user
+    employees_letter.save()
+
+    messages.warning(request, 'Archive has been added to list!')
+    return redirect('trash')
+
+@login_required
+@group_required(config.hoa)
+def cancel_destroy_process_el(request, archive_id):
+    employees_letter = Employees_Letter.objects.get(pk=archive_id)
+    employees_letter.is_selected_to_destroy = False
+    employees_letter.updated_by = request.user
+    employees_letter.save()
+
+    messages.info(request, 'Archive has been cancelled!')
+    return redirect('trash')
+
+@login_required
+@group_required(config.hoa)
+def process_destroy_el(request, archive_id):
+    employees_letter = Employees_Letter.objects.get(pk=archive_id)
+    employees_letter.delete()
+
+    messages.error(request, 'Archive has been permanently destroyed!')
+    return redirect('trash')

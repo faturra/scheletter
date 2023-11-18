@@ -15,6 +15,12 @@
                   <thead>
                     <tr>
                         <th scope="col">#</th>
+                        {% if request.path == trash %}
+                        {% if common_letter_archives.is_selected_to_destroy %}
+                        {% else %}
+                        <th scope="col"><i class="bi bi-plus-circle"></i>&nbsp;Add</th>
+                        {% endif %}
+                        {% endif %}
                         <th scope="col">&nbsp;&nbsp;<i class="bi bi-printer"></i></th>
                         <th scope="col">Number</th>
                         <th scope="col">Regarding</th>
@@ -31,6 +37,12 @@
                       {% for item in common_letter_archives %}
                       <tr>
                           <th scope="row">{{ forloop.counter }}</th>
+                          {% if request.path == trash or request.path == process_cl_to_destroy_list%}
+                          {% if common_letter_archives.is_selected_to_destroy %}
+                          {% else %}
+                          <td><a href="{% url 'process-cl-to-destroy-list' cl_arc_id=item.letter_id %}" class="btn btn-sm btn-warning" onclick="return confirm('Are you sure you want to add the archive:\n\n[{{item.get_letter_type_display}}]\n{{item.subject}} {{item.event_name}}\n{{item.number}}');"><i class="bi bi-plus-circle"></i>&nbsp;Add</a></td>
+                          {% endif %}
+                          {% endif %}
                           <td><a href="{% url 'generate-pdf-cl' letter_id=item.letter_id %}" class="btn btn-sm btn-light" target="_blank"><i class="bi bi-box-arrow-up-right"></i>&nbsp;Check</a></td>
                           <td>{{ item.number }}</td>
                           <td>{{ item.subject }}</td>
@@ -71,6 +83,12 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
+                        {% if request.path == trash %}
+                        {% if employees_letter_archives.is_selected_to_destroy %}
+                        {% else %}
+                        <th scope="col"><i class="bi bi-plus-circle"></i>&nbsp;Add</th>
+                        {% endif %}
+                        {% endif %}
                         <th scope="col"><i class="bi bi-box-arrow-up-right"></i>&nbsp;Check</th>
                         <th scope="col">Number</th>
                         <th scope="col">Regarding</th>
@@ -87,6 +105,12 @@
                     {% for item in employees_letter_archives %}
                     <tr>
                         <th scope="row">{{ forloop.counter }}</th>
+                        {% if request.path == trash or request.path == process_cl_to_destroy_list%}
+                        {% if common_letter_archives.is_selected_to_destroy %}
+                        {% else %}
+                        <td><a href="{% url 'process-el-to-destroy-list' el_arc_id=item.letter_id %}" class="btn btn-sm btn-warning" onclick="return confirm('Are you sure you want to add the archive:\n\n[{{item.get_letter_type_display}}]\n{{item.subject}} {{item.employee_name}}\n{{item.number}}');"><i class="bi bi-plus-circle"></i>&nbsp;Add</a></td>
+                        {% endif %}
+                        {% endif %}
                         <td><a href="{% url 'generate-pdf-el' letter_id=item.letter_id %}"class="btn btn-sm btn-light" target="_blank"><i class="bi bi-box-arrow-up-right"></i>&nbsp;Check</a></td>
                         <td>{{ item.number }}</td>
                         <td>{{ item.subject }}</td>
