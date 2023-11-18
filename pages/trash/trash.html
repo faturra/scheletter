@@ -43,7 +43,7 @@
             </li>
         </ul>
           <div class="tab-pane fade show active" id="trash-pane" role="tabpanel" aria-labelledby="trash" tabindex="0">
-            {% if ready_to_destroy_sl %}
+            {% if ready_to_destroy_sl or ready_to_destroy_el or ready_to_destroy_cl %}
             <div class="row mt-3">
               {% for archive in ready_to_destroy_sl %}
               <div class="col-sm-12 mb-3">
@@ -57,6 +57,46 @@
                       <div class="d-grid gap-2 d-md-flex justify-content-md-between">
                         <a href="{% url 'cancel-destroy-process-sl' archive_id=archive.letter_id %}" class="btn btn-dark" onclick="return confirm('Are you sure you want to cancel the archive:\n\n[{{archive.get_letter_type_display}}]\n{{archive.student_name}} {{archive.student_nisn}}\n{{archive.number}}');">Cancel</a>
                         <a href="{% url 'generate-pdf-sl' letter_id=archive.letter_id %}" class="btn btn-light text-primary" target="_blank"><i class="bi bi-box-arrow-up-right"></i>&nbsp;Check</a>
+                        <a href="#" class="btn btn-danger btn-destroy" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-archive-number="{{ archive.number }}" data-bs-target="#staticBackdrop">Destroy</a>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+              <br>
+              {% for archive in ready_to_destroy_el %}
+              <div class="col-sm-12 mb-3">
+                <div class="card border-light shadow">
+                  <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-card-text"></i>&nbsp;{{ archive.get_letter_type_display }}</h5>
+                    <p class="card-text small"><span class="card-text text-muted">{{ archive.number }}</span><br>{{ archive.employee_name }}&nbsp;{{ archive.subject }}</p>
+                    <hr style="border-style: dashed;">
+                    <form id="destroy_confirmation" method="post" action="{% url 'process-destroy-el' archive_id=archive.letter_id %}">
+                      {% csrf_token %}
+                      <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+                        <a href="{% url 'cancel-destroy-process-el' archive_id=archive.letter_id %}" class="btn btn-dark" onclick="return confirm('Are you sure you want to cancel the archive:\n\n[{{archive.get_letter_type_display}}]\n{{archive.subject}} {{archive.event_name}}\n{{archive.number}}');">Cancel</a>
+                        <a href="{% url 'generate-pdf-el' letter_id=archive.letter_id %}" class="btn btn-light text-primary" target="_blank"><i class="bi bi-box-arrow-up-right"></i>&nbsp;Check</a>
+                        <a href="#" class="btn btn-danger btn-destroy" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-archive-number="{{ archive.number }}" data-bs-target="#staticBackdrop">Destroy</a>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+              <br>
+              {% for archive in ready_to_destroy_cl %}
+              <div class="col-sm-12 mb-3">
+                <div class="card border-light shadow">
+                  <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-card-text"></i>&nbsp;{{ archive.get_letter_type_display }}</h5>
+                    <p class="card-text small"><span class="card-text text-muted">{{ archive.number }}</span><br>{{ archive.event_name }}&nbsp;{{ archive.place_address }}</p>
+                    <hr style="border-style: dashed;">
+                    <form id="destroy_confirmation" method="post" action="{% url 'process-destroy-cl' archive_id=archive.letter_id %}">
+                      {% csrf_token %}
+                      <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+                        <a href="{% url 'cancel-destroy-process-cl' archive_id=archive.letter_id %}" class="btn btn-dark" onclick="return confirm('Are you sure you want to cancel the archive:\n\n[{{archive.get_letter_type_display}}]\n{{archive.event_name}} {{archive.place_address}}\n{{archive.number}}');">Cancel</a>
+                        <a href="{% url 'generate-pdf-cl' letter_id=archive.letter_id %}" class="btn btn-light text-primary" target="_blank"><i class="bi bi-box-arrow-up-right"></i>&nbsp;Check</a>
                         <a href="#" class="btn btn-danger btn-destroy" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-archive-number="{{ archive.number }}" data-bs-target="#staticBackdrop">Destroy</a>
                       </div>
                     </form>

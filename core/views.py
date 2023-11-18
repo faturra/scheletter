@@ -626,6 +626,8 @@ def trash(request):
     common_letter_archives = Common_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False, is_selected_to_destroy=False).order_by('-digital_sign_at')
 
     ready_to_destroy_sl = Students_Letter.objects.filter(is_selected_to_destroy=True).order_by('-digital_sign_at')
+    ready_to_destroy_el = Employees_Letter.objects.filter(is_selected_to_destroy=True).order_by('-digital_sign_at')
+    ready_to_destroy_cl = Common_Letter.objects.filter(is_selected_to_destroy=True).order_by('-digital_sign_at')
     count_sl_rtd = Students_Letter.objects.filter(is_selected_to_destroy=True).count()
     count_el_rtd = Employees_Letter.objects.filter(is_selected_to_destroy=True).count()
     count_cl_rtd = Common_Letter.objects.filter(is_selected_to_destroy=True).count()
@@ -636,6 +638,8 @@ def trash(request):
         'employees_letter_archives': employees_letter_archives,
         'common_letter_archives': common_letter_archives,
         'ready_to_destroy_sl': ready_to_destroy_sl,
+        'ready_to_destroy_el': ready_to_destroy_el,
+        'ready_to_destroy_cl': ready_to_destroy_cl,
         'count_rtd': count_rtd
         }
     return render(request, 'trash/trash.html', context)
