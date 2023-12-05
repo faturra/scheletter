@@ -17,7 +17,8 @@ def update_api_data():
     npsn = integration.npsn
     api_token = integration.token
 
-    base_url = f'http://{server_address}:1162/WebService/'
+    # base_url = f'http://{server_address}:1162/WebService/'
+    base_url = f'https://{server_address}/WebService/'
 
     headers = {
         'Authorization': f'Bearer {api_token}',
