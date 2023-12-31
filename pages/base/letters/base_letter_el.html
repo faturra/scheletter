@@ -168,7 +168,7 @@
         <div class="small1">
           <h1>
             <img id="jayaraya_logo" src="static/assets/letters/img/jaya_raya_bw.png">
-            <div class="lh-normal fs-12 mt-2">{{ letter.digital_sign_institution }}</div>
+            <div class="lh-normal fs-12 mt-2">{% if letter.digital_sign_institution %}SEKOLAH MENENGAH PERTAMA{{ letter.digital_sign_institution|cut:"SMP" }}{% endif %}</div>
             <div class="mb-1 fs-12">DINAS PENDIDIKAN PROVINSI DAERAH KHUSUS IBUKOTA JAKARTA</div>
             <div class="lh-normal fs-14">S U R A T&nbsp;&nbsp;&nbsp;T U G A S</div>
           </h1>
