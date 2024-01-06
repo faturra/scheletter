@@ -55,19 +55,23 @@
         <td width=13%></td>
         <td>Hari</td>
         <td width=1%>:</td>
-        <td>{{ letter.student_name }}</td>
+        <td>
+            {% if letter.date_start == letter.date_end %}
+                {{ letter.date_start|date:"l" }}
+            {% else %}
+                {{ letter.date_start|date:"l" }} s.d. {{ letter.date_end|date:"l" }}
+            {% endif %}
+        </td>
     </tr>
     <tr>
         <td></td>
         <td>Tanggal</td>
         <td width=1%>:</td>
         <td>
-            {% if letter.student_gender == 'L' or letter.student_gender == '1' %}
-            Laki-laki
-            {% elif letter.student_gender == 'P' or letter.student_gender == '2' %}
-            Perempuan
+            {% if letter.date_start == letter.date_end %}
+                {{ letter.date_start|date:"d F Y" }}
             {% else %}
-            -
+                {{ letter.date_start|date:"d F" }} s.d. {{ letter.date_end|date:"d F Y" }}
             {% endif %}
         </td>
     </tr>
@@ -75,19 +79,26 @@
         <td></td>
         <td width=20%>Waktu</td>
         <td width=1%>:</td>
-        <td>{{ letter.student_place_of_birth }}, {{ letter.student_date_of_birth|date:"d F Y" }}</td>
+        <td>Pukul 
+            {% if letter.time_start|slice:"5" == letter.time_end|slice:"5" %}
+                {{ letter.time_start|slice:"5" }}
+            {% else %}
+                {{ letter.time_start|slice:"5" }} s.d. {{ letter.time_end|slice:"5" }}
+            {% endif %}
+            WIB
+        </td>
     </tr>
     <tr>
         <td></td>
         <td>Tempat</td>
         <td width=1%>:</td>
-        <td>{{ letter.student_nisn }}</td>
+        <td>{{ letter.place_address }}</td>
     </tr>
     <tr>
         <td></td>
         <td>Acara</td>
         <td width=1%>:</td>
-        <td>{{ letter.student_class }}</td>
+        <td>{{ letter.event_name }}</td>
     </tr>
 </table>
 <p class="tab1 lh-normal fs-12 mb-2">{{ letter.body_closing }}</p>
@@ -99,7 +110,7 @@
         <td width=20%></td>
         <td class="fs-12">
             <div class="lh-1s">Jakarta, {{ letter.digital_sign_at|date:"d F Y" }}</div>
-            <div>Kepala {{ letter.digital_sign_institution }}</div>
+            <div>Kepala {{ letter.digital_sign_institution|default_if_none:"-" }}</div>
             {% if letter.qr_code_base64 %}
             <img src="data:image/png;base64,{{ letter.qr_code_base64 }}" width="90px" height="90px" alt="QR Code {{ letter.number }}">
             {% else %}
@@ -107,8 +118,8 @@
             <br>
             <br>
             {% endif %}
-            <div class="mt-1">{{ letter.digital_sign_by_name|upper }}</div>
-            <div>NIP _nip</div>
+            <div class="mt-1">{{ letter.digital_sign_by_name|default_if_none:"-"|upper }}</div>
+            <div>NIP&nbsp;{% if letter.digital_sign_by_name %}196610091998022001{% else %}-{% endif %}</div>
         </td>
     </tr>
 </table>
