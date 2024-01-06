@@ -30,7 +30,7 @@
                         {% csrf_token %}
                         {{ form.media }}
                         {{ form|crispy }}
-                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to edit the letter?');">Update</button>
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to apply changes?');">Update</button>
                         <a href="{% url 'request-queue' %}" class="btn btn-light">Cancel</a>
                     </form>
                   </div>

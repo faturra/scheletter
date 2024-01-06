@@ -146,6 +146,33 @@ def employee_letter(request):
 
 @login_required
 @decorators.group_required(config.ecs)
+def edit_employee_letter(request, letter_id):
+    letter_instance = get_object_or_404(Employees_Letter, letter_id=letter_id)
+    
+    if request.method == 'POST':
+        form = EmployeesLetterForm(request.POST, instance=letter_instance)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Letter successfully updated!')
+            return redirect('request-queue')
+        else:
+            messages.error(request, 'Form submission failed. Please check the form.')
+    else:
+        form = EmployeesLetterForm(instance=letter_instance)
+    
+    context = {'form': form}
+    return render(request, 'administration/letter/edit_letter/employee_letter_edit.html', context)
+
+@login_required
+@decorators.group_required(config.ecs)
+def delete_employee_letter(request, letter_id):
+    letter_instance = get_object_or_404(Employees_Letter, letter_id=letter_id)
+    letter_instance.delete()
+    messages.success(request, 'Letter successfully deleted!')
+    return redirect('request-queue')
+
+@login_required
+@decorators.group_required(config.ecs)
 def get_employee_info(request):
     employee_list = cache.get('dapodik_employees')
 
@@ -192,3 +219,30 @@ def common_letter(request):
     
     context = {'form': form}
     return render(request, 'administration/letter/create_letter/common_letter.html', context)
+
+@login_required
+@decorators.group_required(config.scs, config.ecs)
+def edit_common_letter(request, letter_id):
+    letter_instance = get_object_or_404(Common_Letter, letter_id=letter_id)
+    
+    if request.method == 'POST':
+        form = CommonLetterForm(request.POST, instance=letter_instance)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Letter successfully updated!')
+            return redirect('request-queue')
+        else:
+            messages.error(request, 'Form submission failed. Please check the form.')
+    else:
+        form = CommonLetterForm(instance=letter_instance)
+    
+    context = {'form': form}
+    return render(request, 'administration/letter/edit_letter/common_letter_edit.html', context)
+
+@login_required
+@decorators.group_required(config.scs, config.ecs)
+def delete_common_letter(request, letter_id):
+    letter_instance = get_object_or_404(Common_Letter, letter_id=letter_id)
+    letter_instance.delete()
+    messages.success(request, 'Letter successfully deleted!')
+    return redirect('request-queue')
