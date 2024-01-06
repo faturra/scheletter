@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.core.cache import cache
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -64,6 +64,34 @@ def student_letter(request):
     context = {'form': form, 'student_list': student_list, 'selected_student': selected_student}
     return render(request, 'administration/letter/create_letter/student_letter.html', context)
 
+@login_required
+@decorators.group_required(config.scs)
+def edit_student_letter(request, letter_id):
+    letter_instance = get_object_or_404(Students_Letter, letter_id=letter_id)
+    
+    if request.method == 'POST':
+        form = StudentsLetterForm(request.POST, instance=letter_instance)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Letter successfully updated!')
+            return redirect('request-queue')
+        else:
+            messages.error(request, 'Form submission failed. Please check the form.')
+    else:
+        form = StudentsLetterForm(instance=letter_instance)
+
+    student_list = cache.get('dapodik_students')
+    selected_student = request.session.get('selected_student')
+    context = {'form': form, 'student_list': student_list, 'selected_student': selected_student}
+    return render(request, 'administration/letter/edit_letter/student_letter_edit.html', context)
+
+@login_required
+@decorators.group_required(config.scs)
+def delete_student_letter(request, letter_id):
+    letter_instance = get_object_or_404(Students_Letter, letter_id=letter_id)
+    letter_instance.delete()
+    messages.success(request, 'Letter successfully deleted!')
+    return redirect('request-queue')
 
 @login_required
 @decorators.group_required(config.scs)
