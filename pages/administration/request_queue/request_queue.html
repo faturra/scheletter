@@ -61,7 +61,7 @@
                                 <th scope="row">{{ forloop.counter }}</th>
                                 {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
                                 <td>
-                                    <a href="{% url 'send-sign-request' letter_id=item.letter_id %}" class="btn btn-sm btn-success"><span class="bi bi-arrow-90deg-right"></span>&nbsp;Request sign</a>
+                                    <a href="{% url 'send-sign-request-el' letter_id=item.letter_id %}" class="btn btn-sm btn-success"><span class="bi bi-arrow-90deg-right"></span>&nbsp;Request sign</a>
                                     <a href="{% url 'generate-pdf-el' letter_id=item.letter_id %}" class="btn btn-sm btn-light text-primary" target="_blank"><span class="bi bi-box-arrow-up-right"></span></a>
                                     <a href="{% url 'edit-employee-letter' letter_id=item.letter_id %}" class="btn btn-sm btn-light text-warning"><span class="bi bi-pen"></span></a>
                                     <a href="{% url 'delete-employee-letter' letter_id=item.letter_id %}" class="btn btn-sm btn-light text-danger" onclick="return confirm('Are you sure you want to delete the letter?');"><span class="bi bi-trash"></span></a>
@@ -125,7 +125,7 @@
                             <tr>
                                 <th scope="row">{{ forloop.counter }}</th>
                                 {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
-                                <td><a href="{% url 'cancel-request-sign' letter_id=item.letter_id %}" class="btn btn-sm btn-danger">Cancel</a></td>
+                                <td><a href="{% url 'cancel-request-sign-el' letter_id=item.letter_id %}" class="btn btn-sm btn-danger">Cancel</a></td>
                                 {% endif %}
                                 <td>{{ item.number }}</td>
                                 <td>{{ item.subject }}</td>
@@ -266,7 +266,7 @@
                                 <th scope="row">{{ forloop.counter }}</th>
                                 {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
                                 <td>
-                                    <a href="{% url 'send-sign-request' letter_id=item.letter_id %}" class="btn btn-sm btn-success"><span class="bi bi-arrow-90deg-right"></span>&nbsp;Request sign</a>
+                                    <a href="{% url 'send-sign-request-sl' letter_id=item.letter_id %}" class="btn btn-sm btn-success"><span class="bi bi-arrow-90deg-right"></span>&nbsp;Request sign</a>
                                     <a href="{% url 'generate-pdf-sl' letter_id=item.letter_id %}" class="btn btn-sm btn-light text-primary" target="_blank"><span class="bi bi-box-arrow-up-right"></span></a>
                                     <a href="{% url 'edit-student-letter' letter_id=item.letter_id %}" class="btn btn-sm btn-light text-warning"><span class="bi bi-pen"></span></a>
                                     <a href="{% url 'delete-student-letter' letter_id=item.letter_id %}" class="btn btn-sm btn-light text-danger" onclick="return confirm('Are you sure you want to delete the letter?');"><span class="bi bi-trash"></span></a>
@@ -330,7 +330,7 @@
                             <tr>
                                 <th scope="row">{{ forloop.counter }}</th>
                                 {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
-                                <td><a href="{% url 'cancel-request-sign' letter_id=item.letter_id %}" class="btn btn-sm btn-danger">Cancel</a></td>
+                                <td><a href="{% url 'cancel-request-sign-sl' letter_id=item.letter_id %}" class="btn btn-sm btn-danger">Cancel</a></td>
                                 {% endif %}
                                 <td>{{ item.number }}</td>
                                 <td>{{ item.subject }}</td>
@@ -469,7 +469,7 @@
                                 <th scope="row">{{ forloop.counter }}</th>
                                 {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
                                 <td>
-                                    <a href="{% url 'send-sign-request' letter_id=item.letter_id %}" class="btn btn-sm btn-success"><span class="bi bi-arrow-90deg-right"></span>&nbsp;Request sign</a>
+                                    <a href="{% url 'send-sign-request-cl' letter_id=item.letter_id %}" class="btn btn-sm btn-success"><span class="bi bi-arrow-90deg-right"></span>&nbsp;Request sign</a>
                                     <a href="{% url 'generate-pdf-cl' letter_id=item.letter_id %}" class="btn btn-sm btn-light text-primary" target="_blank"><span class="bi bi-box-arrow-up-right"></span></a>
                                     <a href="{% url 'edit-common-letter' letter_id=item.letter_id %}" class="btn btn-sm btn-light text-warning"><span class="bi bi-pen"></span></a>
                                     <a href="{% url 'delete-common-letter' letter_id=item.letter_id %}" class="btn btn-sm btn-light text-danger" onclick="return confirm('Are you sure you want to delete the letter?');"><span class="bi bi-trash"></span></a>
@@ -535,7 +535,7 @@
                             <tr>
                                 <th scope="row">{{ forloop.counter }}</th>
                                 {% if request.user.groups.first.name == 'Employee Correspondence Staff' or request.user.groups.first.name == 'Student Correspondence Staff' %}
-                                <td><a href="{% url 'cancel-request-sign' letter_id=item.letter_id %}" class="btn btn-sm btn-danger">Cancel</a></td>
+                                <td><a href="{% url 'cancel-request-sign-cl' letter_id=item.letter_id %}" class="btn btn-sm btn-danger">Cancel</a></td>
                                 {% endif %}
                                 <td>{{ item.number }}</td>
                                 <td>{{ item.subject }}</td>
