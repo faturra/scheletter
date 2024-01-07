@@ -33,7 +33,7 @@
                 <div class="card border-0 shadow">
                   <div class="card-body">
                     <h5 class="card-title"><i class="bi bi-card-text"></i>&nbsp;{{ item.get_letter_type_display }}</h5>
-                    <p class="card-text small"><span class="card-text text-muted">{{ item.number }}</span><br>{{ item.student_name }}&nbsp;{{ item.student_class }}-{{ item.student_nisn }}</p>
+                    <p class="card-text small"><span class="card-text text-muted">{{ item.number }}</span><br>{{ item.student_name }}&nbsp;{{ item.student_class }}-{{ item.student_nisn }}<br>{{ item.subject|truncatechars:50 }}</p>
                     <hr style="border-style: dashed;">
                     <a href="{% url 'check-letter-student' letter_id=item.letter_id %}" class="btn btn-light text-primary"><i class="bi bi-search"></i>&nbsp;Check</a>
                     <small class="text-muted">Created on&nbsp;{{ item.created_at|date:"Y-m-d H:i" }}</small>
@@ -59,7 +59,7 @@
                 <div class="card border-0 shadow">
                   <div class="card-body">
                     <h5 class="card-title"><i class="bi bi-card-text"></i>&nbsp;{{ item.get_letter_type_display }}</h5>
-                    <p class="card-text small"><span class="card-text text-muted">{{ item.number }}</span><br>{{ item.student_name }}&nbsp;{{ item.student_class }}-{{ item.student_nisn }}</p>
+                    <p class="card-text small"><span class="card-text text-muted">{{ item.number }}</span><br>{{ item.student_name }}&nbsp;{{ item.student_class }}-{{ item.student_nisn }}<br>{{ item.subject|truncatechars:50 }}</p>
                     <hr style="border-style: dashed;">
                     <a href="{% url 'generate-pdf-sl' letter_id=item.letter_id %}" class="btn btn-light text-primary" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a>
                     <small class="text-muted">Signed on {{ item.digital_sign_at|date:"Y-m-d H:i" }}&nbsp;<i class="bi bi-check-circle-fill text-success"></i></small>
@@ -108,7 +108,12 @@
                 <div class="card border-0 shadow">
                   <div class="card-body">
                     <h5 class="card-title"><i class="bi bi-card-text"></i>&nbsp;{{ item.get_letter_type_display }}</h5>
-                    <p class="card-text small"><span class="card-text text-muted">{{ item.number }}</span><br>{{ item.employee_name }}&nbsp;{{ item.employee_rank }}</p>
+                    <p class="card-text small"><span class="card-text text-muted">{{ item.number }}</span><br>{{ item.employee_name }}&nbsp;{{ item.employee_rank }}&nbsp;-&nbsp;{{ item.subject|truncatechars:50 }}<br>
+                      {% if item.date_start|date:"d F Y" == letter.date_end|date:"d F Y" %}
+                          {{ item.date_start|date:"d F Y" }}
+                      {% else %}
+                          {{ item.date_start|date:"d F" }} s.d. {{ item.date_end|date:"d F Y" }}
+                      {% endif %}
                     <hr style="border-style: dashed;">
                     <a href="{% url 'check-letter-employee' letter_id=item.letter_id %}" class="btn btn-light text-primary"><i class="bi bi-search"></i>&nbsp;Check</a>
                     <small class="text-muted">Created on&nbsp;{{ item.created_at|date:"Y-m-d H:i" }}</small>
@@ -134,7 +139,13 @@
                 <div class="card border-0 shadow">
                   <div class="card-body">
                     <h5 class="card-title"><i class="bi bi-card-text"></i>&nbsp;{{ item.get_letter_type_display }}</h5>
-                    <p class="card-text small"><span class="card-text text-muted">{{ item.number }}</span><br>{{ item.employee_name }}&nbsp;{{ item.employee_rank }}</p>
+                    <p class="card-text small"><span class="card-text text-muted">{{ item.number }}</span><br>{{ item.employee_name }}&nbsp;{{ item.employee_rank }}&nbsp;-&nbsp;{{ item.subject|truncatechars:50 }}<br>
+                      {% if item.date_start|date:"d F Y" == letter.date_end|date:"d F Y" %}
+                          {{ item.date_start|date:"d F Y" }}
+                      {% else %}
+                          {{ item.date_start|date:"d F" }} s.d. {{ item.date_end|date:"d F Y" }}
+                      {% endif %}
+                    </p>
                     <hr style="border-style: dashed;">
                     <a href="{% url 'generate-pdf-el' letter_id=item.letter_id %}" class="btn btn-light text-primary" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a>
                     <small class="text-muted">Signed on {{ item.digital_sign_at|date:"Y-m-d H:i" }}&nbsp;<i class="bi bi-check-circle-fill text-success"></i></small>
@@ -183,7 +194,13 @@
                 <div class="card border-0 shadow">
                   <div class="card-body">
                     <h5 class="card-title"><i class="bi bi-card-text"></i>&nbsp;{{ item.get_letter_type_display }}</h5>
-                    <p class="card-text small"><span class="card-text text-muted">{{ item.number }}</span><br>{{ item.dear_invitation }}<br>{{ item.date_start|date:"d F Y" }}-{{ item.date|date:"d F Y" }}</p>
+                    <p class="card-text small"><span class="card-text text-muted">{{ item.number }}</span><br>{{ item.dear_invitation }}&nbsp;-&nbsp;{{ item.event_name|truncatechars:30 }}<br>
+                      {% if item.date_start|date:"d F Y" == letter.date_end|date:"d F Y" %}
+                          {{ item.date_start|date:"d F Y" }}
+                      {% else %}
+                          {{ item.date_start|date:"d F" }} s.d. {{ item.date_end|date:"d F Y" }}
+                      {% endif %}
+                    </p>
                     <hr style="border-style: dashed;">
                     <a href="{% url 'check-letter-common' letter_id=item.letter_id %}" class="btn btn-light text-primary"><i class="bi bi-search"></i>&nbsp;Check</a>
                     <small class="text-muted">Created on&nbsp;{{ item.created_at|date:"Y-m-d H:i" }}</small>
@@ -209,7 +226,13 @@
                 <div class="card border-0 shadow">
                   <div class="card-body">
                     <h5 class="card-title"><i class="bi bi-card-text"></i>&nbsp;{{ item.get_letter_type_display }}</h5>
-                    <p class="card-text small"><span class="card-text text-muted">{{ item.number }}</span><br>{{ item.employee_name }}&nbsp;{{ item.employee_rank }}</p>
+                    <p class="card-text small"><span class="card-text text-muted">{{ item.number }}</span><br>{{ item.dear_invitation }}&nbsp;-&nbsp;{{ item.event_name|truncatechars:30 }}<br>
+                      {% if item.date_start|date:"d F Y" == letter.date_end|date:"d F Y" %}
+                          {{ item.date_start|date:"d F Y" }}
+                      {% else %}
+                          {{ item.date_start|date:"d F" }} s.d. {{ item.date_end|date:"d F Y" }}
+                      {% endif %}
+                    </p>
                     <hr style="border-style: dashed;">
                     <a href="{% url 'generate-pdf-cl' letter_id=item.letter_id %}" class="btn btn-light text-primary" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a>
                     <small class="text-muted">Signed on {{ item.digital_sign_at|date:"Y-m-d H:i" }}&nbsp;<i class="bi bi-check-circle-fill text-success"></i></small>

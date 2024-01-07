@@ -15,57 +15,72 @@
         <div class="row g-3">
             <div class="col-sm-12">
                 <div class="card card-body shadow text-center">
-                    <h4 class="text-center">{{ students_letter.get_letter_type_display }}</h4>
-                    <div class="text-center">{{ students_letter.number }}</div>
+                    <h4 class="text-center">{{ common_letter.subject }}</h4>
+                    <div class="text-center">{{ common_letter.number }}</div>
                     <hr>
                     <table class="table table-borderless">
                         <thead>
                           <tr>
-                            <th scope="col">Student name</th>
+                            <th scope="col">To</th>
                           </tr>
                         </thead>
                         <tbody>
                           <tr>
-                            <td>{{ students_letter.student_name }}</td>
+                            <td>{{ common_letter.dear_invitation }}</td>
                           </tr>
                         </tbody>
                     </table>
                     <table class="table table-borderless">
                         <thead>
                           <tr>
-                            <th scope="col">Student Class</th>
+                            <th scope="col">Event Name</th>
                           </tr>
                         </thead>
                         <tbody>
                           <tr>
-                            <td>{{ students_letter.student_class }}</td>
+                            <td>{{ common_letter.event_name }}</td>
                           </tr>
                         </tbody>
                     </table>
                     <table class="table table-borderless">
                         <thead>
                           <tr>
-                            <th scope="col">NISN</th>
+                            <th scope="col">Time</th>
                           </tr>
                         </thead>
                         <tbody>
                           <tr>
-                            <td>{{ students_letter.student_nisn }}</td>
+                            <td>
+                              {% if common_letter.date_start|date:"l" == common_letter.date_end|date:"l" %}
+                                  {{ common_letter.date_start|date:"l" }}
+                              {% else %}
+                                  {{ common_letter.date_start|date:"l" }} s.d. {{ common_letter.date_end|date:"l" }}
+                              {% endif %}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              {% if common_letter.date_start|date:"d F Y" == common_letter.date_end|date:"d F Y" %}
+                                  {{ common_letter.date_start|date:"d F Y" }}
+                              {% else %}
+                                  {{ common_letter.date_start|date:"d F" }} s.d. {{ common_letter.date_end|date:"d F Y" }}
+                              {% endif %}
+                            </td>
                           </tr>
                         </tbody>
                     </table>
                     <table class="table table-borderless">
-                        <thead>
-                          <tr>
-                            <th scope="col">Regarding</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>{{ students_letter.subject }}</td>
-                          </tr>
-                        </tbody>
-                    </table>
+                      <thead>
+                        <tr>
+                          <th scope="col">Place</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>{{ common_letter.place_address }}</td>
+                        </tr>
+                      </tbody>
+                  </table>
                     <table class="table table-borderless">
                         <thead>
                           <tr>
@@ -74,7 +89,7 @@
                         </thead>
                         <tbody>
                           <tr>
-                            <td>{{ students_letter.body }}</td>
+                            <td>{{ common_letter.body_opening|truncatechars:60 }}</td>
                           </tr>
                         </tbody>
                     </table>
@@ -88,7 +103,7 @@
                           <a href="{% url 'sign-request' %}" class="btn btn-secondary shadow">Back</a>
                           {% if common_letter.digital_sign_at and common_letter.is_in_staging is False and request.user.groups.first.name == "Principal" %}
                           {% elif common_letter.digital_sign_at is None and common_letter.is_in_staging is False and request.user.groups.first.name == "Principal" %}
-                          <a href="{% url 'apply-signature-cl' letter_id=common_letter.letter_id %}" class="btn btn-primary shadow" onclick="return confirm('Are you sure you want to sign the letter:\n\n[{{students_letter.get_letter_type_display}}]\n{{students_letter.student_name}} {{students_letter.student_nisn}}\n{{students_letter.number}}');"><i class="bi bi-fingerprint"></i>&nbsp;Sign the letter</a>
+                          <a href="{% url 'apply-signature-cl' letter_id=common_letter.letter_id %}" class="btn btn-primary shadow" onclick="return confirm('Are you sure you want to sign the letter:\n\n[{{common_letter.subject}} - {{ common_letter.number }}]\n{{common_letter.event_name}}');"><i class="bi bi-fingerprint"></i>&nbsp;Sign the letter</a>
                           {% endif %}
                         </form>
                     </div>

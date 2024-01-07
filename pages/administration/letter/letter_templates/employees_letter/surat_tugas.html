@@ -40,7 +40,7 @@
         <td>Hari</td>
         <td width=1%>:</td>
         <td>
-            {% if letter.date_start == letter.date_end %}
+            {% if letter.date_start|date:"l" == letter.date_end|date:"l" %}
                 {{ letter.date_start|date:"l" }}
             {% else %}
                 {{ letter.date_start|date:"l" }} s.d. {{ letter.date_end|date:"l" }}
@@ -52,7 +52,7 @@
         <td>Tanggal</td>
         <td width=1%>:</td>
         <td>
-            {% if letter.date_start == letter.date_end %}
+            {% if letter.date_start|date:"d F Y" == letter.date_end|date:"d F Y" %}
                 {{ letter.date_start|date:"d F Y" }}
             {% else %}
                 {{ letter.date_start|date:"d F" }} s.d. {{ letter.date_end|date:"d F Y" }}

@@ -88,7 +88,7 @@
                           <a href="{% url 'sign-request' %}" class="btn btn-secondary shadow">Back</a>
                           {% if students_letter.digital_sign_at and students_letter.is_in_staging is False and request.user.groups.first.name == "Principal" %}
                           {% elif students_letter.digital_sign_at is None and students_letter.is_in_staging is False and request.user.groups.first.name == "Principal" %}
-                          <a href="{% url 'apply-signature-sl' letter_id=students_letter.letter_id %}" class="btn btn-primary shadow" onclick="return confirm('Are you sure you want to sign the letter:\n\n[{{students_letter.get_letter_type_display}}]\n{{students_letter.student_name}} {{students_letter.student_nisn}}\n{{students_letter.number}}');"><i class="bi bi-fingerprint"></i>&nbsp;Sign the letter</a>
+                          <a href="{% url 'apply-signature-sl' letter_id=students_letter.letter_id %}" class="btn btn-primary shadow" onclick="return confirm('Are you sure you want to sign the letter:\n\n[{{students_letter.get_letter_type_display}} - {{students_letter.number}}]\n{{students_letter.student_name}} {{students_letter.student_nisn}}\n{{students_letter.subject}}');"><i class="bi bi-fingerprint"></i>&nbsp;Sign the letter</a>
                           {% endif %}
                         </form>
                     </div>
