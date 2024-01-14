@@ -11,8 +11,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, update_session_auth_hash
 from django.contrib.auth.models import User, Group
+from django.contrib.auth.forms import PasswordChangeForm
 from django.db.models import Q
 from django.core.cache import cache
 from django.template.loader import get_template
@@ -183,6 +184,27 @@ def accounts(request):
 
     context = {'users': users, 'form': form}
     return render(request, 'accounts/employees/accounts.html', context)
+
+@login_required
+@group_required(config.opr)
+def change_password(request, user_id):
+    users = User.objects.filter(is_superuser=False, is_staff=False, pk=user_id)
+
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            messages.success(request, 'Password successfully changed!')
+            return redirect('accounts')
+        else:
+            messages.error(request, 'Password change failed. Please correct the errors.')
+    else:
+        form = PasswordChangeForm(request.user)
+
+    context = {'users': users, 'form': form}
+    return render(request, 'accounts/employees/password_change/password_change.html', context)
+
 
 @login_required
 @group_required(config.opr)
