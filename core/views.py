@@ -188,10 +188,10 @@ def accounts(request):
 @login_required
 @group_required(config.opr)
 def change_password(request, user_id):
-    users = User.objects.filter(is_superuser=False, is_staff=False, pk=user_id)
+    user = get_object_or_404(User, pk=user_id, is_superuser=False, is_staff=False)
 
     if request.method == 'POST':
-        form = PasswordChangeForm(request.user, request.POST)
+        form = PasswordChangeForm(user, request.POST)
         if form.is_valid():
             form.save()
             update_session_auth_hash(request, form.user)
@@ -200,9 +200,9 @@ def change_password(request, user_id):
         else:
             messages.error(request, 'Password change failed. Please correct the errors.')
     else:
-        form = PasswordChangeForm(request.user)
+        form = PasswordChangeForm(user)
 
-    context = {'users': users, 'form': form}
+    context = {'user': user, 'form': form}
     return render(request, 'accounts/employees/password_change/password_change.html', context)
 
 
