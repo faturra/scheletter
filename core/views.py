@@ -475,36 +475,6 @@ def request_queue(request):
     
     return render(request, 'administration/request_queue/request_queue.html', context)
 
-# @login_required
-# @group_required(config.scs, config.ecs)
-# def cancel_request_sign(request, letter_id):
-#     letter = None
-
-#     if request.user.groups.filter(name=config.scs).exists():
-#         letter = get_object_or_404(Students_Letter, pk=letter_id)
-#     elif request.user.groups.filter(name=config.ecs).exists():
-#         letter = get_object_or_404(Employees_Letter, pk=letter_id)
-#     elif request.user.groups.filter(name=config.ecs).exists() or request.user.groups.filter(name=config.scs).exists():
-#         letter = get_object_or_404(Common_Letter, pk=letter_id)
-#     # elif request.user.groups.filter(name=config.hoa).exists():
-#     #     try:
-#     #         letter = Students_Letter.objects.get(pk=letter_id)
-#     #     except Students_Letter.DoesNotExist:
-#     #         try:
-#     #             letter = Employees_Letter.objects.get(pk=letter_id)
-#     #         except Employees_Letter.DoesNotExist:
-#     #             letter = None
-    
-#     if letter:
-#         letter.is_in_staging = True
-#         letter.updated_by = request.user
-#         letter.save()
-#         messages.success(request, 'Request has been canceled!')
-#     else:
-#         messages.error(request, 'Request was failed to cancel!')
-        
-#     return redirect('request-queue')
-
 @login_required
 @group_required(config.scs)
 def cancel_request_sign_sl(request, letter_id):
