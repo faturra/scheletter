@@ -569,7 +569,7 @@ def generate_pdf_sl(request, letter_id):
     html = template.render(context)
 
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = f'filename="{letter.get_letter_type_display}_{letter_id}.pdf"'
+    response['Content-Disposition'] = f'filename="{letter.subject} - {letter.student_name} - {letter.date}.pdf"'
 
     pisa.CreatePDF(html, dest=response)
 
@@ -590,7 +590,7 @@ def generate_pdf_el(request, letter_id):
     html = template.render(context)
 
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = f'filename="{letter.get_letter_type_display}_{letter_id}.pdf"'
+    response['Content-Disposition'] = f'filename="{letter.subject} - {letter.employee_name} - {letter.date}.pdf"'
 
     pisa.CreatePDF(html, dest=response)
 
@@ -612,7 +612,7 @@ def generate_pdf_cl(request, letter_id):
     html = template.render(context)
 
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = f'filename="{letter.get_letter_type_display}_{letter_id}.pdf"'
+    response['Content-Disposition'] = f'filename="{letter.subject} - {letter.event_name} - {letter.date}.pdf"'
 
     pisa.CreatePDF(html, dest=response)
 
