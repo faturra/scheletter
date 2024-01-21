@@ -91,7 +91,7 @@
                 {% if request.user.groups.first.name == 'Employee Correspondence Staff' %}{% if count_staging_scs %}&nbsp;<span class="badge bg-primary">{{ count_staging_scs }}</span>{% endif %}{% endif %}
                 {% if request.user.groups.first.name == 'Head of Administration' or user.is_superuser%}{% if count_staging_hoa %}&nbsp;<span class="badge bg-primary">{{ count_staging_hoa }}</span>{% endif %}{% endif %}
               </h5>
-              <p class="card-text text-muted">Create letter from request queue</p>
+              <p class="card-text text-muted">List of letter created</p>
             </div>
           </a>
         </div>
