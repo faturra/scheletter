@@ -671,7 +671,7 @@ def archives_common_letter_check(request, letter_id):
 @group_required(config.hoa)
 def trash(request):
     students_letter_archives = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False, is_selected_to_destroy=False).order_by('-digital_sign_at')
-    employees_letter_archives = Employees_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_selected_to_destroy=False).order_by('-digital_sign_at')
+    employees_letter_archives = Employees_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False, is_selected_to_destroy=False).order_by('-digital_sign_at')
     common_letter_archives = Common_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False, is_selected_to_destroy=False).order_by('-digital_sign_at')
 
     ready_to_destroy_sl = Students_Letter.objects.filter(is_selected_to_destroy=True).order_by('-digital_sign_at')
