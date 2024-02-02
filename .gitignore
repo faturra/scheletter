@@ -136,3 +136,4 @@ docker-compose.yml
 .dist
 node_modules
 static/CACHE
+dbBAK.sqlite3
