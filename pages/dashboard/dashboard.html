@@ -307,6 +307,7 @@
                         <tr>
                           <td colspan="5" class="fw-semibold border-bottom">Common Letter{% if lc_timesince_cl %}&nbsp;<span class="text-muted fw-normal">Last created&nbsp;{% for ts in lc_timesince_cl %}{{ ts.created_at|timesince }}&nbsp;ago{% endfor %}</span>{% endif %}</td>
                         </tr>
+                        {% if last_created_cl %}
                         {% for item in last_created_cl %}
                         <tr>
                           <th scope="row">{{ forloop.counter }}</th>
