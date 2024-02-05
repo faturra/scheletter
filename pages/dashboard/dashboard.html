@@ -22,7 +22,7 @@
             <div class="card border border-0">
               <div class="card-body-none">
                 <h1><span class="bi bi-person-check text-white"></span></h1>
-                <p class="lead"><i class="bi bi-person-fill"></i>&nbsp;{{ request.user.get_full_name}}&nbsp;<span class="badge bg-primary">{% if request.user.groups.first.name %}{{ request.user.groups.first.name }}{% else %}Undefined Role{% endif %}{% if user.is_superuser %}&nbsp;-&nbsp;Super User{% endif %}</span></p>
+                <p class="lead"><i class="bi bi-person-fill"></i>&nbsp;{% if request.user.get_full_name == '' %}Anonymous{% else %}{{ request.user.get_full_name}}{% endif %}&nbsp;<span class="badge bg-primary">{% if request.user.groups.first.name %}{{ request.user.groups.first.name }}{% else %}Undefined Role{% endif %}{% if user.is_superuser %}&nbsp;-&nbsp;Super User{% endif %}</span></p>
               </div>
             </div>
           </div>

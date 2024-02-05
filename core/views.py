@@ -41,11 +41,15 @@ def index(request):
         
         if user is not None:
             login(request, user)
+            if user.get_full_name() == '':
+                user_full_name = 'Anonymous'
+            else:
+                user_full_name = user.get_full_name()
             if next_url:
-                messages.success(request, 'Welcome, {}'.format(user.get_full_name()))
+                messages.success(request, 'Welcome, {}'.format(user_full_name))
                 return redirect(next_url)
             else:
-                messages.success(request, 'Welcome, {}'.format(user.get_full_name()))
+                messages.success(request, 'Welcome, {}'.format(user_full_name))
                 return redirect('dashboard')
         else:
             messages.info(request, 'Incorrect email or password')
