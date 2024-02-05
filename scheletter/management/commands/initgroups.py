@@ -5,7 +5,6 @@ class Command(BaseCommand):
     help = 'Initialize groups in the database'
 
     def handle(self, *args, **options):
-        # Cek apakah grup sudah ada, jika belum buat grup
         group, created = Group.objects.get_or_create(name='Operator')
         if created:
             self.stdout.write(self.style.SUCCESS('Group "Operator" has been created.'))

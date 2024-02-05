@@ -324,7 +324,7 @@ def apply_signature_sl(request, letter_id):
     digital_sign_url = reverse('archives-students-letter-check', kwargs={'letter_id': letter_id})
     letter.digital_sign_url = digital_sign_url
 
-    qr_data = 'http://faturras-m1.local:8080'+digital_sign_url
+    qr_data = env('VERIFY_URL')+digital_sign_url
     qr_code = qrcode.make(qr_data)
     buffer = BytesIO()
     qr_code.save(buffer)
@@ -372,7 +372,7 @@ def apply_signature_el(request, letter_id):
     digital_sign_url = reverse('archives-employees-letter-check', kwargs={'letter_id': letter_id})
     letter.digital_sign_url = digital_sign_url
 
-    qr_data = 'http://faturras-m1.local:8080'+digital_sign_url
+    qr_data = env('VERIFY_URL')+digital_sign_url
     qr_code = qrcode.make(qr_data)
     buffer = BytesIO()
     qr_code.save(buffer)
@@ -420,7 +420,7 @@ def apply_signature_cl(request, letter_id):
     digital_sign_url = reverse('archives-common-letter-check', kwargs={'letter_id': letter_id})
     letter.digital_sign_url = digital_sign_url
 
-    qr_data = 'http://faturras-m1.local:8080'+digital_sign_url
+    qr_data = env('VERIFY_URL')+digital_sign_url
     qr_code = qrcode.make(qr_data)
     buffer = BytesIO()
     qr_code.save(buffer)
