@@ -1,0 +1,35 @@
+{% extends 'base/common/base.html' %}
+{% load static %}
+{% block title %}Statistics{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <section class="pt-5 mb-4">
+        <div class="mb-3">
+            <h1 class=""><span class="bi bi-graph-up-arrow"></span>&nbsp;Statistics</h1>
+        </div>
+        <div>
+            <p class="lead">Statistics of production and destruction letter</p>
+        </div>
+    </section>
+    <section class="mb-5">
+        <div class="card-body-none mb-3">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-envelope-arrow-up"></i> Production of letter</h5>
+                    {% include 'charts/production_of_letter.html' %}
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="mb-5">
+        <div class="card-body-none mb-3">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-trash3"></i> Destruction of letter</h5>
+                    {% include 'charts/destruction_of_letter.html' %}
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

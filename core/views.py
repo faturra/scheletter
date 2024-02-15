@@ -4,6 +4,8 @@ import hashlib
 import base64
 import time
 import qrcode
+import json
+from django.db import models
 from scheletter.settings import env
 from io import BytesIO
 from django.http import HttpResponse
@@ -15,14 +17,16 @@ from django.contrib.auth import authenticate, login, update_session_auth_hash
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.forms import PasswordChangeForm
 from django.db.models import Q
+from django.db.models import Count
+from django.db.models.functions import TruncMonth, ExtractMonth, ExtractYear
 from django.core.cache import cache
 from django.template.loader import get_template
 from django.utils import timezone
+from datetime import datetime
 from xhtml2pdf import pisa
 from integrations.models import Integrations
 from letter.models import Students_Letter, Employees_Letter, Common_Letter
 from core import config
-from datetime import datetime
 from .decorators import unauthenticated_user, group_required
 from .forms import StarterForm, AccountsCreationForm, GuestBookForm
 from .models import Guest_Book
@@ -74,6 +78,16 @@ def index(request):
     context = {'next_url': next_url, 'starter_form': starter_form}
     return render(request, 'index/index.html', context)
 
+def generate_month_year(model):
+    months = model.objects.filter(digital_sign_at__isnull=False).annotate(
+        month=TruncMonth('digital_sign_at')
+    ).values('month').annotate(count=Count('letter_id')).order_by('month')
+
+    month_years = []
+    for item in months:
+        month_years.append(item['month'].strftime('%b %Y'))
+    return month_years
+
 @login_required
 def dashboard(request):
     school_info = cache.get('dapodik_school')
@@ -87,23 +101,23 @@ def dashboard(request):
         count_std = len(dapodik_students_data)
     else:
         count_std = 0
-    count_ltr = Students_Letter.objects.count() + Employees_Letter.objects.count() + Common_Letter.objects.count()
-    count_sl_ts_m = Students_Letter.objects.filter(Q(type_sign='2') | (Q(type_sign='1') & ~Q(digital_sign_at__isnull=True))).count()
-    count_el_ts_m = Employees_Letter.objects.filter(Q(type_sign='2') | (Q(type_sign='1') & ~Q(digital_sign_at__isnull=True))).count()
-    count_cl_ts_m = Common_Letter.objects.filter(Q(type_sign='2') | (Q(type_sign='1') & ~Q(digital_sign_at__isnull=True))).count()
+    count_ltr = Students_Letter.objects.filter(is_destroyed=False).count() + Employees_Letter.objects.filter(is_destroyed=False).count() + Common_Letter.objects.filter(is_destroyed=False).count()
+    count_sl_ts_m = Students_Letter.objects.filter((Q(type_sign='2') | (Q(type_sign='1') & ~Q(digital_sign_at__isnull=True))) & Q(is_destroyed=False)).count()
+    count_el_ts_m = Employees_Letter.objects.filter((Q(type_sign='2') | (Q(type_sign='1') & ~Q(digital_sign_at__isnull=True))) & Q(is_destroyed=False)).count()
+    count_cl_ts_m = Common_Letter.objects.filter((Q(type_sign='2') | (Q(type_sign='1') & ~Q(digital_sign_at__isnull=True))) & Q(is_destroyed=False)).count()
 
     count_arc = count_sl_ts_m + count_el_ts_m + count_cl_ts_m
 
-    digital_sign_sl = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=False)
-    digital_sign_el = Employees_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=False)
-    digital_sign_cl = Common_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=False)
+    digital_sign_sl = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=False, is_destroyed=False)
+    digital_sign_el = Employees_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=False, is_destroyed=False)
+    digital_sign_cl = Common_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=False, is_destroyed=False)
     
     count_rs_sl = digital_sign_sl.count()
     count_rs_el = digital_sign_el.count()
     count_rs_cl = digital_sign_cl.count()
     count_rs = count_rs_sl + count_rs_el + count_rs_cl
 
-    count_rtd = Students_Letter.objects.filter(is_selected_to_destroy=True).count
+    count_rtd = Students_Letter.objects.filter(is_selected_to_destroy=True, is_destroyed=False).count
 
     last_created_sl = Students_Letter.objects.filter(type_sign__isnull=False, digital_sign_at__isnull=True).order_by('-created_at')[:3]
     letter_done_sl = Students_Letter.objects.filter(type_sign__isnull=False, digital_sign_at__isnull=False).order_by('-digital_sign_at')[:3]
@@ -152,7 +166,7 @@ def dashboard(request):
         'count_staging_scs': count_staging_scs,
         'count_staging_ecs': count_staging_ecs,
         'count_staging_hoa': count_staging_hoa,
-        'data_version': data_version,
+        'data_version': data_version
         }
     return render(request, 'dashboard/dashboard.html', context)
 
@@ -243,9 +257,9 @@ def activate_user(request, user_id):
 @login_required
 @group_required(config.prl)
 def sign_request(request):
-    digital_sign_sl = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=False)
-    digital_sign_el = Employees_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=False)
-    digital_sign_cl = Common_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=False)
+    digital_sign_sl = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=False, is_destroyed=False)
+    digital_sign_el = Employees_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=False, is_destroyed=False)
+    digital_sign_cl = Common_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=False, is_destroyed=False)
     students_digital_sign_applied = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False).order_by('-digital_sign_at')[:9]
     employees_digital_sign_applied = Employees_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False).order_by('-digital_sign_at')[:9]
     common_digital_sign_applied = Common_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False).order_by('-digital_sign_at')[:9]
@@ -445,18 +459,18 @@ def apply_signature_cl(request, letter_id):
 @group_required(config.hoa, config.scs, config.ecs)
 def request_queue(request):
     staging_scs = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=True).order_by('-created_at')
-    digital_sign_scs = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=False).order_by('-created_at')
+    digital_sign_scs = Students_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=False, is_destroyed=False).order_by('-created_at')
     students_letter_archives_scs = Students_Letter.objects.filter(Q(type_sign='2') | (Q(type_sign='1') & ~Q(digital_sign_at__isnull=True))).order_by('-created_at')[:5]
     manual_sign_scs = Students_Letter.objects.filter(type_sign='2').order_by('-created_at')
     
     staging_ecs = Employees_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=True).order_by('-created_at')
-    digital_sign_ecs = Employees_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=False).order_by('-created_at')
+    digital_sign_ecs = Employees_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=False, is_destroyed=False).order_by('-created_at')
     employees_letter_archives_ecs = Employees_Letter.objects.filter(Q(type_sign='2') | (Q(type_sign='1') & ~Q(digital_sign_at__isnull=True))).order_by('-created_at')[:5]
     manual_sign_ecs = Employees_Letter.objects.filter(type_sign='2').order_by('-created_at')
 
 
     staging_c = Common_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=True).order_by('-created_at')
-    digital_sign_c = Common_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=False).order_by('-created_at')
+    digital_sign_c = Common_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=True, is_in_staging=False, is_destroyed=False).order_by('-created_at')
     employees_letter_archives_c = Common_Letter.objects.filter(Q(type_sign='2') | (Q(type_sign='1') & ~Q(digital_sign_at__isnull=True))).order_by('-created_at')[:5]
     manual_sign_c = Common_Letter.objects.filter(type_sign='2').order_by('-created_at')
 
@@ -678,12 +692,12 @@ def trash(request):
     employees_letter_archives = Employees_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False, is_selected_to_destroy=False).order_by('-digital_sign_at')
     common_letter_archives = Common_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False, is_selected_to_destroy=False).order_by('-digital_sign_at')
 
-    ready_to_destroy_sl = Students_Letter.objects.filter(is_selected_to_destroy=True).order_by('-digital_sign_at')
-    ready_to_destroy_el = Employees_Letter.objects.filter(is_selected_to_destroy=True).order_by('-digital_sign_at')
-    ready_to_destroy_cl = Common_Letter.objects.filter(is_selected_to_destroy=True).order_by('-digital_sign_at')
-    count_sl_rtd = Students_Letter.objects.filter(is_selected_to_destroy=True).count()
-    count_el_rtd = Employees_Letter.objects.filter(is_selected_to_destroy=True).count()
-    count_cl_rtd = Common_Letter.objects.filter(is_selected_to_destroy=True).count()
+    ready_to_destroy_sl = Students_Letter.objects.filter(is_selected_to_destroy=True, is_destroyed=True).order_by('-digital_sign_at')
+    ready_to_destroy_el = Employees_Letter.objects.filter(is_selected_to_destroy=True, is_destroyed=False).order_by('-digital_sign_at')
+    ready_to_destroy_cl = Common_Letter.objects.filter(is_selected_to_destroy=True, is_destroyed=False).order_by('-digital_sign_at')
+    count_sl_rtd = Students_Letter.objects.filter(is_selected_to_destroy=True, is_destroyed=False).count()
+    count_el_rtd = Employees_Letter.objects.filter(is_selected_to_destroy=True, is_destroyed=False).count()
+    count_cl_rtd = Common_Letter.objects.filter(is_selected_to_destroy=True, is_destroyed=False).count()
     count_rtd = count_sl_rtd + count_el_rtd + count_cl_rtd
 
     context = {
@@ -723,7 +737,11 @@ def cancel_destroy_process_sl(request, archive_id):
 @group_required(config.hoa)
 def process_destroy_sl(request, archive_id):
     students_letter = Students_Letter.objects.get(pk=archive_id)
-    students_letter.delete()
+    students_letter.is_destroyed = True
+    students_letter.destroyed_at = timezone.now()
+    students_letter.destroyed_by = request.user
+    students_letter.destroyed_by_name = request.user.get_full_name()
+    students_letter.save()
 
     messages.error(request, 'Archive has been permanently destroyed!')
     return redirect('trash')
@@ -754,7 +772,11 @@ def cancel_destroy_process_cl(request, archive_id):
 @group_required(config.hoa)
 def process_destroy_cl(request, archive_id):
     common_letter = Common_Letter.objects.get(pk=archive_id)
-    common_letter.delete()
+    common_letter.is_destroyed = True
+    common_letter.destroyed_at = timezone.now()
+    common_letter.destroyed_by = request.user
+    common_letter.destroyed_by_name = request.user.get_full_name()
+    common_letter.save()
 
     messages.error(request, 'Archive has been permanently destroyed!')
     return redirect('trash')
@@ -785,7 +807,52 @@ def cancel_destroy_process_el(request, archive_id):
 @group_required(config.hoa)
 def process_destroy_el(request, archive_id):
     employees_letter = Employees_Letter.objects.get(pk=archive_id)
-    employees_letter.delete()
+    employees_letter.is_destroyed = True
+    employees_letter.destroyed_at = timezone.now()
+    employees_letter.destroyed_by = request.user
+    employees_letter.destroyed_by_name = request.user.get_full_name()
+    employees_letter.save()
 
     messages.error(request, 'Archive has been permanently destroyed!')
     return redirect('trash')
+
+@login_required
+@group_required(config.hoa)
+def statistics(request):
+    #Statistics
+    # Menghitung jumlah surat siswa per bulan
+    student_totals = Students_Letter.objects.filter(digital_sign_at__isnull=False).annotate(month=ExtractMonth('digital_sign_at')).values('month').annotate(count=Count('letter_id')).order_by('month')
+    student_month_totals = [0] * 12
+    for item in student_totals:
+        student_month_totals[item['month'] - 1] = item['count']
+
+    # Menghitung jumlah surat pegawai per bulan
+    employee_totals = Employees_Letter.objects.filter(digital_sign_at__isnull=False).annotate(month=ExtractMonth('digital_sign_at')).values('month').annotate(count=Count('letter_id')).order_by('month')
+    employee_month_totals = [0] * 12
+    for item in employee_totals:
+        employee_month_totals[item['month'] - 1] = item['count']
+
+    # Menghitung jumlah surat umum per bulan
+    common_totals = Common_Letter.objects.filter(digital_sign_at__isnull=False).annotate(month=ExtractMonth('digital_sign_at')).values('month').annotate(count=Count('letter_id')).order_by('month')
+    common_month_totals = [0] * 12
+    for item in common_totals:
+        common_month_totals[item['month'] - 1] = item['count']
+
+    # Menyusun data terbaru di paling kanan
+    student_month_totals = student_month_totals[::-1]
+    employee_month_totals = employee_month_totals[::-1]
+    common_month_totals = common_month_totals[::-1]
+
+    categories_student = generate_month_year(Students_Letter)
+    categories_employee = generate_month_year(Employees_Letter)
+    categories_common = generate_month_year(Common_Letter)
+
+    context = {
+        'student_month_totals': student_month_totals,
+        'employee_month_totals': employee_month_totals,
+        'common_month_totals': common_month_totals,
+        'categories_student': categories_student,
+        'categories_employee': categories_employee,
+        'categories_common': categories_common,
+    }
+    return render(request, 'statistics/statistics.html', context)

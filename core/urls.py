@@ -45,5 +45,6 @@ urlpatterns = [
     path('trash/process-to-destroy/cl/<int:archive_id>/', views.process_destroy_cl, name='process-destroy-cl'),
     path('trash/selected/el/<int:el_arc_id>/', views.process_el_to_destroy_list, name='process-el-to-destroy-list'),
     path('trash/cancel/el/<int:archive_id>/', views.cancel_destroy_process_el, name='cancel-destroy-process-el'),
-    path('trash/process-to-destroy/el/<int:archive_id>/', views.process_destroy_el, name='process-destroy-el')
+    path('trash/process-to-destroy/el/<int:archive_id>/', views.process_destroy_el, name='process-destroy-el'),
+    path('statistics', views.statistics, name='statistics'),
 ]

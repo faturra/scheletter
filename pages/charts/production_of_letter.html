@@ -1,0 +1,31 @@
+<div id="production_of_letter"></div>
+<script>
+    var options = {
+        series: [{
+            name: 'Students Letter',
+            data: {{ student_month_totals | safe }}
+        }, {
+            name: 'Employees Letter',
+            data: {{ employee_month_totals | safe }}
+        }, {
+            name: 'Common Letter',
+            data: {{ common_month_totals | safe }}
+        }],
+        chart: {
+            height: 300,
+            type: 'area'
+        },
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            curve: 'smooth'
+        },
+        xaxis: {
+            categories: {{ categories_student | safe }}
+        },
+    };
+
+    var chart = new ApexCharts(document.querySelector("#production_of_letter"), options);
+    chart.render();
+</script>

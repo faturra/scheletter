@@ -50,6 +50,10 @@ class Students_Letter(models.Model):
     qr_code_base64 = models.TextField(null=True, blank=True)
     is_in_staging = models.BooleanField(default=True)
     is_selected_to_destroy = models.BooleanField(default=False)
+    is_destroyed = models.BooleanField(default=False)
+    destroyed_at = models.DateTimeField(null=True, blank=True)
+    destroyed_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='destroyed_students_letters', null=True)
+    destroyed_by_name = models.CharField(max_length=150, null=True, blank=True)
 
     def generate_qr_code(self):
         qr = qrcode.QRCode(
@@ -123,6 +127,10 @@ class Employees_Letter(models.Model):
     qr_code_base64 = models.TextField(null=True, blank=True)
     is_in_staging = models.BooleanField(default=True)
     is_selected_to_destroy = models.BooleanField(default=False)
+    is_destroyed = models.BooleanField(default=False)
+    destroyed_at = models.DateTimeField(null=True, blank=True)
+    destroyed_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='destroyed_employees_letters', null=True)
+    destroyed_by_name = models.CharField(max_length=150, null=True, blank=True)
 
     def generate_qr_code(self):
         qr = qrcode.QRCode(
@@ -201,6 +209,10 @@ class Common_Letter(models.Model):
     qr_code_base64 = models.TextField(null=True, blank=True)
     is_in_staging = models.BooleanField(default=True)
     is_selected_to_destroy = models.BooleanField(default=False)
+    is_destroyed = models.BooleanField(default=False)
+    destroyed_at = models.DateTimeField(null=True, blank=True)
+    desrtoyed_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='destroyed_common_letters', null=True)
+    destroyed_by_name = models.CharField(max_length=150, null=True, blank=True)
 
     def generate_qr_code(self):
         qr = qrcode.QRCode(

@@ -66,6 +66,9 @@
             </li>
             {% endif %}
             <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="{% url 'statistics' %}"><span><i class="bi bi-graph-up-arrow">&nbsp;</i></span>Statistics</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link text-danger" aria-current="page" href="{% url 'logout' %}"><span><i class="bi bi-power">&nbsp;</i></span>Sign out</a>
             </li>
           </ul>
