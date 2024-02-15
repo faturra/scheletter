@@ -2,28 +2,19 @@
 <script>
     var options = {
         series: [{
-            name: 'Students Letter',
-            data: {{ student_month_totals | safe }}
-        }, {
-            name: 'Employees Letter',
-            data: {{ employee_month_totals | safe }}
-        }, {
-            name: 'Common Letter',
-            data: {{ common_month_totals | safe }}
+            name: 'Jumlah Surat',
+            data: {{ counts | safe }}
         }],
         chart: {
-            height: 300,
+            height: 350,
             type: 'area'
         },
-        dataLabels: {
-            enabled: false
-        },
-        stroke: {
-            curve: 'smooth'
-        },
         xaxis: {
-            categories: {{ categories_student | safe }}
-        },
+            categories: {{ dates | safe }},
+            labels: {
+                rotate: -45
+            }
+        }
     };
 
     var chart = new ApexCharts(document.querySelector("#destruction_of_letter"), options);

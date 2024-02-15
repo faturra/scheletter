@@ -692,7 +692,7 @@ def trash(request):
     employees_letter_archives = Employees_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False, is_selected_to_destroy=False).order_by('-digital_sign_at')
     common_letter_archives = Common_Letter.objects.filter(type_sign='1', digital_sign_at__isnull=False, is_selected_to_destroy=False).order_by('-digital_sign_at')
 
-    ready_to_destroy_sl = Students_Letter.objects.filter(is_selected_to_destroy=True, is_destroyed=True).order_by('-digital_sign_at')
+    ready_to_destroy_sl = Students_Letter.objects.filter(is_selected_to_destroy=True, is_destroyed=False).order_by('-digital_sign_at')
     ready_to_destroy_el = Employees_Letter.objects.filter(is_selected_to_destroy=True, is_destroyed=False).order_by('-digital_sign_at')
     ready_to_destroy_cl = Common_Letter.objects.filter(is_selected_to_destroy=True, is_destroyed=False).order_by('-digital_sign_at')
     count_sl_rtd = Students_Letter.objects.filter(is_selected_to_destroy=True, is_destroyed=False).count()
@@ -819,40 +819,66 @@ def process_destroy_el(request, archive_id):
 @login_required
 @group_required(config.hoa)
 def statistics(request):
-    #Statistics
-    # Menghitung jumlah surat siswa per bulan
-    student_totals = Students_Letter.objects.filter(digital_sign_at__isnull=False).annotate(month=ExtractMonth('digital_sign_at')).values('month').annotate(count=Count('letter_id')).order_by('month')
-    student_month_totals = [0] * 12
-    for item in student_totals:
-        student_month_totals[item['month'] - 1] = item['count']
+    # ### Statistics Production
+    # # Menghitung jumlah surat siswa per bulan
+    # student_totals = Students_Letter.objects.filter(digital_sign_at__isnull=False).annotate(month=ExtractMonth('digital_sign_at')).values('month').annotate(count=Count('letter_id')).order_by('month')
+    # student_month_totals = [0] * 12
+    # for item in student_totals:
+    #     student_month_totals[item['month'] - 1] = item['count']
 
-    # Menghitung jumlah surat pegawai per bulan
-    employee_totals = Employees_Letter.objects.filter(digital_sign_at__isnull=False).annotate(month=ExtractMonth('digital_sign_at')).values('month').annotate(count=Count('letter_id')).order_by('month')
-    employee_month_totals = [0] * 12
-    for item in employee_totals:
-        employee_month_totals[item['month'] - 1] = item['count']
+    # # Menghitung jumlah surat pegawai per bulan
+    # employee_totals = Employees_Letter.objects.filter(digital_sign_at__isnull=False).annotate(month=ExtractMonth('digital_sign_at')).values('month').annotate(count=Count('letter_id')).order_by('month')
+    # employee_month_totals = [0] * 12
+    # for item in employee_totals:
+    #     employee_month_totals[item['month'] - 1] = item['count']
 
-    # Menghitung jumlah surat umum per bulan
-    common_totals = Common_Letter.objects.filter(digital_sign_at__isnull=False).annotate(month=ExtractMonth('digital_sign_at')).values('month').annotate(count=Count('letter_id')).order_by('month')
-    common_month_totals = [0] * 12
-    for item in common_totals:
-        common_month_totals[item['month'] - 1] = item['count']
+    # # Menghitung jumlah surat umum per bulan
+    # common_totals = Common_Letter.objects.filter(digital_sign_at__isnull=False).annotate(month=ExtractMonth('digital_sign_at')).values('month').annotate(count=Count('letter_id')).order_by('month')
+    # common_month_totals = [0] * 12
+    # for item in common_totals:
+    #     common_month_totals[item['month'] - 1] = item['count']
 
-    # Menyusun data terbaru di paling kanan
-    student_month_totals = student_month_totals[::-1]
-    employee_month_totals = employee_month_totals[::-1]
-    common_month_totals = common_month_totals[::-1]
+    # # Menyusun data terbaru di paling kanan
+    # student_month_totals = student_month_totals[::-1]
+    # employee_month_totals = employee_month_totals[::-1]
+    # common_month_totals = common_month_totals[::-1]
 
-    categories_student = generate_month_year(Students_Letter)
-    categories_employee = generate_month_year(Employees_Letter)
-    categories_common = generate_month_year(Common_Letter)
+    # categories_student = generate_month_year(Students_Letter)
+    # categories_employee = generate_month_year(Employees_Letter)
+    # categories_common = generate_month_year(Common_Letter)
+    # Query data untuk mengambil jumlah surat per bulan
+    production_sl = Students_Letter.objects.exclude(digital_sign_at=None).annotate(
+        month=TruncMonth('digital_sign_at')
+    ).values('month').annotate(
+        total=Count('letter_id')
+    ).order_by('month')
+
+    # Proses data untuk format bulan dan jumlah surat
+    months = [data['month'].strftime('%m/%Y') for data in production_sl]
+    totals = [data['total'] for data in production_sl]
+
+    ### Statistics Destruction
+    # Mengambil data surat yang dimusnahkan
+    destroyed_letters = Students_Letter.objects.filter(is_destroyed=True).annotate(
+        month=TruncMonth('destroyed_at')
+    ).values('month').annotate(
+        total=Count('letter_id')
+    ).order_by('month')
+
+    # Proses data untuk format bulan dan jumlah surat
+    dates = [data['month'].strftime('%m/%Y') for data in destroyed_letters]
+    counts = [data['total'] for data in destroyed_letters]
 
     context = {
-        'student_month_totals': student_month_totals,
-        'employee_month_totals': employee_month_totals,
-        'common_month_totals': common_month_totals,
-        'categories_student': categories_student,
-        'categories_employee': categories_employee,
-        'categories_common': categories_common,
+        # 'student_month_totals': student_month_totals,
+        # 'employee_month_totals': employee_month_totals,
+        # 'common_month_totals': common_month_totals,
+        # 'categories_student': categories_student,
+        # 'categories_employee': categories_employee,
+        # 'categories_common': categories_common,
+        'dates': dates,
+        'counts': counts,
+        'months': months,
+        'totals': totals,
     }
     return render(request, 'statistics/statistics.html', context)

@@ -1,4 +1,4 @@
-<div id="production_of_letter"></div>
+<!-- <div id="production_of_letter"></div>
 <script>
     var options = {
         series: [{
@@ -24,6 +24,28 @@
         xaxis: {
             categories: {{ categories_student | safe }}
         },
+    };
+
+    var chart = new ApexCharts(document.querySelector("#production_of_letter"), options);
+    chart.render();
+</script> -->
+<div id="production_of_letter"></div>
+<script>
+    var options = {
+        series: [{
+            name: 'Jumlah Surat',
+            data: {{ totals | safe }}
+        }],
+        chart: {
+            height: 350,
+            type: 'area'
+        },
+        xaxis: {
+            categories: {{ months | safe }},
+            labels: {
+                rotate: -45
+            }
+        }
     };
 
     var chart = new ApexCharts(document.querySelector("#production_of_letter"), options);
