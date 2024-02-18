@@ -35,15 +35,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = [
-    '10.10.6.7',
-    '10.10.6.116',
-    '192.168.1.82',
-    '172.20.10.2',
-    'a07817a5673f',
-    'Faturras-M1.local',
-    'localhost'
-    ]
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 
 LOGOUT_REDIRECT_URL = 'index'
 LOGIN_REDIRECT_URL = 'dashboard'
