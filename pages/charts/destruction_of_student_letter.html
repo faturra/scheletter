@@ -1,0 +1,22 @@
+<div id="destruction_of_student_letter"></div>
+<script>
+    var options = {
+        series: [{
+            name: 'Total Destruction of Student Letter',
+            data: {{ destroy_sl_counts | safe }}
+        }],
+        chart: {
+            height: 350,
+            type: 'area'
+        },
+        xaxis: {
+            categories: {{ destroy_sl_dates | safe }},
+            labels: {
+                rotate: -45
+            }
+        }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#destruction_of_student_letter"), options);
+    chart.render();
+</script>

@@ -1,0 +1,22 @@
+<div id="destruction_of_common_letter"></div>
+<script>
+    var options = {
+        series: [{
+            name: 'Total Destruction of Common Letter',
+            data: {{ destroy_cl_counts | safe }}
+        }],
+        chart: {
+            height: 350,
+            type: 'area'
+        },
+        xaxis: {
+            categories: {{ destroy_cl_dates | safe }},
+            labels: {
+                rotate: -45
+            }
+        }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#destruction_of_common_letter"), options);
+    chart.render();
+</script>

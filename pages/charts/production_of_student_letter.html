@@ -29,25 +29,25 @@
     var chart = new ApexCharts(document.querySelector("#production_of_letter"), options);
     chart.render();
 </script> -->
-<div id="production_of_letter"></div>
+<div id="production_of_student_letter"></div>
 <script>
     var options = {
         series: [{
-            name: 'Jumlah Surat',
-            data: {{ totals | safe }}
+            name: 'Total Production of Student Letter',
+            data: {{ production_sl_totals | safe }}
         }],
         chart: {
-            height: 350,
+            height: 300,
             type: 'area'
         },
         xaxis: {
-            categories: {{ months | safe }},
+            categories: {{ production_sl_months | safe }},
             labels: {
                 rotate: -45
             }
         }
     };
 
-    var chart = new ApexCharts(document.querySelector("#production_of_letter"), options);
+    var chart = new ApexCharts(document.querySelector("#production_of_student_letter"), options);
     chart.render();
 </script>

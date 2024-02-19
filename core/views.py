@@ -819,55 +819,65 @@ def process_destroy_el(request, archive_id):
 @login_required
 @group_required(config.hoa)
 def statistics(request):
-    # ### Statistics Production
-    # # Menghitung jumlah surat siswa per bulan
-    # student_totals = Students_Letter.objects.filter(digital_sign_at__isnull=False).annotate(month=ExtractMonth('digital_sign_at')).values('month').annotate(count=Count('letter_id')).order_by('month')
-    # student_month_totals = [0] * 12
-    # for item in student_totals:
-    #     student_month_totals[item['month'] - 1] = item['count']
-
-    # # Menghitung jumlah surat pegawai per bulan
-    # employee_totals = Employees_Letter.objects.filter(digital_sign_at__isnull=False).annotate(month=ExtractMonth('digital_sign_at')).values('month').annotate(count=Count('letter_id')).order_by('month')
-    # employee_month_totals = [0] * 12
-    # for item in employee_totals:
-    #     employee_month_totals[item['month'] - 1] = item['count']
-
-    # # Menghitung jumlah surat umum per bulan
-    # common_totals = Common_Letter.objects.filter(digital_sign_at__isnull=False).annotate(month=ExtractMonth('digital_sign_at')).values('month').annotate(count=Count('letter_id')).order_by('month')
-    # common_month_totals = [0] * 12
-    # for item in common_totals:
-    #     common_month_totals[item['month'] - 1] = item['count']
-
-    # # Menyusun data terbaru di paling kanan
-    # student_month_totals = student_month_totals[::-1]
-    # employee_month_totals = employee_month_totals[::-1]
-    # common_month_totals = common_month_totals[::-1]
-
-    # categories_student = generate_month_year(Students_Letter)
-    # categories_employee = generate_month_year(Employees_Letter)
-    # categories_common = generate_month_year(Common_Letter)
-    # Query data untuk mengambil jumlah surat per bulan
+    ### SL Production
     production_sl = Students_Letter.objects.exclude(digital_sign_at=None).annotate(
         month=TruncMonth('digital_sign_at')
     ).values('month').annotate(
         total=Count('letter_id')
     ).order_by('month')
 
-    # Proses data untuk format bulan dan jumlah surat
-    months = [data['month'].strftime('%m/%Y') for data in production_sl]
-    totals = [data['total'] for data in production_sl]
+    production_sl_months = [data['month'].strftime('%m/%Y') for data in production_sl]
+    production_sl_totals = [data['total'] for data in production_sl]
 
-    ### Statistics Destruction
-    # Mengambil data surat yang dimusnahkan
+    ### EL Production
+    production_el = Employees_Letter.objects.exclude(digital_sign_at=None).annotate(
+        month=TruncMonth('digital_sign_at')
+    ).values('month').annotate(
+        total=Count('letter_id')
+    ).order_by('month')
+
+    production_el_months = [data['month'].strftime('%m/%Y') for data in production_el]
+    production_el_totals = [data['total'] for data in production_el]
+
+    ### CL Production
+    production_cl = Common_Letter.objects.exclude(digital_sign_at=None).annotate(
+        month=TruncMonth('digital_sign_at')
+    ).values('month').annotate(
+        total=Count('letter_id')
+    ).order_by('month')
+
+    production_cl_months = [data['month'].strftime('%m/%Y') for data in production_cl]
+    production_cl_totals = [data['total'] for data in production_cl]
+
+    ### SL Destruction
     destroyed_letters = Students_Letter.objects.filter(is_destroyed=True).annotate(
         month=TruncMonth('destroyed_at')
     ).values('month').annotate(
         total=Count('letter_id')
     ).order_by('month')
 
-    # Proses data untuk format bulan dan jumlah surat
-    dates = [data['month'].strftime('%m/%Y') for data in destroyed_letters]
-    counts = [data['total'] for data in destroyed_letters]
+    destroy_sl_dates = [data['month'].strftime('%m/%Y') for data in destroyed_letters]
+    destroy_sl_counts = [data['total'] for data in destroyed_letters]
+    
+    ### EL Destruction
+    destroyed_letters = Employees_Letter.objects.filter(is_destroyed=True).annotate(
+        month=TruncMonth('destroyed_at')
+    ).values('month').annotate(
+        total=Count('letter_id')
+    ).order_by('month')
+
+    destroy_el_dates = [data['month'].strftime('%m/%Y') for data in destroyed_letters]
+    destroy_el_counts = [data['total'] for data in destroyed_letters]
+
+    ### CL Destruction
+    destroyed_letters = Common_Letter.objects.filter(is_destroyed=True).annotate(
+        month=TruncMonth('destroyed_at')
+    ).values('month').annotate(
+        total=Count('letter_id')
+    ).order_by('month')
+
+    destroy_cl_dates = [data['month'].strftime('%m/%Y') for data in destroyed_letters]
+    destroy_cl_counts = [data['total'] for data in destroyed_letters]
 
     context = {
         # 'student_month_totals': student_month_totals,
@@ -876,9 +886,17 @@ def statistics(request):
         # 'categories_student': categories_student,
         # 'categories_employee': categories_employee,
         # 'categories_common': categories_common,
-        'dates': dates,
-        'counts': counts,
-        'months': months,
-        'totals': totals,
+        'destroy_sl_dates': destroy_sl_dates,
+        'destroy_sl_counts': destroy_sl_counts,
+        'destroy_el_dates': destroy_el_dates,
+        'destroy_el_counts': destroy_el_counts,
+        'destroy_cl_dates': destroy_cl_dates,
+        'destroy_cl_counts': destroy_cl_counts,
+        'production_el_months': production_el_months,
+        'production_el_totals': production_el_totals,
+        'production_cl_months': production_cl_months,
+        'production_cl_totals': production_cl_totals,
+        'production_sl_months': production_sl_months,
+        'production_sl_totals': production_sl_totals,
     }
     return render(request, 'statistics/statistics.html', context)

@@ -16,7 +16,28 @@
             <div class="card border-0 shadow-sm">
                 <div class="card-body">
                     <h5 class="card-title"><i class="bi bi-envelope-arrow-up"></i> Production of letter</h5>
-                    {% include 'charts/production_of_letter.html' %}
+                    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                          <button class="nav-link active" id="pills-p-sl-tab" data-bs-toggle="pill" data-bs-target="#pills-p-sl" type="button" role="tab" aria-controls="pills-p-sl" aria-selected="true">Student Letter</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                          <button class="nav-link" id="pills-p-el-tab" data-bs-toggle="pill" data-bs-target="#pills-p-el" type="button" role="tab" aria-controls="pills-p-el" aria-selected="false">Employee Letter</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                          <button class="nav-link" id="pills-p-cl-tab" data-bs-toggle="pill" data-bs-target="#pills-p-cl" type="button" role="tab" aria-controls="pills-p-cl" aria-selected="false">Common Letter</button>
+                        </li>
+                      </ul>
+                      <div class="tab-content" id="pills-tabContent">
+                        <div class="tab-pane fade show active" id="pills-p-sl" role="tabpanel" aria-labelledby="pills-p-sl-tab" tabindex="0">
+                            {% include 'charts/production_of_student_letter.html' %}
+                        </div>
+                        <div class="tab-pane fade" id="pills-p-el" role="tabpanel" aria-labelledby="pills-p-el-tab" tabindex="0">
+                            {% include 'charts/production_of_employee_letter.html' %}
+                        </div>
+                        <div class="tab-pane fade" id="pills-p-cl" role="tabpanel" aria-labelledby="pills-p-cl-tab" tabindex="0">
+                            {% include 'charts/production_of_common_letter.html' %}
+                        </div>
+                      </div>
                 </div>
             </div>
         </div>
@@ -26,7 +47,28 @@
             <div class="card border-0 shadow-sm">
                 <div class="card-body">
                     <h5 class="card-title"><i class="bi bi-trash3"></i> Destruction of letter</h5>
-                    {% include 'charts/destruction_of_letter.html' %}
+                    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                          <button class="nav-link active" id="pills-d-sl-tab" data-bs-toggle="pill" data-bs-target="#pills-d-sl" type="button" role="tab" aria-controls="pills-d-sl" aria-selected="true">Student Letter</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                          <button class="nav-link" id="pills-d-el-tab" data-bs-toggle="pill" data-bs-target="#pills-d-el" type="button" role="tab" aria-controls="pills-d-el" aria-selected="false">Employee Letter</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                          <button class="nav-link" id="pills-d-cl-tab" data-bs-toggle="pill" data-bs-target="#pills-d-cl" type="button" role="tab" aria-controls="pills-d-cl" aria-selected="false">Common Letter</button>
+                        </li>
+                      </ul>
+                      <div class="tab-content" id="pills-tabContent">
+                        <div class="tab-pane fade show active" id="pills-d-sl" role="tabpanel" aria-labelledby="pills-d-sl-tab" tabindex="0">
+                            {% include 'charts/destruction_of_student_letter.html' %}
+                        </div>
+                        <div class="tab-pane fade" id="pills-d-el" role="tabpanel" aria-labelledby="pills-d-el-tab" tabindex="0">
+                            {% include 'charts/destruction_of_employee_letter.html' %}
+                        </div>
+                        <div class="tab-pane fade" id="pills-d-cl" role="tabpanel" aria-labelledby="pills-d-cl-tab" tabindex="0">
+                            {% include 'charts/destruction_of_common_letter.html' %}
+                        </div>
+                      </div>
                 </div>
             </div>
         </div>
