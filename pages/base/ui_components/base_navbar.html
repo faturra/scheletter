@@ -60,17 +60,17 @@
                   <li><a class="dropdown-item" href="{% url 'archives' %}"><span><i class="bi bi-archive">&nbsp;</i></span>Archives</a></li>
                 </ul>
             </li>
-            {% if request.user.groups.first.name == 'Head of Administration' or user.is_superuser %}
+            {% if request.user.groups.first.name == 'Head of Administration' or 'Principal' or user.is_superuser %}
             <li class="nav-item">
                 <a class="nav-link" aria-current="page" href="{% url 'trash' %}"><span><i class="bi bi-trash3">&nbsp;</i></span>Trash&nbsp;{% if count_rtd %}<span class="badge bg-warning">{{ count_rtd }}</span>{% endif %}</a>
             </li>
-            {% endif %}
             <li class="nav-item">
               <a class="nav-link" aria-current="page" href="{% url 'statistics' %}"><span><i class="bi bi-graph-up-arrow">&nbsp;</i></span>Statistics</a>
             </li>
             <li class="nav-item">
               <a class="nav-link text-danger" aria-current="page" href="{% url 'logout' %}"><span><i class="bi bi-power">&nbsp;</i></span>Sign out</a>
             </li>
+            {% endif %}
           </ul>
           <hr>
           <strong class="text-dark">{% now "DATE_FORMAT" %}</strong><br>
